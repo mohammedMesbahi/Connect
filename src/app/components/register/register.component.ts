@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  form!: FormGroup;
+    form!: FormGroup;
     loading = false;
     submitted = false;
 
@@ -16,6 +17,7 @@ export class RegisterComponent {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
+        private authservice:AuthService
         /* private accountService: AccountService,
         private alertService: AlertService */
     ) { }
@@ -30,31 +32,22 @@ export class RegisterComponent {
     }
 
     // convenience getter for easy access to form fields
-    get f():any { return this.form.controls; }
+    get f(): any { return this.form.controls; }
 
     onSubmit() {
-        /* this.submitted = true;
-
-        // reset alerts on submit
-        this.alertService.clear();
-
-        // stop here if form is invalid
-        if (this.form.invalid) {
-            return;
-        }
-
+        this.submitted = true;
         this.loading = true;
-        this.accountService.register(this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['../login'], { relativeTo: this.route });
-                },
-                error: error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            }); */
+        this.authservice.register(this.form.value).subscribe({
+            next: (data) => {
+                this.router.navigate(['login']);
+            },
+            error: (err) => {
+                this.loading = false;
+                console.log(err.error);
+                this.form.setErrors({
+                    invalidInputs: { message: err.error }
+                })
+            }
+        })
     }
 }
