@@ -11,6 +11,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { ErrorInterceptor } from './services/error.interceptor';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ErrorInterceptor } from './services/error.interceptor';
     LoginComponent,
     RegisterComponent,
     FeedComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

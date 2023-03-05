@@ -34,9 +34,8 @@ export class LoginComponent {
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-    this.authservice.login(this.form.value).subscribe({
-      next:(data) => {
-        this.wrongCredintials = false;
+    this.authservice.login(this.f.email.value,this.f.password.value).subscribe({
+      next:() => {
         this.router.navigate(['feed']);
       },
       error:(err) => {

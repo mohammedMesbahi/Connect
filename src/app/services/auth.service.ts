@@ -8,25 +8,37 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root'
 })
 export class AuthService {
-  
-  constructor(private router: Router, private http: HttpClient) { }
-  login(user:any) {
-    return this.http.post(`${environment.apiUrl}/api/auth/signin`, {user}, {withCredentials:true})
-      .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
-      }));
-    }
-    
-    register(user:any) {
-      return this.http.post(`${environment.apiUrl}/api/auth/signup`, user, {withCredentials:true})
+
+  private user: {} | undefined = undefined;
+  constructor(private router: Router, private http: HttpClient) {
+    this.user = JSON.stringify(localStorage.getItem('user'));
+  }
+
+  register(user: any) {
+    return this.http.post(`${environment.apiUrl}/api/auth/signup`, user, { withCredentials: true })
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         return user;
       }));;
-    }
-    
   }
-  
+
+  login(email: string, password: string) {
+    return this.http.post(`${environment.apiUrl}/api/auth/signin`, { email, password }, { withCredentials: true })
+      .pipe(map(user => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('user', JSON.stringify(user));
+        return user;
+      }));
+  }
+
+  get User() {
+    return this.user
+  }
+  isLoggedIn() {
+    if (localStorage.getItem('user')) {
+      return true
+    } 
+    return false
+  }
+}
