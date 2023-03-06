@@ -18,6 +18,8 @@ import { SearchComponent } from './components/search/search.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { PostComponent } from './components/post/post.component';
+import { SummaryPipe } from './tools/pips/summary.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { ProfileComponent } from './components/profile/profile.component';
     SearchComponent,
     MessagesComponent,
     NotificationsComponent,
-    ProfileComponent
+    ProfileComponent,
+    PostComponent,
+    SummaryPipe
   ],
   imports: [
     BrowserModule,

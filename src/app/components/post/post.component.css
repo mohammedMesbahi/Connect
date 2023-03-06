@@ -1,0 +1,52 @@
+.post {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.profileInfo{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 10px;
+    padding-left: 0px;
+}
+/* 
+STYLE AMIGE PROFILE
+
+*/
+.profileInfo img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+}
+/* END */
+
+/* 
+ like button
+*/
+.recactions {
+    display: flex;
+    align-items: center;
+}
+.recactions button{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    background: none;
+}
+.inputComment{
+    resize: none;
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    border-bottom: 1px solid lightgray;
+}
+.inputComment:focus{
+    background: none;
+    outline: none;
+}

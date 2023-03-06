@@ -1,1 +1,70 @@
-<p>home works!</p>
+<div class="postsContainer">
+    <div *ngIf="isLoading">
+        <!-- loading template -->
+        <div class="card">
+            <div class="header">
+                <img class="header-img skeleton" src="" />
+                <div class="title" data-title>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+            <div data-body>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="header">
+                <img class="header-img skeleton" src="" />
+                <div class="title" data-title>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+            <div data-body>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="header">
+                <img class="header-img skeleton" src="" />
+                <div class="title" data-title>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+            <div data-body>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="header">
+                <img class="header-img skeleton" src="" />
+                <div class="title" data-title>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+            <div data-body>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="posts" *ngFor="let post of posts">
+        <app-post [post]="post"></app-post>
+    </div>
+
+</div>

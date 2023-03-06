@@ -1,0 +1,17 @@
+<div class="post" [id]="post.id" *ngIf="post">
+    <div class="profileInfo">
+        <div class="css-after-gradiant">
+            <img [src]="'https://i.pravatar.cc/34'" class="skeleton" />
+        </div>
+        <h3>Lorem ipsum</h3>
+    </div>
+    <div class="body">
+        <h4>{{post.title }}</h4>
+        <p>{{post.body | summary:100}}</p>
+    </div>
+    <div class="recactions">
+        <button class="like"><i class="bi bi-heart"></i> <span>{{post.reactions}}</span></button>
+        <button class="commont"><i class="bi bi-card-heading"></i></button>
+    </div>
+    <textarea rows="1" class="inputComment" type="text" placeholder="Add a comment"></textarea>
+</div>
