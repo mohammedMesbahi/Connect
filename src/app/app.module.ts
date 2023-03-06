@@ -12,6 +12,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { ErrorInterceptor } from './services/error.interceptor';
 import { NavComponent } from './components/nav/nav.component';
+import { MainComponent } from './components/main/main.component';
+import { HomeComponent } from './components/home/home.component';
+import { SearchComponent } from './components/search/search.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +26,13 @@ import { NavComponent } from './components/nav/nav.component';
     RegisterComponent,
     FeedComponent,
     NotFoundComponent,
-    NavComponent
+    NavComponent,
+    MainComponent,
+    HomeComponent,
+    SearchComponent,
+    MessagesComponent,
+    NotificationsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

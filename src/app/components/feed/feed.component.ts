@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./feed.component.css']
 })
 export class FeedComponent {
-
+  private _view:string = "home";
+  get view(){
+    return this._view
+  }
+  set view(data: string) {
+    this._view = data;
+  }
 }

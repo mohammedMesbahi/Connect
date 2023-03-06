@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
+  @Output("changeView") selectedView = new EventEmitter<string>();
+  changeViewTo(selectedView:string) {
+    this.selectedView.emit(selectedView);
+  }
 
 }

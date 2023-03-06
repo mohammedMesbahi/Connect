@@ -1,1 +1,31 @@
-<p>nav works!</p>
+<nav>
+    <h1>Connect</h1>
+    <div class="sections">
+        <div>
+            <div class="section" (click)="changeViewTo('home')">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Home</span>
+            </div>
+            <div class="section" (click)="changeViewTo('search')">
+                <i class="bi bi-search"></i>
+                <span>Search</span>
+            </div>
+            <div class="section" (click)="changeViewTo('messages')">
+                <i class="bi bi-send"></i>
+                <span>Messages</span>
+            </div>
+            <div class="section" (click)="changeViewTo('notifications')">
+                <i class="bi bi-app-indicator"></i>
+                <span>Notifications</span>
+            </div>
+            <div class="section" (click)="changeViewTo('profile')">
+                <i class="bi bi-person-circle"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+        <div class="section">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>log out</span>
+        </div>
+    </div>
+</nav>
