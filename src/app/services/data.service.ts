@@ -14,4 +14,7 @@ export class DataService {
       map((data:any) => data.posts)
     )
   }
+  public getUsers(){
+    return this.http.get("https://api.github.com/users/mosh-hamedani/followers")
+  }
 }

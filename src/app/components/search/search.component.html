@@ -1,1 +1,40 @@
-<p>search works!</p>
+<input
+  type="text"
+  name="userName"
+  id="inputUserId"
+  placeholder="Enter a name"
+  #box
+  (keyup)="searchForUser(box.value)"
+/>
+
+<div class="users" *ngIf="users">
+  <div *ngFor="let user of users" class="user">
+    <div class="user">
+      <img [src]="user.avatar_url" alt="" srcset="" class="skeleton" />
+      <h5>{{ user.login }}</h5>
+    </div>
+  </div>
+  <div *ngIf="users.length == 0" class="notFound">Not Found</div>
+</div>
+
+<!-- loading template -->
+<div *ngIf="isLoading">
+  <div class="user">
+    <img class="skeleton"/>
+    <div class="title skeleton-text bold" data-title>
+      <div class="skeleton skeleton-text"></div>
+    </div>
+  </div>
+  <div class="user">
+    <img class="skeleton"/>
+    <div class="title skeleton-text bold" data-title>
+      <div class="skeleton skeleton-text"></div>
+    </div>
+  </div>
+  <div class="user">
+    <img class="skeleton"/>
+    <div class="title skeleton-text bold" data-title>
+      <div class="skeleton skeleton-text"></div>
+    </div>
+  </div>
+</div>

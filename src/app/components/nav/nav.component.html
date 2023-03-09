@@ -1,31 +1,50 @@
 <nav>
-    <h1>Connect</h1>
-    <div class="sections">
-        <div>
-            <div class="section" (click)="changeViewTo('home')">
-                <i class="bi bi-house-door-fill"></i>
-                <span>Home</span>
-            </div>
-            <div class="section" (click)="changeViewTo('search')">
-                <i class="bi bi-search"></i>
-                <span>Search</span>
-            </div>
-            <div class="section" (click)="changeViewTo('messages')">
-                <i class="bi bi-send"></i>
-                <span>Messages</span>
-            </div>
-            <div class="section" (click)="changeViewTo('notifications')">
-                <i class="bi bi-app-indicator"></i>
-                <span>Notifications</span>
-            </div>
-            <div class="section" (click)="changeViewTo('profile')">
-                <i class="bi bi-person-circle"></i>
-                <span>Profile</span>
-            </div>
+  <h1>Connect</h1>
+  <div class="sections">
+    <div>
+      <!-- home -->
+      <div class="section" (click)="changeViewTo('home')">
+        <i class="bi bi-house-door-fill"></i>
+        <span>Home</span>
+      </div>
+
+      <!-- search -->
+      <div class="section" (click)="toggleSearch()">
+        <i class="bi bi-search"></i>
+        <span>Search</span>
+      </div>
+      <div>
+        <app-search *ngIf="showSearch"></app-search>
+      </div>
+
+      <div *ngIf="!showSearch"> <!-- the section i will hide if the user clicks on "search" -->
+        <!-- messages -->
+        <div class="section" (click)="changeViewTo('messages')">
+          <i class="bi bi-send"></i>
+          <span>Messages</span>
         </div>
-        <div class="section">
-            <i class="bi bi-box-arrow-left"></i>
-            <span>log out</span>
+        <!-- notifications -->
+        <div class="section" (click)="toggleNotifications()">
+          <i class="bi bi-app-indicator"></i>
+          <span>Notifications</span>
         </div>
+        <ng-container *ngIf="showNotifications">
+          <app-notifications></app-notifications>
+        </ng-container>
+        <ng-container *ngIf="!showNotifications"> <!-- the section i will hide if the user clicks on "notifications" -->
+          <!-- profile -->
+          <div class="section" (click)="changeViewTo('profile')">
+            <i class="bi bi-person-circle"></i>
+            <span>Profile</span>
+          </div>
+        </ng-container>
+
+      </div>
     </div>
+    <!-- log out -->
+    <div class="section" *ngIf="!showNotifications && !showSearch">
+      <i class="bi bi-box-arrow-left"></i>
+      <span>log out</span>
+    </div>
+  </div>
 </nav>

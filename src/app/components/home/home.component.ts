@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
     this.dataservice.getPosts().subscribe({
       next:(data)=>{
         this._posts=data;
-        console.log(data);
         this._isLoading=false;
       }
     })

@@ -1,4 +1,4 @@
 <div class="feed" >
-    <app-nav (changeView)="view=$event"></app-nav>
+    <app-nav (changeView)="changeView($event)"></app-nav>
     <app-main [view]="this.view" ></app-main>
 </div>

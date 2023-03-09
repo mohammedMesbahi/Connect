@@ -20,6 +20,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { ProfileComponent } from './components/profile/profile.component';
 import { PostComponent } from './components/post/post.component';
 import { SummaryPipe } from './tools/pips/summary.pipe';
+import { ActionsService } from './services/actions.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { SummaryPipe } from './tools/pips/summary.pipe';
     AppRoutingModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService,
+  providers: [AuthService,ActionsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

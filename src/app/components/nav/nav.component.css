@@ -2,7 +2,7 @@ nav {
     width: 22vw;
     padding: 1rem 2rem;
     height: 100%;
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
 }
 .sections {
     display: flex;
@@ -21,10 +21,10 @@ nav {
     border-radius: 5px;
 }
 .sections .section i {
-    font-size: 1.5rem;
+    font-size: 2em;
 }
 .sections .section span {
-    font-size: 1.3rem;
+    font-size: 1.3em;
 }
 .sections .section:hover{
     background-color: #C13584;
@@ -33,5 +33,28 @@ nav {
 }
 h1 {
     font-family: Brush Script MT;
-    font-size: 3.5rem;
+    font-size: 3.5em;
 }
+/* Use a media query to add a breakpoint at 800px: */
+@media screen and (max-width: 907px) {
+    .sections .section span {
+        font-size: 0px;
+        transition: 0.5s;
+    }
+    .left, .main, .right {
+      width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+    }
+    h1 {
+        font-size: 150%;
+        transition: 0.5s;
+        text-align: center;
+    }
+    nav {
+        align-items: center;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .sections{
+        align-items: center;
+    }
+  }

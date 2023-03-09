@@ -6,9 +6,23 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
-  @Output("changeView") selectedView = new EventEmitter<string>();
+  private _showNotifications = false;
+  private _showSearch = false;
+  get showNotifications(){
+    return this._showNotifications;
+  }
+  get showSearch(){
+    return this._showSearch;
+  }
+  public toggleNotifications(){
+    this._showNotifications = !this._showNotifications
+  }
+  public toggleSearch(){
+    this._showSearch = !this._showSearch;
+  }
+  @Output("changeView") EventChangeToSelectedView = new EventEmitter<string>();
   changeViewTo(selectedView:string) {
-    this.selectedView.emit(selectedView);
+    this.EventChangeToSelectedView.emit(selectedView);
   }
 
 }

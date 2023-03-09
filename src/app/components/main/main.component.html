@@ -1,20 +1,20 @@
-<div [ngSwitch]="view">
-    <div *ngSwitchCase="'home'">
-      <app-home></app-home>
-    </div>
-    <div *ngSwitchCase="'search'">
-      <app-search></app-search>
-    </div>
-    <div *ngSwitchCase="'messages'">
-      <app-messages></app-messages>
-    </div>
-    <div *ngSwitchCase="'notifications'">
-        <app-notifications></app-notifications>
-    </div>
-    <div *ngSwitchCase="'profile'">
-      <app-profile></app-profile>
-    </div>
-    <div *ngSwitchDefault>
-        <app-home></app-home>
-    </div>
-  </div>
+<ng-container [ngSwitch]="view">
+
+  <ng-container *ngSwitchCase="'home'">
+    <app-home></app-home>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'messages'">
+    <app-messages></app-messages>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'profile'">
+    <app-profile></app-profile>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    <app-home></app-home>
+  </ng-container>
+  
+</ng-container>
+

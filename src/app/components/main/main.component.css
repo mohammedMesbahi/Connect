@@ -1,5 +1,11 @@
 :host {
-    overflow: auto;
-    flex-grow: 2;
-    padding: 2rem 5rem;
+  overflow: auto;
+  display: flex;
+  flex-grow: 2;
+  padding: 1rem;
+}
+.mainContainer{
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
 }

@@ -6,11 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./feed.component.css']
 })
 export class FeedComponent {
-  private _view:string = "home";
+  private _view:string = "messages";
   get view(){
     return this._view
   }
   set view(data: string) {
     this._view = data;
+  }
+  changeView(value:string){
+    this._view=value
   }
 }
