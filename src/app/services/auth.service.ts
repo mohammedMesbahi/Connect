@@ -31,6 +31,14 @@ export class AuthService {
         return user;
       }));
   }
+  logOut(){
+    return this.http.get(`${environment.apiUrl}/api/auth/signout`,{ withCredentials: true })
+    .pipe(map(message => {
+      // store user details and jwt token in local storage to keep user logged in between page refreshes
+      localStorage.removeItem('user');
+      return message;
+    }));
+  }
 
   get User() {
     return this.user
@@ -38,7 +46,7 @@ export class AuthService {
   isLoggedIn() {
     if (localStorage.getItem('user')) {
       return true
-    } 
+    }
     return false
   }
 }

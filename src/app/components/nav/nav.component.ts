@@ -21,8 +21,11 @@ export class NavComponent {
     this._showSearch = !this._showSearch;
   }
   @Output("changeView") EventChangeToSelectedView = new EventEmitter<string>();
+  @Output("logoutEvent") EventlogOut = new EventEmitter<string>();
   changeViewTo(selectedView:string) {
     this.EventChangeToSelectedView.emit(selectedView);
   }
-
+  logOut(){
+    this.EventlogOut.emit();
+  }
 }

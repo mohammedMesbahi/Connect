@@ -42,7 +42,7 @@
       </div>
     </div>
     <!-- log out -->
-    <div class="section" *ngIf="!showNotifications && !showSearch">
+    <div class="section" *ngIf="!showNotifications && !showSearch" (click)="logOut()">
       <i class="bi bi-box-arrow-left"></i>
       <span>log out</span>
     </div>

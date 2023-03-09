@@ -1,4 +1,4 @@
 <div class="feed" >
-    <app-nav (changeView)="changeView($event)"></app-nav>
+    <app-nav (changeView)="changeView($event)" (logoutEvent)="logOut()"></app-nav>
     <app-main [view]="this.view" ></app-main>
 </div>
