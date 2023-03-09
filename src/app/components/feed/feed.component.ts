@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./feed.component.css']
 })
 export class FeedComponent {
-  private _view:string = "messages";
+  private _view:string = "profile";
   get view(){
     return this._view
   }

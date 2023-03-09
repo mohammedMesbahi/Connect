@@ -1,1 +1,31 @@
-<p>profile works!</p>
+<div class="profile flex-column fill-height">
+
+  <section class="top flex-row flex-row-center fill-width border-bottom">
+    <div class="margin-left-right">
+      <img src="https://picsum.photos/200/200" alt="" class="roundcorner profilePicture scaleten"/>
+    </div>
+    <div class="infos flex-column">
+
+      <div class="actions flex-row flex-row-center">
+        <span class="userName">mesbahi</span>
+        <button>edit profile</button>
+        <i class="bi bi-gear-wide"></i>
+      </div>
+
+      <div class="social flex-row">
+        <span><b>1</b> post</span>
+        <span><b>19</b> followers</span>
+        <span><b>29</b> following</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom flex-column fill-width">
+    <h1 class="fill-width">Posts</h1>
+    <div class="posts fill-width" *ngIf="posts">
+      <ng-container *ngFor="let post of posts">
+      <app-post [post]="post"></app-post>
+    </ng-container>
+    </div>
+  </section>
+</div>
