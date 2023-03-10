@@ -21,6 +21,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { PostComponent } from './components/post/post.component';
 import { SummaryPipe } from './tools/pips/summary.pipe';
 import { ActionsService } from './services/actions.service';
+import { MessagesService } from './services/messages.service';
+import { SocketIoModule } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment.prod';
 
 @NgModule({
   declarations: [
@@ -44,8 +47,9 @@ import { ActionsService } from './services/actions.service';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    SocketIoModule.forRoot({ url: `${environment.apiUrl}/messages_notifications` })
   ],
-  providers: [AuthService,ActionsService,
+  providers: [AuthService,ActionsService,MessagesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
