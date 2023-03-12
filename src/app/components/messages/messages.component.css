@@ -1,4 +1,8 @@
 /* common */
+.fill {
+  height: 100%;
+  width: 100%;
+}
 .flex-row,.flex-column {
   display: flex;
   gap: 5px;
@@ -119,4 +123,19 @@ ul.messages li {
   background-color: inherit;
   font-size: larger;
   border: none;
+}
+.emptyChat{
+  gap: 20px;
+}
+.emptyChat button{
+  background-color: #5B51D8;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  padding: 10px 30px;
+
+}
+.emptyChat i.bi.bi-send {
+  font-size: 3rem;
 }

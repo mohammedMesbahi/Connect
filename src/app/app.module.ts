@@ -22,9 +22,9 @@ import { PostComponent } from './components/post/post.component';
 import { SummaryPipe } from './tools/pips/summary.pipe';
 import { ActionsService } from './services/actions.service';
 import { MessagesService } from './services/messages.service';
-import { SocketIoModule } from 'ngx-socket-io';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment.prod';
-
+const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notifications`, options: {withCredentials:true} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +47,7 @@ import { environment } from 'src/environments/environment.prod';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    SocketIoModule.forRoot({ url: `${environment.apiUrl}/messages_notifications` })
+    SocketIoModule.forRoot(config)
   ],
   providers: [AuthService,ActionsService,MessagesService,
     {

@@ -19,9 +19,14 @@
 
       <div *ngIf="!showSearch"> <!-- the section i will hide if the user clicks on "search" -->
         <!-- messages -->
-        <div class="section" (click)="changeViewTo('messages')">
+        <div class="section flex-row-center" (click)="changeViewTo('messages')">
           <i class="bi bi-send"></i>
           <span>Messages</span>
+          <div class="counter" *ngIf="newmessagesCounter">
+            <span>
+              {{newmessagesCounter}}
+            </span>
+          </div>
         </div>
         <!-- notifications -->
         <div class="section" (click)="toggleNotifications()">

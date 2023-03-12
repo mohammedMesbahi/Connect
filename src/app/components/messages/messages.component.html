@@ -45,10 +45,19 @@
   </div>
 
   <div class="chatContainer flex-column">
-    <div class="header flex-row ">
+    <ng-container *ngIf="!selectedUser">
+      <div class="emptyChat flex-column flex-center fill">
+        <i class="bi bi-send"></i>
+        <span>send private photos and messages to a friend or group</span>
+        <button>Send Messages</button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="selectedUser">
+      <div class="header flex-row " #user [id]="selectedUser.userId">
       <div class="friendProfile flex-row">
-        <img src="https://i.pravatar.cc/34" alt="" class="roundcorner"/>
-        <span>Friend name</span>
+        <img [src]="selectedUser.imgUrl" alt="" class="roundcorner"/>
+        <span>{{selectedUser.userName}}</span>
       </div>
     </div>
     <ul class="messages flex-column">
@@ -58,9 +67,11 @@
       <li class="myMessage">message1</li>
     </ul>
     <div class="inputMessage flex-row space-around flex-row-center">
-      <input type="text" name="" id="" placeholder="Message..." />
+      <input type="text" name="" id="" placeholder="Message..." (keyup.enter)="sendMessage(message.value,user.id)" #message />
       <button><i class="bi bi-send-fill"></i></button>
     </div>
+    </ng-container>
+
   </div>
 </div>
 
