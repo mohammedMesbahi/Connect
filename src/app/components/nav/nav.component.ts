@@ -30,7 +30,7 @@ export class NavComponent implements OnInit,OnDestroy{
     this.messagesObseravable.unsubscribe();
   }
   ngOnInit(): void {
-
+    
   }
   get showNotifications(){
     return this._showNotifications;

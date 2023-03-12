@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
@@ -8,12 +8,15 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.css']
 })
-export class FeedComponent implements OnInit{
+export class FeedComponent implements OnInit,OnDestroy{
   constructor(private authService:AuthService,private router:Router,private dataService:DataService){
 
   }
+  ngOnDestroy(): void {
+    this.dataService.clearLocalStorege();
+  }
   ngOnInit(): void {
-    this.dataService.getChats().subscribe();
+    this.dataService.loadChats().subscribe();
   }
   private _view:string = "messages";
   get view(){
@@ -28,4 +31,5 @@ export class FeedComponent implements OnInit{
   logOut(){
     this.authService.logOut().subscribe({next:()=>this.router.navigate(['login'])});
   }
+
 }

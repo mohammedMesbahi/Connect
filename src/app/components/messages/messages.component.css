@@ -39,6 +39,7 @@
   border: 3px solid #f0f0f0;
   align-items: stretch;
   border-radius: 10px;
+  padding: 0px;
 }
 .nav{
   height: 100%;
@@ -51,9 +52,14 @@
   overflow: auto;
 }
 .chat{
-  padding: 10px 20px 10px 0px;
+  padding: 10px 20px 10px 10px;
   width: 100%;
   gap: 10px;
+  cursor: pointer;
+}
+.chat:hover{
+  background-color: #efefef;
+  transition: 0.3s;
 }
 .chatContainer{
   height: 100%;
@@ -86,6 +92,8 @@ ul.messages {
   padding:20px;
   gap: 20px;
   margin: 0;
+  overflow: auto;
+  flex-grow: 2; 
   list-style-type:none;
 
 }
@@ -138,4 +146,9 @@ ul.messages li {
 }
 .emptyChat i.bi.bi-send {
   font-size: 3rem;
+}
+.lastMessage{
+  font-weight: lighter;
+  font-size: smaller;
+  justify-self: flex-start;
 }

@@ -12,39 +12,18 @@
     </div>
 
     <div class="chats flex-column">
-      <div class="chat flex-row">
+      <div class="chat flex-row" *ngFor="let chat of chats | keyvalue" (click)="setUser(chat)">
         <img src="https://i.pravatar.cc/34" alt=""  class="roundcorner profilePicture"/>
-        <div class="text flex-column flex-row-center">
-          <h6>user Name</h6>
-          <span>last message</span>
-        </div>
-      </div>
-      <div class="chat flex-row">
-        <img src="https://i.pravatar.cc/34" alt=""  class="roundcorner profilePicture"/>
-        <div class="text flex-column">
-          <span>user Name</span>
-          <span>last message</span>
-        </div>
-      </div>
-      <div class="chat flex-row">
-        <img src="https://i.pravatar.cc/34" alt=""  class="roundcorner profilePicture"/>
-        <div class="text flex-column">
-          <span>user Name</span>
-          <span>last message</span>
-        </div>
-      </div>
-      <div class="chat flex-row">
-        <img src="https://i.pravatar.cc/34" alt=""  class="roundcorner profilePicture"/>
-        <div class="text flex-column">
-          <span>user Name</span>
-          <span>last message</span>
+        <div class="text flex-column ">
+          <span><b>{{chat.key}}</b></span>
+          <span class="lastMessage">{{chat.value[0].content}}</span>
         </div>
       </div>
     </div>
 
   </div>
 
-  <div class="chatContainer flex-column">
+  <div class="chatContainer flex-column" >
     <ng-container *ngIf="!selectedUser">
       <div class="emptyChat flex-column flex-center fill">
         <i class="bi bi-send"></i>
@@ -54,20 +33,23 @@
     </ng-container>
 
     <ng-container *ngIf="selectedUser">
-      <div class="header flex-row " #user [id]="selectedUser.userId">
+      <div class="header flex-row " #profileId [id]="selectedUser.key">
       <div class="friendProfile flex-row">
         <img [src]="selectedUser.imgUrl" alt="" class="roundcorner"/>
-        <span>{{selectedUser.userName}}</span>
+        <span>{{selectedUser.key}}</span>
       </div>
     </div>
-    <ul class="messages flex-column">
-      <li class="hisMessage">message1</li>
-      <li class="hisMessage">message1</li>
-      <li class="hisMessage">message1</li>
-      <li class="myMessage">message1</li>
+    <ul #messagesDiv class="messages flex-column">
+
+      <li [ngClass]="{
+        'hisMessage':message.sender!=me,
+        'myMessage':message.sender==me
+      }" *ngFor="let message of selectedUser.value">
+        {{message.content}}
+      </li>
     </ul>
     <div class="inputMessage flex-row space-around flex-row-center">
-      <input type="text" name="" id="" placeholder="Message..." (keyup.enter)="sendMessage(message.value,user.id)" #message />
+      <input type="text" name="" id="" placeholder="Message..." (keyup.enter)="sendMessage(message.value,selectedUser.key)" #message />
       <button><i class="bi bi-send-fill"></i></button>
     </div>
     </ng-container>
