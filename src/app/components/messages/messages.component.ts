@@ -19,12 +19,18 @@ import { MessagesService } from 'src/app/services/messages.service';
   styleUrls: ['./messages.component.css'],
 })
 export class MessagesComponent implements AfterViewInit, OnInit, OnChanges {
-  @ViewChild('messagesDiv') messagesDiv!: ElementRef;
+  @ViewChild('messagesDiv') m: ElementRef | undefined;
 
   // function to scroll to the bottom of the div
   public scrollToBottom() {
-      this.messagesDiv.nativeElement.scrollTop =this.messagesDiv.nativeElement.scrollHeight;
+    setTimeout(() => {
+      if (this.m) {
+        this.m.nativeElement.scrollTop = this.m.nativeElement.scrollHeight;
+        console.log('.');
+      }
+    });
   }
+  private messageContent:string ="";
   private _me = JSON.parse(localStorage.getItem('user') as string).user;
   public get me() {
     return this._me;
@@ -44,7 +50,6 @@ export class MessagesComponent implements AfterViewInit, OnInit, OnChanges {
   }
   public set selectedUser(value) {
     this._selectedUser = value;
-
   }
   trackMessage(index: any, message: any) {
     return message ? message._id : undefined;
@@ -63,7 +68,7 @@ export class MessagesComponent implements AfterViewInit, OnInit, OnChanges {
   }
   public setUser(value: any) {
     this.selectedUser = value;
-    
+    this.scrollToBottom();
   }
   constructor(
     private messagesService: MessagesService,
@@ -89,11 +94,12 @@ export class MessagesComponent implements AfterViewInit, OnInit, OnChanges {
 
     this.onMessage.subscribe({
       next: (message: any) => {
-        let tmp  = new Map(Object.entries(this.selectedUser));
-        let newArray:any = tmp.get("value");
+        let tmp = new Map(Object.entries(this.selectedUser));
+        let newArray: any = tmp.get('value');
         newArray.push(message);
-        tmp.set("value", newArray);
+        tmp.set('value', newArray);
         this.selectedUser = Object.fromEntries(tmp.entries());
+        this.scrollToBottom();
       },
     });
 
@@ -101,8 +107,7 @@ export class MessagesComponent implements AfterViewInit, OnInit, OnChanges {
       next: (data: any) => console.log(data),
     });
   }
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {
     /* this.dataService.getChats().subscribe({
@@ -120,10 +125,12 @@ export class MessagesComponent implements AfterViewInit, OnInit, OnChanges {
       content: message,
       userName: 'mesbahi',
     });
+
   }
 
   ngAfterViewInit(): void {
     // Scroll to the bottom of the div after it has been rendered
     this.scrollToBottom();
+    console.log(this.m);
   }
 }

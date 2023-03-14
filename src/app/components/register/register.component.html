@@ -1,48 +1,263 @@
-<div class="card">
-    <h4 class="card-header">Register</h4>
-    <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div 
-            class="alert alert-danger"
-            *ngIf="form.errors?.['invalidInputs']"
-            ><div>{{form.errors?.['invalidInputs'].message}}</div>
-            </div>
-            <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f?.['firstName']?.errors }" />
-                <div *ngIf="submitted && f?.['firstName']?.errors" class="invalid-feedback">
-                    <div *ngIf="f?.['firstName']?.errors?.['required']">First Name is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f?.['firstName']?.errors }" />
-                <div *ngIf="submitted && f?.['lastName']?.errors" class="invalid-feedback">
-                    <div *ngIf="f?.['lastName']?.errors?.['required']">Last Name is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f?.['firstName']?.errors }" />
-                <div *ngIf="submitted && f?.['firstName']?.errors" class="invalid-feedback">
-                    <div *ngIf="f?.['firstName']?.errors?.['required']">Username is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f?.['password']?.errors }" />
-                <div *ngIf="submitted && f?.['password']?.errors" class="invalid-feedback">
-                    <div *ngIf="f?.['password']?.errors?.['required']">Password is required</div>
-                    <div *ngIf="f?.['password']?.errors?.['minlength']">Password must be at least 6 characters</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <button [disabled]="loading || form.invalid" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Register
-                </button>
-                <a routerLink="/login" class="btn btn-link">Cancel</a>
-            </div>
-        </form>
-    </div>
+<!-- <div class="card">
+  <h4 class="card-header">Register</h4>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="alert alert-danger" *ngIf="form.errors?.['invalidInputs']">
+        <div>{{form.errors?.['invalidInputs'].message}}</div>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="firstName"
+          [ngClass]="{ 'is-invalid': submitted && f?.['firstName']?.errors }"
+        />
+        <div
+          *ngIf="submitted && f?.['firstName']?.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f?.['firstName']?.errors?.['required']">
+            First Name is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="lastName"
+          [ngClass]="{ 'is-invalid': submitted && f?.['firstName']?.errors }"
+        />
+        <div
+          *ngIf="submitted && f?.['lastName']?.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f?.['lastName']?.errors?.['required']">
+            Last Name is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="username"
+          [ngClass]="{ 'is-invalid': submitted && f?.['firstName']?.errors }"
+        />
+        <div
+          *ngIf="submitted && f?.['firstName']?.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f?.['firstName']?.errors?.['required']">
+            Username is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          [ngClass]="{ 'is-invalid': submitted && f?.['password']?.errors }"
+        />
+        <div
+          *ngIf="submitted && f?.['password']?.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f?.['password']?.errors?.['required']">
+            Password is required
+          </div>
+          <div *ngIf="f?.['password']?.errors?.['minlength']">
+            Password must be at least 6 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading || form.invalid" class="btn btn-primary">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Register
+        </button>
+        <a routerLink="/login" class="btn btn-link">Cancel</a>
+      </div>
+    </form>
+  </div>
 </div>
+ -->
+<!-- new re -->
+
+<section class="text-center">
+  <!-- Background image -->
+  <div class="p-5 bg-image" style="padding-bottom: 0% !important"></div>
+  <!-- Background image -->
+
+  <div
+    class="card mx-4 mx-md-5 shadow-5-strong"
+    style="
+      margin-top: -100px;
+      background: hsla(0, 0%, 100%, 0.8);
+      backdrop-filter: blur(30px);
+    "
+  >
+    <div class="card-body py-3 px-md-3">
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+          <h2 class="fw-bold mb-1">Sign up now</h2>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div
+              class="alert alert-danger col-auto"
+              *ngIf="form.errors?.['invalidInputs']"
+            >
+              <div>{{form.errors?.['invalidInputs'].message}}</div>
+            </div>
+
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+
+            <!-- first name start -->
+            <div class="row mb-4 row-cols-2">
+              <div class="mb-2 col">
+                <div class="input-group has-validation">
+                  <div class="col form-floating is-invalid">
+                    <input
+                      formControlName="firstName"
+                      type="text"
+                      class="form-control"
+                      id="floatingInputGroup2"
+                      placeholder="First Name"
+                      [ngClass]="{'is-invalid':firstName?.touched && firstName?.invalid}"
+                    />
+                    <label for="floatingInputGroup2">First Name</label>
+                  </div>
+                  <div
+                  *ngIf="firstName?.touched && firstName?.errors?.['required']"
+                  class="col-3 invalid-feedback text-start">
+                    Please choose a name.
+                  </div>
+                </div>
+              </div>
+              <!-- *first name end -->
+
+              <!-- last name start -->
+              <div class="mb-2 col">
+                <div class="mb-2 col">
+                  <div class="input-group has-validation">
+                    <div class="col form-floating is-invalid">
+                      <input
+                        formControlName="lastName"
+                        type="text"
+                        class="form-control"
+                        id="floatingInputGroup2"
+                        placeholder="First Name"
+                        [ngClass]="{'is-invalid':lastName?.touched && lastName?.invalid}"
+                      />
+                      <label for="floatingInputGroup2">Last Name</label>
+                    </div>
+                    <div
+                    *ngIf="lastName?.touched && lastName?.errors?.['required']"
+                    class="col-3 invalid-feedback text-start">
+                      Please choose a name.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- *last name end -->
+            </div>
+
+            <!-- email start -->
+            <div class="row mb-4 row-cols-2">
+              <!-- Email input -->
+              <div class="input-group has-validation">
+                <div class="col form-floating "
+                [ngClass]="{'is-invalid':email?.touched && email?.invalid}"
+                >
+                  <input
+                    formControlName="email"
+                    type="email"
+                    id="form3Example3"
+                    class="form-control"
+                    placeholder="Email"
+                  />
+                  <label for="floatingInputGroup2">Email address</label>
+                </div>
+                <div
+                *ngIf="email?.touched && email?.invalid"
+                class="col-3 invalid-feedback text-start">
+                <div *ngIf="email?.errors?.['required']">
+                  Please choose a valid Email.
+                </div>
+                </div>
+              </div>
+            </div>
+            <!-- email end -->
+
+            <!-- Password input start -->
+            <div class="row mb-4 row-cols-2">
+              <div class="col mb-4 input-group has-validation">
+                <div class="col form-floating is-invalid">
+                  <input
+                    formControlName="password"
+                    [ngClass]="{'is-invalid':password?.touched && password?.invalid}"
+                    type="password"
+                    id=""
+                    class="form-control"
+                    placeholder="Password"
+                    required
+                  />
+                  <label for="floatingInputGroup2">password</label>
+                </div>
+                <div
+                *ngIf="password?.touched && password?.errors"
+                class="col-3 invalid-feedback text-start">
+                <div *ngIf="email?.errors?.['required']">
+                  Please choose a valid password.
+                </div>
+                </div>
+              </div>
+
+              <!-- confirmedPassword start -->
+              <div class="col input-group has-validation">
+                <div class="col form-floating is-invalid">
+                  <input
+                    formControlName="confirmedPassword"
+                    [ngClass]="{'is-invalid':confirmedPassword?.touched && confirmedPassword?.invalid}"
+                    type="password"
+                    id=""
+                    class="form-control"
+                    placeholder="confirmedPassword"
+                    required
+                  />
+                  <label for="floatingInputGroup2">confirme Password</label>
+                </div>
+                <div
+                *ngIf="confirmedPassword?.touched && password?.valid && form.errors?.['passwordsShouldMatch']"
+                class="col-3 invalid-feedback text-start">
+                passwords do not mutch
+                </div>
+              </div>
+            </div>
+            <!-- Password input end -->
+
+            <!-- Submit button -->
+            <button
+              [disabled]="loading || form.invalid"
+              type="submit"
+              class="btn mb-4 btn-primary btn-block mb-4"
+              style="background-color: #c13584;padding: 1rem 2rem; border: none;"
+            >
+              Sign up
+            </button>
+            <div class="col mb-4">Have an account?
+              <a routerLink="/login" class="btn btn-link"> Login</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

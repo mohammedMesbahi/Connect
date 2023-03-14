@@ -1,33 +1,183 @@
-<div class="card">
-    <h4 class="card-header">Login</h4>
-    <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div 
-            class="alert alert-danger"
-            *ngIf="form.errors"
-            ><div>In valide email or password</div>
+<!-- <div class="card col-6">
+  <h4 class="card-header">Login</h4>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="col-6">
+      <div class="alert alert-danger" *ngIf="form.errors">
+        <div>In valide email or password</div>
+      </div>
+      <div class="form-group">
+        <label for="email">email</label>
+        <input
+          type="text"
+          formControlName="email"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && (f?.['email']?.errors) }"
+        />
+        <div *ngIf="submitted && f?.['email']?.errors" class="invalid-feedback">
+          <div *ngIf="f?.['email']?.errors?.['required']">
+            email is required
+          </div>
         </div>
-            <div class="form-group">
-                <label for="email">email</label>
-                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && (f?.['email']?.errors) }" />
-                <div *ngIf="submitted && f?.['email']?.errors" class="invalid-feedback">
-                    <div *ngIf="f?.['email']?.errors?.['required']">email is required</div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f?.['password']?.errors }"
+        />
+        <div
+          *ngIf="submitted && f?.['password']?.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f?.['password']?.errors?.['required']">
+            Password is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading || form.invalid" class="btn btn-primary">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Login
+        </button>
+        <a routerLink="/register" class="btn btn-link">Register</a>
+      </div>
+    </form>
+  </div>
+</div> -->
+
+<!-- Section: Design Block -->
+<section class="align-items-center justify-content-center d-flex text-center text-lg-start w-100 h-100 d-inline-block">
+  <!-- Jumbotron -->
+  <div class="container py-4">
+    <div class="row g-0 align-items-center">
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <div
+          class="card cascading-right"
+          style="
+            background: hsla(0, 0%, 100%, 0.55);
+            backdrop-filter: blur(30px);
+          "
+        >
+          <div class="card-body p-5 shadow-5 text-center">
+            <h2 class="fw-bold mb-5">Sign in now</h2>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <!-- form goes here  -->
+              <div class="alert alert-danger" *ngIf="form.errors">
+                <div>In valide email or password</div>
+              </div>
+              <!-- Email input -->
+              <div class="input-group has-validation mb-3">
+                <div class="col form-floating is-invalid">
+                  <input
+                    formControlName="email"
+                    [ngClass]="{ 'is-invalid': submitted && (f?.['email']?.errors) }"
+                    type="email"
+                    class="form-control"
+                    placeholder="Email"
+                    required
+                  />
+                  <label for="floatingInputGroup2">Email address</label>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f?.['password']?.errors }" />
-                <div *ngIf="submitted && f?.['password']?.errors" class="invalid-feedback">
-                    <div *ngIf="f?.['password']?.errors?.['required']">Password is required</div>
+                <div
+                  *ngIf="submitted && f?.['email']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="col-12 text-start"
+                    *ngIf="f?.['email']?.errors?.['required']"
+                  >
+                    Please choose a valid Email.
+                  </div>
+                  <!--                   <div
+                    *ngIf="f?.['email']?.inValid"
+                    class="col-3 invalid-feedback text-start"
+                  >
+                    Please choose a valid Email.
+                  </div> -->
                 </div>
-            </div>
-            <div class="form-group">
-                <button [disabled]="loading || form.invalid" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Login
-                </button>
-                <a routerLink="/register" class="btn btn-link">Register</a>
-            </div>
-        </form>
+              </div>
+
+              <!-- Password input -->
+              <div class="col input-group has-validation mb-3">
+                <div class="col form-floating is-invalid">
+                  <input
+                    type="password"
+                    formControlName="password"
+                    id=""
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f?.['password']?.errors }"
+                    placeholder="Password"
+                    required
+                  />
+                  <label for="floatingInputGroup2">password</label>
+                </div>
+                <div
+                  *ngIf="submitted && f?.['password']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f?.['password']?.errors?.['required']">
+                    <div class="col-3 invalid-feedback text-start">
+                      Please choose a valid password.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2 column grid layout for inline styling -->
+              <div class="row mb-4">
+                <div class="col d-flex justify-content-center">
+                  <!-- Checkbox -->
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="form2Example31"
+                    />
+                    <label class="form-check-label" for="form2Example31">
+                      Remember me
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <!-- Simple link -->
+                  <a routerLink="/register" class="btn btn-link">Register</a>
+                </div>
+              </div>
+
+              <!-- Submit button -->
+              <button
+                class="btn btn-primary btn-block mb-4"
+                style="background-color: #c13584"
+                [disabled]="loading || form.invalid"
+              >
+                <span
+                  *ngIf="loading"
+                  class="spinner-border spinner-border-sm mr-1"
+                ></span>
+                Sign in
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <img
+          src="https://mdbootstrap.com/img/new/textures/full/171.jpg"
+          class="w-100 rounded-4 shadow-4"
+          alt=""
+          style="height: 500px"
+        />
+      </div>
     </div>
-</div>
+  </div>
+  <!-- Jumbotron -->
+</section>
+<!-- Section: Design Block -->

@@ -1,0 +1,14 @@
+section > div.p-5.bg-image {
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
+
+}
+*{
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
