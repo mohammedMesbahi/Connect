@@ -19,9 +19,9 @@ export class FeedComponent implements OnInit,OnDestroy{
     this.dataService.clearLocalStorege();
   }
   ngOnInit(): void {
-    this.dataService.loadChats().subscribe();
+
   }
-  private _view:string = "messages";
+  private _view:string = "home";
   get view(){
     return this._view
   }

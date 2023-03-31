@@ -22,12 +22,12 @@ export class LoginComponent {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      email: ['mesbahi@gmail.com', Validators.required],
+      email: ['user6@gmail.com', Validators.required],
       password: ['1234', Validators.required]
     });
-    
+
   }
-  
+
   // convenience getter for easy access to form fields
   get f():any { return this.form.controls; }
 
@@ -36,6 +36,7 @@ export class LoginComponent {
     this.loading = true;
     this.authservice.login(this.f.email.value,this.f.password.value).subscribe({
       next:() => {
+        this.loading = false;
         this.router.navigate(['feed']);
       },
       error:(err) => {
@@ -46,5 +47,5 @@ export class LoginComponent {
         })
       }
     })
-  } 
+  }
 }

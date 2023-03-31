@@ -17,6 +17,13 @@
     margin-bottom: .25rem;
     border-radius: .125rem;
   }
+  .name{
+    width: 150px !important;
+    height: 1.3rem;
+  }
+  .skeleton-image{
+    height: 350px;
+  }
 
   .skeleton-text:last-child {
     margin-bottom: 0;
@@ -40,7 +47,7 @@
     padding: 16px;
     border-radius: 4px;
     margin-bottom: 30px;
-    width: 100%;
+    width: 60%;
   }
 
   .header {

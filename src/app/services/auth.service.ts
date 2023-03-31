@@ -15,9 +15,9 @@ export class AuthService {
     this.user = JSON.stringify(localStorage.getItem('user'));
   }
 
-  register(user: any) {
+  register(formData: any) {
     return this.http
-      .post(`${environment.apiUrl}/api/auth/signup`, user, {
+      .post(`${environment.apiUrl}/api/auth/signup`, formData, {
         withCredentials: true,
       })
       .pipe(
@@ -40,7 +40,7 @@ export class AuthService {
         map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('user', JSON.stringify(user));
-          return user;
+          return true;
         })
       );
   }
@@ -74,7 +74,7 @@ export class AuthService {
     return this.http.get<boolean>(`${environment.apiUrl}/api/auth/isAuthenticated`, { withCredentials: true })
     .pipe(
       map( (res:any) => {
-        if(res.state){
+        if(res.authenticated){
           return true
         } else {
           return this.router.createUrlTree(['/login']);

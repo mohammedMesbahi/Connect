@@ -6,10 +6,11 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './services/auth.guard';
 const routes: Routes = [
-  { path: 'login',  component:LoginComponent},
-  { path: 'register',  component:RegisterComponent},
-  { path: 'feed',  component:FeedComponent,canActivate:[AuthGuard]},
-  { path: '**',  component:NotFoundComponent},
+  {path:"",redirectTo:"/feed",pathMatch:"full"},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'feed', component: FeedComponent, canActivate: [AuthGuard] },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

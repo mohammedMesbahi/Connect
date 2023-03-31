@@ -13,7 +13,7 @@ export class RegisterComponent {
   form!: FormGroup;
   loading = false;
   submitted = false;
-
+  selectedFile!: File ;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -26,15 +26,14 @@ export class RegisterComponent {
   ngOnInit() {
     this.form = this.formBuilder.group(
       {
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        email: ['', Validators.required,Validators.email],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmedPassword: ['', Validators.required],
-      },
-      { validator: PasswordValidators.passwordsShouldMatch }
+        name: ['user6', [Validators.required,Validators.minLength(4)]],
+        avatar: [null,[Validators.required]],
+        email: ['user6@gmail.com', [Validators.required,Validators.email]],
+        password: ['1234', [Validators.required, Validators.minLength(4)]],
+        confirmedPassword: ['1234', [Validators.required]],
+      }
+      ,{Validators:[PasswordValidators.passwordsShouldMatch]}
     );
-    console.log(this.form);
 
   }
 
@@ -46,32 +45,43 @@ export class RegisterComponent {
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-    this.authservice.register(this.form.value).subscribe({
+
+    const formData = new FormData();
+    formData.append('name', this.form?.get('name')?.value);
+    formData.append('email', this.form?.get('email')?.value);
+    formData.append('password', this.form?.get('password')?.value);
+    formData.append('avatar', this.selectedFile);
+
+
+    this.authservice.register(formData).subscribe({
       next: (data) => {
         this.router.navigate(['login']);
       },
       error: (err) => {
         this.loading = false;
         console.log(err.error);
-        this.form.setErrors({
+        this.form?.setErrors({
           invalidInputs: { message: err.error },
         });
       },
     });
   }
   get password() {
-    return this.form.get('password');
+    return this.form?.get('password');
   }
   get confirmedPassword() {
-    return this.form.get('confirmedPassword');
+    return this.form?.get('confirmedPassword');
   }
-  get firstName() {
-    return this.form.get('firstName');
+  get name() {
+    return this.form?.get('name');
   }
   get lastName() {
-    return this.form.get('lastName');
+    return this.form?.get('lastName');
   }
   get email(){
-    return this.form.get('email');
+    return this.form?.get('email');
+  }
+  onFileSelected(event:any) {
+    this.selectedFile = event.target.files[0];
   }
 }
