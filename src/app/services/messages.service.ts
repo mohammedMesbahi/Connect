@@ -34,13 +34,14 @@ export class MessagesService {
   public emitMessage(message: any) {
     this.socket.emit('notification-message', message);
   }
+
   public onMessage() {
     return this.socket.fromEvent('notification-message').pipe(
       map((message) => {
-        this.upDateChatsInLocalStorage(message)
-        return message
+        this.upDateChatsInLocalStorage(message);
+        return message;
       })
-    )
+    );
   }
 
   /**
@@ -93,6 +94,39 @@ export class MessagesService {
     return this.socket.fromEvent('disconnection');
   }
 
+  /* *
+    seenMessages event
+
+  */
+  public onSeenMessages() {
+    return this.socket.fromEvent('seenMessages').pipe(
+      map((seenMessages: any) => {
+        let chats = this.ChatsFromLocaStorage();
+        let oldArrayOfMessages: any[];
+        for (const [key, messages] of chats) {
+          if (
+            (messages as any[]).findIndex(
+              (message) => message._id == seenMessages[0]
+            ) != -1
+          ) {
+            oldArrayOfMessages = chats.get(key);
+            oldArrayOfMessages = oldArrayOfMessages.map((message) => {
+              if ((seenMessages as any[]).includes(message._id)) {
+                message.seen = true;
+              }
+            });
+            chats.set(key, oldArrayOfMessages);
+            this.saveChatsInLocalStorage(chats);
+          }
+        }
+      })
+    );
+  }
+  
+  markAsSeenMessages(messages: { _id: any }[]) {
+    this.socket.emit('markAsSeenMessages', messages);
+  }
+
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();
@@ -124,35 +158,37 @@ export class MessagesService {
         withCredentials: true,
       })
       .pipe(
-        map((messages: any) => {
-          let { user } = this.myId();
-          let groups = messages.reduce((accumulator: any, current: any) => {
+        map((message: any) => {
+          let userID = this.myId();
+          let groups = message.reduce((accumulator: any, current: any) => {
             let key =
-              current.sender != user ? current.sender : current.reciever;
+              current.sender != userID ? current.sender : current.reciever;
             if (!accumulator[key]) {
               accumulator[key] = [];
             }
             accumulator[key].push(current);
             return accumulator;
-          },{});
+          }, {});
           this.saveChatsInLocalStorage(groups);
         })
       );
   }
   saveChatsInLocalStorage(chats: any) {
     localStorage.setItem('chats', JSON.stringify(chats));
-    this._myEmitter.next(this.ChatsFromLocaStorage())
+    this._myEmitter.next(this.ChatsFromLocaStorage());
   }
+  // a method to add the new messages to the chats stored in the localhost
   upDateChatsInLocalStorage(message: any) {
-    let chatId = message.sender != this.myId() ? message.sender : message.reciever;
+    let chatId =
+      message.sender != this.myId() ? message.sender : message.reciever;
 
-    let currentChats:any = this.ChatsFromLocaStorage();
+    let currentChats: any = this.ChatsFromLocaStorage();
     currentChats = new Map(Object.entries(currentChats));
 
-    let currentChat:any = currentChats.get(chatId);
+    let currentChat: any = currentChats.get(chatId);
     currentChat.push(message);
-    currentChats.set(chatId,currentChat);
-    let newmap = Object.fromEntries(currentChats.entries())
+    currentChats.set(chatId, currentChat);
+    let newmap = Object.fromEntries(currentChats.entries());
 
     this.saveChatsInLocalStorage(newmap);
   }
@@ -160,7 +196,7 @@ export class MessagesService {
   myId() {
     return JSON.parse(localStorage.getItem('user') as string).user;
   }
-  ChatsFromLocaStorage(){
-    return JSON.parse(localStorage.getItem("chats") as string);
+  ChatsFromLocaStorage() {
+    return JSON.parse(localStorage.getItem('chats') as string);
   }
 }

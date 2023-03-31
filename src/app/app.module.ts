@@ -24,6 +24,11 @@ import { ActionsService } from './services/actions.service';
 import { MessagesService } from './services/messages.service';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment.prod';
+import { InboxComponent } from './inbox/inbox.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialogModule} from '@angular/material/dialog';
+import { CreateComponent } from './components/create/create.component';
+
 const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notifications`, options: {withCredentials:true} };
 @NgModule({
   declarations: [
@@ -40,14 +45,19 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     NotificationsComponent,
     ProfileComponent,
     PostComponent,
-    SummaryPipe
+    SummaryPipe,
+    InboxComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    BrowserAnimationsModule,
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthService,ActionsService,MessagesService,
     {

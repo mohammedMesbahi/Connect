@@ -1,0 +1,8 @@
+<div class="chat flex-row" (click)="onClick()">
+  <img src="../../../assets/images-2.png" alt=""  class="roundcorner profilePicture"/>
+  <div class="text flex-column ">
+    <span><b>{{chat.key}}</b></span>
+    <span class="lastMessage">{{chat.value[chat.value.length- 1].content}}</span>
+  </div>
+  <span *ngIf="unReadMessages" class="unread-messages">{{unReadMessages}}</span>
+</div>

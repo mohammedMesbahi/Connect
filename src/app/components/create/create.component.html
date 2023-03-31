@@ -1,0 +1,24 @@
+<h2 class="mx-3">Create Post</h2>
+<form class="p-3">
+  <div class="mb-3">
+    <label for="formFile" class="form-label">choose a file</label>
+    <input class="form-control" type="file" id="formFile" />
+  </div>
+  <div class="input-group">
+    <span class="input-group-text">add caption</span>
+    <textarea class="form-control" aria-label="With textarea" rows="6"></textarea>
+  </div>
+  <mat-dialog-actions align="end">
+    <div class="col-auto m-1">
+      <button mat-button mat-dialog-close class="btn btn-secondary ">
+        Cancel
+      </button>
+    </div>
+
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary" (click)="submitPost()">
+        submit
+      </button>
+    </div>
+  </mat-dialog-actions>
+</form>

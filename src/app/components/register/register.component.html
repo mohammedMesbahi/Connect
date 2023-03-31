@@ -108,7 +108,7 @@
     <div class="card-body py-3 px-md-3">
       <div class="row d-flex justify-content-center">
         <div class="col-lg-8">
-          <h2 class="fw-bold mb-1">Sign up now</h2>
+          <h2 class="fw-bold mb-4">Sign up now</h2>
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div
               class="alert alert-danger col-auto"
@@ -120,8 +120,8 @@
             <!-- 2 column grid layout with text inputs for the first and last names -->
 
             <!-- first name start -->
-            <div class="row mb-4 row-cols-2">
-              <div class="mb-2 col">
+            <div class="row mb-4 row-cols-2 d-flex justify-content-between">
+              <div class="mb-2 col-5">
                 <div class="input-group has-validation">
                   <div class="col form-floating is-invalid">
                     <input

@@ -50,8 +50,10 @@ export class AuthService {
       .get(`${environment.apiUrl}/api/auth/signout`, { withCredentials: true })
       .pipe(
         map((message) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          // remove user from local storage to log user out
           localStorage.removeItem('user');
+          // remove message from local storage after successful signout
+          localStorage.removeItem('chats');
           return message;
         })
       );

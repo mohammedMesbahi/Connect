@@ -37,6 +37,12 @@
           <app-notifications></app-notifications>
         </ng-container>
         <ng-container *ngIf="!showNotifications"> <!-- the section i will hide if the user clicks on "notifications" -->
+          <!-- creat -->
+          <div class="section" (click)="openCreatePostDialog()">
+            <i class="bi bi-plus-circle"></i>
+            <span>create</span>
+          </div>
+          <!-- <button mat-button (click)="openCreatePostDialog()">Create Post</button> -->
           <!-- profile -->
           <div class="section" (click)="changeViewTo('profile')">
             <i class="bi bi-person-circle"></i>
