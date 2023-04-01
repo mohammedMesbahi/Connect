@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { User } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,7 @@ export class UserService {
       // if not search term, return empty User array.
       return of([]);
     }
-    return this.http.get<User[]>(`${this.usersUrl}/?name=${term}`).pipe(
+    return this.http.get<User[]>(`${this.usersUrl}?name=${term}`).pipe(
       tap(x => x.length ?
         this.log(`found users matching "${term}"`) :
         this.log(`no users matching "${term}"`)),
@@ -114,63 +115,4 @@ export class UserService {
   private log(message: string) {
     console.log(`UserService: ${message}`);
   }
-}
-export interface Post {
-  _id: string
-  owner: Owner,
-  caption: string
-  media?: string
-  reactions: Reaction[],
-  comments: Comment[],
-  date: string,
-}
-export interface Owner {
-  _id: string,
-  name: string,
-  avatar: string
-}
-export interface User {
-  _id: string,
-  name: string,
-  email:string,
-  avatar: string,
-  password?:string,
-  posts?:Post[],
-  conversations?:Conversation[],
-  following?:Owner[],
-  followers?:Owner[]
-
-}
-export interface Conversation{
-  _id:string,
-  participents:Owner[]
-  messages:Message[],
-  date:string
-}
-export interface Message{
-  _id:string,
-  sender:Owner,
-  recievers:string[],
-  content:string,
-  seenBy:string[],
-  createdAt?:string,
-  updateAt?:string
-}
-export interface Reaction {
-  _id: string
-  owner: Owner,
-  date: string,
-}
-export interface Comment{
-  _id: string
-  owner: Owner,
-  commentText: string
-  date: string,
-  replays: Replay[]
-}
-export interface Replay{
-  _id: string,
-  owner: Owner,
-  replayText: string
-  date:string
 }

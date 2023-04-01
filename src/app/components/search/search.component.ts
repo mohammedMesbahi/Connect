@@ -4,7 +4,8 @@ import { Observable, Subject } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
-import { User, UserService } from 'src/app/services/user.service';
+import {UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/_models';
 
 @Component({
   selector: 'app-search',

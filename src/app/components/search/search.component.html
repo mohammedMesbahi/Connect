@@ -1,16 +1,17 @@
-<input
-  type="text"
-  id="inputUserId"
-  placeholder="Enter a name"
-  #searchBox id="search-box" (input)="search(searchBox.value)"
-/>
+<input type="text" id="inputUserId" placeholder="Enter a name" #searchBox id="search-box"
+  (input)="search(searchBox.value)" />
 
 <div class="users">
-  <ul *ngFor="let user of users$ | async" class="user">
-    <a class="user" routerLink="/profile/{{user._id}}">
-      <img [src]="user.avatar" alt="" srcset="" class="pimage" />
-      <h5>{{ user.name }}</h5>
-    </a>
+  <ul>
+    <li class="user" *ngFor="let user of users$ | async">
+      <a routerLink="/profile/{{user._id}}">
+          <img [src]="user.avatar" alt="" srcset="" class="pimage" />
+          <div class="name-email">
+            <span>{{ user.name }}</span>
+            <span>{{user.email}}</span>
+          </div>
+      </a>
+    </li>
   </ul>
   <!-- <div *ngIf="users.length == 0" class="notFound">Not Found</div> -->
 </div>
@@ -18,19 +19,19 @@
 <!-- loading template -->
 <div *ngIf="isLoading">
   <div class="user">
-    <img class="skeleton"/>
+    <img class="skeleton" />
     <div class="title skeleton-text bold" data-title>
       <div class="skeleton skeleton-text"></div>
     </div>
   </div>
   <div class="user">
-    <img class="skeleton"/>
+    <img class="skeleton" />
     <div class="title skeleton-text bold" data-title>
       <div class="skeleton skeleton-text"></div>
     </div>
   </div>
   <div class="user">
-    <img class="skeleton"/>
+    <img class="skeleton" />
     <div class="title skeleton-text bold" data-title>
       <div class="skeleton skeleton-text"></div>
     </div>

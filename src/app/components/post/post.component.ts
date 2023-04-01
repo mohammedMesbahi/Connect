@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-import { Post } from 'src/app/services/user.service';
+import { Post } from 'src/app/_models';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',

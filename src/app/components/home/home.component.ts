@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/services/data.service';
-import { Post } from 'src/app/services/user.service';
+import { Observable } from 'rxjs';
+import { PostService } from 'src/app/services/post.service';
+import { Post } from 'src/app/_models';
 
 @Component({
   selector: 'app-home',
@@ -8,31 +9,26 @@ import { Post } from 'src/app/services/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private _posts:Post | undefined;
+  posts: Post[] = [];
   public _isLoading:boolean = true;
 
-  constructor(private dataservice:DataService){}
+  constructor(private postService:PostService){}
   ngOnInit(): void {
-    // Perform any initialization tasks here.
-    /* this.dataservice.getPosts().subscribe({
-      next:(data)=>{
-        this._posts=data;
-        this._isLoading=false;
-      }
-    }) */
-    this.dataservice.getPosts().subscribe({
-      next:(data) => {
-        this._posts = data;
-        this._isLoading = false
-      }
-    })
+    this.getPosts();
   }
-  get posts():any{
-    return this._posts;
+  getPosts(): void {
+    this.postService.getPosts()
+    .subscribe(posts => this.posts = posts);
   }
-  get isLoading(){
-    return this._isLoading;
+
+  add(): void {
+
   }
+
+  delete(): void {
+
+  }
+
   set isLoading(data:boolean){
     this._isLoading=data
   }
