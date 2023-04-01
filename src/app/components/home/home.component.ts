@@ -20,7 +20,12 @@ export class HomeComponent implements OnInit {
         this._isLoading=false;
       }
     }) */
-
+    this.dataservice.getPosts().subscribe({
+      next:(data) => {
+        this._posts = data;
+        this._isLoading = false
+      }
+    })
   }
   get posts():any{
     return this._posts;

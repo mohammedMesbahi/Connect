@@ -12,11 +12,11 @@ export class DataService {
 
 
 
-  private postUrl = 'https://dummyjson.com/posts';
+  private postUrl = "";
 
   constructor(private http: HttpClient,private messagesService:MessagesService) {}
   getPosts() {
-    return this.http.get(this.postUrl).pipe(map((data: any) => data.posts));
+    return this.http.get(`/api/posts`,{ withCredentials: true }).pipe(map((data: any) => data));
   }
   public getUsers() {
     return this.http.get(

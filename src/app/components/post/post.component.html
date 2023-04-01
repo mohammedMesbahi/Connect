@@ -1,17 +1,31 @@
-<div class="post" [id]="post.id" *ngIf="post">
-    <div class="profileInfo">
-        <div class="css-after-gradiant">
-            <img [src]="'https://i.pravatar.cc/34'" class="skeleton" />
+<div class="post" [id]="post._id" *ngIf="post">
+  <div class="profileInfo">
+    <div class="css-after-gradiant">
+      <img [src]="post.owner.avatar" class="skeleton" />
+    </div>
+    <h3>{{post.owner.name}}</h3>
+  </div>
+  <div class="body">
+    <img [src]="post.media" *ngIf="post.media">
+    <p>{{post.caption | summary:300}} </p>
+  </div>
+  <div class="recactions">
+    <button class="like"><i class="bi bi-heart"></i> <span>{{post.reactions.length}}</span></button>
+    <button class="commont"><i class="bi bi-card-heading"></i></button>
+  </div>
+  <button class="btnComments" *ngIf="post.comments.length" (click)="shoComments=!shoComments">
+    view all
+    {{post.comments.length}} comments</button>
+  <div *ngIf="shoComments">
+    <ng-container *ngFor="let comment of post.comments">
+      <div class="comment">
+        <div class="info">
+          <img [src]="comment.owner.avatar" class="skeleton" />
+          <span>{{comment.owner.name}}</span>
         </div>
-        <h3>Lorem ipsum</h3>
-    </div>
-    <div class="body">
-        <h4>{{post.title }}</h4>
-        <p>{{post.body | summary:100}}</p>
-    </div>
-    <div class="recactions">
-        <button class="like"><i class="bi bi-heart"></i> <span>{{post.reactions}}</span></button>
-        <button class="commont"><i class="bi bi-card-heading"></i></button>
-    </div>
-    <textarea rows="1" class="inputComment" type="text" placeholder="Add a comment"></textarea>
+        <p>{{comment.commentText}}</p>
+      </div>
+    </ng-container>
+  </div>
+  <textarea rows="1" class="inputComment" type="text" placeholder="Add a comment"></textarea>
 </div>

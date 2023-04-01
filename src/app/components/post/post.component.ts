@@ -7,13 +7,13 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 })
 export class PostComponent {
   @Input('post') post!: Post;
-
+  shoComments = false;
 
 }
 export interface Post {
   owner: Owner,
   caption: string
-  media: string
+  media?: string
   reactions: [
     {
       owner:Owner,

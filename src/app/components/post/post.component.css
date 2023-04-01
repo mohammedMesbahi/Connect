@@ -13,7 +13,7 @@
     padding: 10px;
     padding-left: 0px;
 }
-/* 
+/*
 STYLE AMIGE PROFILE
 
 */
@@ -24,7 +24,7 @@ STYLE AMIGE PROFILE
 }
 /* END */
 
-/* 
+/*
  like button
 */
 .recactions {
@@ -49,4 +49,31 @@ STYLE AMIGE PROFILE
 .inputComment:focus{
     background: none;
     outline: none;
+}
+.body img{
+  width: 99%;
+  align-self: center;
+}
+button.btnComments{
+  background-color: inherit;
+  border: none;
+  align-self: flex-start;
+}
+.comment{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left:8px;
+}
+.comment img{
+  width: 25px;
+  border-radius: 50%;
+}
+.info{
+ display: flex;
+ flex-direction: row;
+ gap: 10px;
+}
+*{
+  transition: 0.5;
 }
