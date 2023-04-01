@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionsService } from 'src/app/services/actions.service';
-import { DataService } from 'src/app/services/data.service';
+import { Observable, Subject } from 'rxjs';
+
+import {
+  debounceTime, distinctUntilChanged, switchMap
+} from 'rxjs/operators';
+import { User, UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-search',
@@ -8,36 +12,28 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit {
-  private _users: any | undefined = undefined;
-  private _u: any | undefined = undefined;
   public isLoading: boolean = false;
-  userToFind: string = '';
 
-  public get users(): any {
-    return this._users;
+  users$!: Observable<User[]>;
+  private searchTerms = new Subject<string>();
+
+  constructor(private userService: UserService) {}
+
+  // Push a search term into the observable stream.
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
-  constructor(private dataService: DataService) {}
+
   ngOnInit(): void {
-    // Perform any initialization tasks here.
-  }
-  /**
-   * searchForUser
-   */
-  public searchForUser(value: string) {
-    this._users=undefined;
-    if (value.trim().length) {
-      this.isLoading=true
-      this.dataService.getUsers().subscribe({
-        next: (data: any) => {
-          data = (data as Array<any>).filter((user: any) =>
-            (user.login as string).startsWith(value)
-          );
-          this._u = data;
-          this.isLoading = false;
-          console.log(data);
-        },
-        complete:()=> this._users=this._u
-      });
-    }
+    this.users$ = this.searchTerms.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.userService.searchUsers(term)),
+    );
   }
 }

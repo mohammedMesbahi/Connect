@@ -1,20 +1,18 @@
 <input
   type="text"
-  name="userName"
   id="inputUserId"
   placeholder="Enter a name"
-  #box
-  (keyup)="searchForUser(box.value)"
+  #searchBox id="search-box" (input)="search(searchBox.value)"
 />
 
-<div class="users" *ngIf="users">
-  <div *ngFor="let user of users" class="user">
-    <div class="user">
-      <img [src]="user.avatar_url" alt="" srcset="" class="skeleton" />
-      <h5>{{ user.login }}</h5>
-    </div>
-  </div>
-  <div *ngIf="users.length == 0" class="notFound">Not Found</div>
+<div class="users">
+  <ul *ngFor="let user of users$ | async" class="user">
+    <a class="user" routerLink="/profile/{{user._id}}">
+      <img [src]="user.avatar" alt="" srcset="" class="pimage" />
+      <h5>{{ user.name }}</h5>
+    </a>
+  </ul>
+  <!-- <div *ngIf="users.length == 0" class="notFound">Not Found</div> -->
 </div>
 
 <!-- loading template -->

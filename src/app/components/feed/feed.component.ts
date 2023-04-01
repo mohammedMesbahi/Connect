@@ -36,9 +36,7 @@ export class FeedComponent implements OnInit,OnDestroy{
   }
   openCreat(){
     const dialogRef = this.matDialog.open(CreateComponent,{
-      position: { top: '-40%', left: '30%' },
       width: '40%',
-      height: '50vh',
       disableClose: false
     });
     dialogRef.afterClosed().subscribe(result => {

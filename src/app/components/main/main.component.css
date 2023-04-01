@@ -9,3 +9,17 @@
   height: 100%;
   padding: 1rem;
 }
+/* scroll bar  */
+:host::-webkit-scrollbar {
+  width: 5px;
+}
+
+:host::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+:host::-webkit-scrollbar-thumb {
+  background-color: #C13584;
+  border-radius: 100px;
+}

@@ -1,7 +1,7 @@
 <nav>
   <h1>Connect</h1>
   <div class="sections">
-    <div>
+    <ng-container>
       <!-- home -->
       <div class="section" (click)="changeViewTo('home')">
         <i class="bi bi-house-door-fill"></i>
@@ -9,12 +9,14 @@
       </div>
 
       <!-- search -->
-      <div class="section" (click)="toggleSearch()">
-        <i class="bi bi-search"></i>
-        <span>Search</span>
-      </div>
-      <div>
-        <app-search *ngIf="showSearch"></app-search>
+      <div [ngClass]="{'search_seaction':showSearch}">
+        <div class="section " (click)="toggleSearch()">
+          <i class="bi bi-search"></i>
+          <span>Search</span>
+        </div>
+        <ng-container >
+          <app-search *ngIf="showSearch"></app-search>
+        </ng-container>
       </div>
 
       <div *ngIf="!showSearch"> <!-- the section i will hide if the user clicks on "search" -->
@@ -51,11 +53,12 @@
         </ng-container>
 
       </div>
-    </div>
+    </ng-container>
     <!-- log out -->
     <div class="section" *ngIf="!showNotifications && !showSearch" (click)="logOut()">
       <i class="bi bi-box-arrow-left"></i>
       <span>log out</span>
     </div>
+
   </div>
 </nav>

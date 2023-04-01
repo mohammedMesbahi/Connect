@@ -1,68 +1,101 @@
 nav {
-    width: 22vw;
-    padding: 1rem 0rem 1rem 1rem;
-    height: 100%;
-    /* background-color: aliceblue; */
+  width: 22vw;
+  padding: 1rem 0rem 1rem 1rem;
+  height: 100%;
+  /* background-color: aliceblue; */
+  overflow: auto;
+
 }
+
 .sections {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    justify-content: space-between;
-    height: 85%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 85%;
 }
-.sections .section{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
+
+.sections .section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
+
 .sections .section i {
-    font-size: 2em;
+  font-size: 2em;
 }
+
 .sections .section span {
-    font-size: 1.3em;
+  font-size: 1.3em;
 }
-.sections .section:hover{
-    background-color: #C13584;
-    color: white;
-    transition: 0.3s ;
+
+.sections .section:hover {
+  background-color: #C13584;
+  color: white;
+  transition: 0.3s;
 }
+
 h1 {
-    font-family: Brush Script MT;
-    font-size: 3.5em;
+  font-family: Brush Script MT;
+  font-size: 3.5em;
 }
+
 /* Use a media query to add a breakpoint at 800px: */
 @media screen and (max-width: 907px) {
-    .sections .section span {
-        font-size: 0px;
-        transition: 0.5s;
-    }
-    .left, .main, .right {
-      width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
-    }
-    h1 {
-        font-size: 150%;
-        transition: 0.5s;
-        text-align: center;
-    }
-    nav {
-        align-items: center;
-        padding-left: 0px;
-        padding-right: 0px;
-    }
-    .sections{
-        align-items: center;
-    }
+  .sections .section span {
+    font-size: 0px;
+    transition: 0.5s;
   }
-  .counter{
-    justify-self: right;
-    font-size: smaller;
-    color: white;
-    background-color: #C13584;
-    padding: 0px 12px;
-    border-radius: 5px;
+
+  .left,
+  .main,
+  .right {
+    width: 100%;
+    /* The width is 100%, when the viewport is 800px or smaller */
   }
+
+  h1 {
+    font-size: 150%;
+    transition: 0.5s;
+    text-align: center;
+  }
+
+  nav {
+    align-items: center;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .sections {
+    align-items: center;
+  }
+}
+
+.counter {
+  justify-self: right;
+  font-size: smaller;
+  color: white;
+  background-color: #C13584;
+  padding: 0px 12px;
+  border-radius: 5px;
+}
+.search_seaction {
+  overflow: auto;
+}
+/* scroll bar  */
+.search_seaction::-webkit-scrollbar {
+  width: 3px;
+}
+
+.search_seaction::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.search_seaction::-webkit-scrollbar-thumb {
+  background-color: #C13584;
+  border-radius: 100px;
+}
