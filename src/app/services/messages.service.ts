@@ -72,61 +72,63 @@ export class MessagesService {
   /* *
     seenMessages event
   */
-  public onSeenMessages() { return this._socket.fromEvent('newSeenMessages').pipe(map((data: any) => {
-    let user: User | null = JSON.parse(localStorage.getItem('user') as string);
-    if (user) {
-      let index: number = user.conversations?.findIndex(conversation => {
-        conversation._id === data.conversationId
-      })
-      if (index && index != -1) {
-        data.messages.forEach((message:any) => {
-          let messagIndex:number = -1;
-          messagIndex = user?.conversations.at(index)?.messages.findIndex(m => m._id===message) as number;
-          if (messagIndex !=-1) {
-            user?.conversations?.at(index)?.messages.at(messagIndex)?.seenBy.push(data.seenBy);
-          }
-
+  public onSeenMessages() {
+    return this._socket.fromEvent('newSeenMessages').pipe(map((data: any) => {
+      let user: User | null = JSON.parse(localStorage.getItem('user') as string);
+      if (user) {
+        let index: number = user.conversations?.findIndex(conversation => {
+          conversation._id === data.conversationId
         })
-        localStorage.setItem('user',
-          JSON.stringify(user)
-        )
-        this._conversationsEmmiter.next(user.conversations)
-      }
+        if (index && index != -1) {
+          data.messages.forEach((message: any) => {
+            let messagIndex: number = -1;
+            messagIndex = user?.conversations.at(index)?.messages.findIndex(m => m._id === message) as number;
+            if (messagIndex != -1) {
+              user?.conversations?.at(index)?.messages.at(messagIndex)?.seenBy.push(data.seenBy);
+            }
 
-    }
-    return data;
-   })) }
+          })
+          localStorage.setItem('user',
+            JSON.stringify(user)
+          )
+          this._conversationsEmmiter.next(user.conversations)
+        }
+
+      }
+      return data;
+    }))
+  }
   public markAsSeenMessages(data: any) { this._socket.emit('markAsSeenMessages', data) }
 
   disconnect() { if (this._socket) { this._socket.disconnect() } }
 
 
-  loadChats() {
+  getConversations() {
     return this.http
-      .get(`/api/messages/allMessages`, {
+      .get<Conversation[]>(`/api/messages/conversations`, {
         withCredentials: true,
       })
       .pipe(
-        map((message: any) => {
-
+        map((conversations: Conversation[]) => {
+          localStorage.setItem('conversations', JSON.stringify(conversations));
+          this.conversationsEmmiter.next(conversations);
         })
       );
   }
 
   // a method to add the new messages to the chats stored in the localhost
   upDateConversationInLocalStorage(conversationId: string, message: Message) {
-
-    let user: User | null = JSON.parse(localStorage.getItem('user') as string);
-    if (user) {
-      let index: number | undefined = user.conversations?.findIndex(conversation => {
-        conversation._id === conversationId
+    let conversations: Conversation[] | null = JSON.parse(localStorage.getItem('conversations') as string);
+    if (conversations) {
+      let index: number = conversations.findIndex(conversation => {
+        // console.log(`(conversation._id : ${conversation._id}) - (conversation._id : ${conversationId}) = ${conversation._id == conversationId}`);
+        return conversation._id == conversationId
       })
-      if (index && index != -1) {
-        user.conversations?.at(index)?.messages.push(message);
-        localStorage.setItem('user',
-          JSON.stringify(user)
-        )
-        this._conversationsEmmiter.next(user.conversations)
+      if (index != -1) {
+        conversations.at(index)?.messages.push(message);
+        localStorage.setItem('conversations',JSON.stringify(conversations))
+        this._conversationsEmmiter.next(conversations)
+        console.log("updated conversations in the localstorage");
       }
 
     }

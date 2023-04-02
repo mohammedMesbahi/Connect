@@ -7,6 +7,8 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { MessagesService } from '../services/messages.service';
+import { Conversation, Message } from '../_models';
 
 @Component({
   selector: 'app-inbox',
@@ -14,26 +16,27 @@ import {
   styleUrls: ['./inbox.component.css'],
 })
 export class InboxComponent implements OnChanges {
-  @Input() chat: any;
-  @Output() currentChat = new EventEmitter();
-  private _me: string;
+
+  @Input() conversation!: Conversation;
+  @Output() currentconversation = new EventEmitter();
+
+  _id: string;
   unReadMessages: number = 0;
 
-  constructor() {
-    this._me = JSON.parse(localStorage.getItem('user') as string).user;
+  constructor(public messagesService:MessagesService) {
+    this._id = messagesService._id();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['chat']) {
+    if (changes['conversation']) {
       this.setNumberOfUnreadMessages();
     }
   }
 
   private setNumberOfUnreadMessages() {
     let counter: any = 0;
-    console.log(this.chat.value);
-    this.chat?.value?.forEach((message: any) => {
-      if (message?.seen == false && message.reciever == this._me) {
+    this.conversation?.messages.forEach((message: Message) => {
+      if (message.receivers.includes(this._id) && !message.seenBy.includes(this._id)) {
         counter = counter + 1;
       }
     });
@@ -42,6 +45,6 @@ export class InboxComponent implements OnChanges {
 
   public onClick() {
     this.unReadMessages = 0;
-    this.currentChat.emit(this.chat);
+    this.currentconversation.emit(this.conversation);
   }
 }

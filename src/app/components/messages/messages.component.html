@@ -13,7 +13,7 @@
 
     <div class="chats flex-column">
       <ng-container *ngFor="let conversation of conversations">
-        <app-inbox [chat]="conversation" (currentChat)="setUser($event)"></app-inbox>
+        <app-inbox [conversation]="conversation" (currentconversation)="setUser($event)"></app-inbox>
       </ng-container>
     </div>
 
@@ -30,10 +30,10 @@
 
     <ng-container *ngIf="ElevatedDiscussion">
       <div class="header flex-row " #profileId [id]="ElevatedDiscussion._id">
-        <div class="friendProfile flex-row">
+        <div class="friendProfile flex-row f-a-c">
           <ng-container *ngFor="let p of ElevatedDiscussion.participents">
             <ng-container *ngIf="p._id != me._id">
-              <img [src]="p.avatar" alt="" class="roundcorner" />
+              <img [src]="p.avatar" alt="" class="roundcorner profilePicture" />
               <span>{{p.name}}</span>
             </ng-container>
           </ng-container>
@@ -41,16 +41,16 @@
       </div>
       <ul #messagesDiv class="messages flex-column">
 
-        <li [ngClass]="{
-        'hisMessage':message.sender._id !=me._id,
-        'myMessage':message.sender._id==me._id
-      }" *ngFor="let message of ElevatedDiscussion.messages">
+        <li *ngFor="let message of ElevatedDiscussion.messages" [ngClass]="{
+          'hisMessage':message.sender !==me._id,
+          'myMessage':message.sender ==me._id
+        }">
           {{message.content}}
         </li>
       </ul>
       <div class="inputMessage flex-row space-around flex-row-center">
         <input type="text" name="" id="" placeholder="Message..."
-          (keyup.enter)="sendMessage(message.value,ElevatedDiscussion._id);message.value=''" #message />
+          (keyup.enter)="sendMessage(ElevatedDiscussion._id,ElevatedDiscussion.participents,message.value);message.value=''" #message />
         <button><i class="bi bi-send-fill"></i></button>
       </div>
     </ng-container>

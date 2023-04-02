@@ -32,8 +32,8 @@ export interface Conversation{
 }
 export interface Message{
   _id:string,
-  sender:Owner,
-  recievers:string[],
+  sender:string,
+  receivers:string[],
   content:string,
   seenBy:string[],
   createdAt?:string,

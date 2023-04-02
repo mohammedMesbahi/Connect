@@ -3,14 +3,14 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { UserService } from 'src/app/services/user.service';
-import { Conversation, Message, User } from 'src/app/_models';
+import { Conversation, Message, Owner, User } from 'src/app/_models';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css'],
 })
-export class MessagesComponent {
+export class MessagesComponent implements OnInit {
   @ViewChild('messagesDiv') m: ElementRef | undefined;
   private onConnection: Observable<any>;
   private onMessage: Observable<any>;
@@ -71,11 +71,14 @@ export class MessagesComponent {
     });
 
     this.onConnection.subscribe({
-
+      next:(data) => console.log(data)
     });
     this.OnDisconnection.subscribe({
-
+      next:(data)=> console.log(data)
     });
+  }
+  ngOnInit(): void {
+    this.messagesService.getConversations().subscribe();
   }
 
 
@@ -94,13 +97,14 @@ export class MessagesComponent {
     return message ? message._id : undefined;
   }
 
-  public setUser(conversation: Conversation) {
+  public setUser(conversation: any) {
+    console.log(conversation);
     this.ElevatedDiscussion = conversation;
 
     // chat.numberOfUnreadMessages = this.numberOfUnreadMessages(chat.value);
     let unSeenMessages = (conversation.messages).filter(
       (message: Message) => {
-        return (message.recievers.includes(this.me._id) && !message.seenBy.includes(this.me._id));
+        return (message.receivers.includes(this.me._id) && !message.seenBy.includes(this.me._id));
       }
     );
     if (unSeenMessages.length) {
@@ -121,10 +125,16 @@ export class MessagesComponent {
 
   */
 
-  public sendMessage(message: string, reciever: string) {
+  public sendMessage(conversationId: string, receivers: Owner[],content:string) {
+    if (!content.length) {
+      return
+    }
+    let r:string[] = [];
+    receivers.forEach(p => r.push(p._id));
     this.messagesService.emitMessage({
-      receivers: [reciever],
-      content: message,
+      receivers: r,
+      content: content.trim(),
+      conversationId:conversationId
     });
   }
 

@@ -1,8 +1,20 @@
 <div class="chat flex-row" (click)="onClick()">
-  <img src="../../../assets/images-2.png" alt=""  class="roundcorner profilePicture"/>
+
+  <ng-container *ngFor="let p of conversation.participents">
+    <ng-container *ngIf="p._id != _id">
+      <img [src]="p.avatar" alt="" class="roundcorner profilePicture" />
+    </ng-container>
+  </ng-container>
+
+
   <div class="text flex-column ">
-    <span><b>{{chat.key}}</b></span>
-    <span class="lastMessage">{{chat.value[chat.value.length- 1].content}}</span>
+    <ng-container *ngFor="let p of conversation?.participents">
+      <ng-container *ngIf="p._id != _id">
+        <span><b>{{p.name}}</b></span>
+      </ng-container>
+    </ng-container>
+    <span class="lastMessage">{{conversation.messages[conversation.messages.length- 1].content}}</span>
   </div>
+
   <span *ngIf="unReadMessages" class="unread-messages">{{unReadMessages}}</span>
 </div>

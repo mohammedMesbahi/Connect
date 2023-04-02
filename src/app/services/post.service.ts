@@ -20,7 +20,14 @@ export class PostService {
 
   /** GET posts from the server */
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postsUrl)
+    return this.http.get<Post[]>(this.postsUrl,this.httpOptions)
+      .pipe(
+        tap(_ => this.log('fetched posts')),
+        catchError(this.handleError<Post[]>('getposts', []))
+      );
+  }
+  getPostsById(id:string): Observable<Post[]> {
+    return this.http.get<Post[]>(this.postsUrl,this.httpOptions)
       .pipe(
         tap(_ => this.log('fetched posts')),
         catchError(this.handleError<Post[]>('getposts', []))

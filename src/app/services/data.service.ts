@@ -30,8 +30,8 @@ export class DataService {
     localStorage.removeItem("chats")
     localStorage.removeItem('user')
   }
-  loadChats(){
+  /* loadChats(){
     return this.messagesService.loadChats();
-  }
+  } */
 
 }
