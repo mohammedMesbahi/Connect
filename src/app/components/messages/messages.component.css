@@ -3,30 +3,38 @@
   height: 100%;
   width: 100%;
 }
+
 .flex-row,
 .flex-column {
   display: flex;
   gap: 5px;
 }
+
 .flex-row-center {
   align-items: center;
 }
+
 .flex-center {
   align-items: center;
   justify-content: center;
 }
+
 .flex-row {
   flex-direction: row;
 }
+
 .flex-column {
   flex-direction: column;
 }
+
 .flex-row-start {
   justify-content: flex-start;
 }
+
 .flex-column-start {
   align-items: flex-start;
 }
+
 :host {
   display: flex;
   flex-direction: row;
@@ -34,6 +42,7 @@
   height: 100%;
   align-items: center;
 }
+
 .container {
   height: 90%;
   width: 90%;
@@ -42,48 +51,58 @@
   border-radius: 10px;
   padding: 0px;
 }
+
 .nav {
   height: 100%;
   width: 34%;
   overflow: auto;
   border-right: 3px solid #f0f0f0;
 }
+
 .chats {
   overflow: auto;
 }
+
 .chat {
   padding: 10px 20px 10px 10px;
   width: 100%;
   gap: 10px;
   cursor: pointer;
 }
+
 .chat:hover {
   background-color: #efefef;
   transition: 0.3s;
 }
+
 .chatContainer {
   height: 100%;
   flex-grow: 2;
+  padding-bottom: 10px;
 }
 
 .roundcorner {
   border-radius: 50%;
 }
+
 .profilePicture {
   width: 53px;
   height: 53px;
 }
+
 .search input {
   border: none;
   padding: 2px 10px;
   border-radius: 7px;
   outline: 0px;
 }
+
 .messages {
   flex-grow: 5;
   overflow: auto;
   overflow-y: auto;
 }
+
 ul.messages {
   display: flex;
   flex-direction: column;
@@ -96,44 +115,54 @@ ul.messages {
   flex-grow: 2;
   list-style-type: none;
 }
+
 .hisMessage {
   align-self: flex-start;
 }
+
 .myMessage {
   align-self: flex-end;
 }
+
 ul.messages li {
   background-color: #efefef;
   padding: 10px 20px;
   border-radius: 18px;
 }
+
 .profile,
 .friendProfile {
   border-bottom: 3px solid #f0f0f0;
   padding: 5px 10px;
   width: 100%;
 }
-.f-a-c{
+
+.f-a-c {
   align-items: center;
 }
+
 .space-around {
   justify-content: space-around;
 }
+
 .inputMessage input {
   width: 90%;
   padding: 10px 20px;
   border: 1px solid black;
   border-radius: 20px;
 }
+
 .inputMessage button {
   padding: 3px 20px;
   background-color: inherit;
   font-size: larger;
   border: none;
 }
+
 .emptyChat {
   gap: 20px;
 }
+
 .emptyChat button {
   background-color: #5b51d8;
   color: white;
@@ -142,14 +171,17 @@ ul.messages li {
   border-radius: 6px;
   padding: 10px 30px;
 }
+
 .emptyChat i.bi.bi-send {
   font-size: 3rem;
 }
+
 .lastMessage {
   font-weight: lighter;
   font-size: smaller;
   justify-self: flex-start;
 }
+
 /* scroll bar  */
 ul.messages::-webkit-scrollbar {
   width: 6px;
@@ -164,6 +196,7 @@ ul.messages::-webkit-scrollbar-thumb {
   background-color: #d4aa70;
   border-radius: 100px;
 }
+
 span.unread-messages {
   font-size: 9px;
   color: #fff;
@@ -179,3 +212,97 @@ span.unread-messages {
   align-items: center;
   justify-content: center;
 }
+
+/* new style for messages */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
+.message-blue {
+  position: relative;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 35%;
+  min-height: 50px;
+  background-color: #eee;
+  text-align: left;
+  font: 400 .9em 'Open Sans', sans-serif;
+  /*     border: 1px solid #97C6E3;
+ */
+  border-radius: 10px;
+}
+
+.message-orange {
+  position: relative;
+  margin-bottom: 10px;
+  margin-left: calc(100% - 240px);
+  padding: 10px;
+  min-height: 50px;
+  color: white;
+  background: rgb(255, 105, 104);
+  background: linear-gradient(140deg, rgba(255, 105, 104, 1) 0%, rgba(163, 52, 250, 1) 77%, rgba(6, 149, 255, 1) 100%);
+  text-align: left;
+  font: 400 .9em 'Open Sans', sans-serif;
+/*   border: 1px solid #dfd087;
+ */  border-radius: 10px;
+}
+
+.message-content {
+  padding: 0;
+  margin: 0;
+}
+
+.message-timestamp-right {
+  position: absolute;
+  font-size: .85em;
+  font-weight: 300;
+  bottom: 1px;
+  right: 18px;
+}
+
+.message-timestamp-left {
+  position: absolute;
+  font-size: .85em;
+  font-weight: 300;
+  bottom: 2px;
+  right: 18px;
+}
+
+.message-blue:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 15px solid #eee;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  top: 0;
+  left: -15px;
+}
+
+/* .message-blue:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 17px solid #97C6E3;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  top: -1px;
+  left: -17px;
+} */
+
+.message-orange:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-bottom: 15px solid #4c79ff;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  bottom: 0;
+  right: -13px;
+}
+
+
+
+/* end */

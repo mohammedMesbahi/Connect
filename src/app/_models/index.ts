@@ -36,8 +36,7 @@ export interface Message{
   receivers:string[],
   content:string,
   seenBy:string[],
-  createdAt?:string,
-  updateAt?:string
+  date?:string,
 }
 export interface Reaction {
   _id: string
