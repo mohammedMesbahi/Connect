@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable ,Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { MessagesService } from 'src/app/services/messages.service';
+import { UserService } from 'src/app/services/user.service';
+import { Conversation, Message, User } from 'src/app/_models';
 
 @Component({
   selector: 'app-messages',
@@ -13,21 +15,23 @@ export class MessagesComponent {
   private onConnection: Observable<any>;
   private onMessage: Observable<any>;
   private OnDisconnection: Observable<any>;
-  private _chats = new Map();
-  private _myEmitter: BehaviorSubject<any>;
+  me:User ;
+  conversations!: Conversation[];
 
-  private _me = JSON.parse(localStorage.getItem('user') as string).user;
-  private _selectedUser: any | undefined = undefined;
-  onSeenMessages: Subscription;
+  conversationsEmmiter: BehaviorSubject<Conversation[]>;
+
+  ElevatedDiscussion: Conversation | undefined = undefined;
+
+  onSeenMessages: Observable<any>;
 
 
   constructor(
-    private messagesService: MessagesService,
-    private dataService: DataService
+    private messagesService: MessagesService,userService:UserService
   ) {
+    this.me = userService.myProfile();
     this.onConnection = this.messagesService.onConnection();
     this.onMessage = this.messagesService.onMessage();
-    this.onSeenMessages = this.messagesService.onSeenMessages().subscribe();
+    this.onSeenMessages = this.messagesService.onSeenMessages();
 
     // this.OnComment = this.messagesService.OnComment();
     // this.OnReplay = this.messagesService.OnReplay();
@@ -35,31 +39,40 @@ export class MessagesComponent {
     // this.OnNewPost = this.messagesService.OnNewPost();
 
     this.OnDisconnection = this.messagesService.OnDisconnection();
-    this._myEmitter = this.messagesService.myEmitter;
+    this.conversationsEmmiter = this.messagesService.conversationsEmmiter;
 
-    this._myEmitter.subscribe({
-      next: (chats) => {
-        this._chats = chats;
+    this.conversationsEmmiter.subscribe({
+      next: (conversations: Conversation[]) => {
+        this.conversations = conversations;
+      },
+    });
+    this.onSeenMessages.subscribe(({
+      next: (data: any) => {
+        if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
+          data.messages.forEach((message: any) => {
+            let messagIndex: number = -1;
+            messagIndex = this.ElevatedDiscussion?.messages.findIndex(m => m._id === message) as number;
+            if (messagIndex != -1) {
+              this.ElevatedDiscussion?.messages.at(messagIndex)?.seenBy.push(data.seenBy);
+            }
+
+          })
+        }
+      },
+    }))
+
+    this.onMessage.subscribe({
+      next: (data: any) => {
+        if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
+          this.ElevatedDiscussion.messages.push(data.message)
+          this.scrollToBottom();
+        }
       },
     });
 
     this.onConnection.subscribe({
 
     });
-
-    this.onMessage.subscribe({
-      next: (message: any) => {
-        if (this.selectedUser && (message.sender == this.selectedUser.userId || message.reciever == this.selectedUser.userId)) {
-          let tmp = new Map(Object.entries(this.selectedUser));
-          let newArray: any = tmp.get('value');
-          newArray.push(message);
-          tmp.set('value', newArray);
-          this.selectedUser = Object.fromEntries(tmp.entries());
-          this.scrollToBottom();
-        }
-      },
-    });
-
     this.OnDisconnection.subscribe({
 
     });
@@ -76,74 +89,55 @@ export class MessagesComponent {
     });
   }
 
-  public get me() {
-    return this._me;
-  }
-  public set me(value) {
-    this._me = value;
-  }
 
-  /* private _selectedUser = {
-    userName:"user2",
-    userId:"63ef9b422739b278209cbd9d",
-    imgUrl:"https://i.pravatar.cc/34"
-
-  }; */
-
-  public get selectedUser() {
-    return this._selectedUser;
-  }
-  public set selectedUser(value) {
-    this._selectedUser = value;
-  }
-
-  public get chats() {
-    return this._chats;
-  }
-  public set chats(value) {
-    this._chats = value;
-  }
-
-  /*   trackMessage(index: any, message: any) {
+  trackMessage(index: any, message: Message) {
     return message ? message._id : undefined;
-  } */
+  }
 
-  public setUser(chat: any) {
-    this.selectedUser = chat;
+  public setUser(conversation: Conversation) {
+    this.ElevatedDiscussion = conversation;
 
     // chat.numberOfUnreadMessages = this.numberOfUnreadMessages(chat.value);
-    let unSeenMessages = (chat.value as any[]).filter(
-      (message: any) => {
-        return (!message.seen && message.reciever === this._me);
+    let unSeenMessages = (conversation.messages).filter(
+      (message: Message) => {
+        return (message.recievers.includes(this.me._id) && !message.seenBy.includes(this.me._id));
       }
     );
     if (unSeenMessages.length) {
-      let messages = (chat.value as any[])
-        .map((message: any, index) => {
-          return {
-            _id: message._id,
-          };
-        });
-      this.messagesService.markAsSeenMessages(messages);
+      let data: { conversationId: string, messages: string[] } = { conversationId: "", messages: [] };
+      conversation.messages.forEach((message: Message) => data.messages.push(message._id));
+      data.conversationId = conversation._id;
+      this.messagesService.markAsSeenMessages(data);
     }
     this.scrollToBottom();
   }
 
+  /*
+    {
+    "receivers":["64243dd585520c47472cd6ff"],
+    "content":"message 5 from user1",
+    "conversationId":"642617b86c9ae3105722210a"
+}
+
+  */
+
   public sendMessage(message: string, reciever: string) {
     this.messagesService.emitMessage({
-      reciever: reciever,
+      receivers: [reciever],
       content: message,
-      userName: 'mesbahi',
     });
   }
 
   public numberOfUnreadMessages(array: any) {
     let counter: any = 0;
     array.forEach((message: any) => {
-      if (message?.seen == false && message?.reciever == this._me ) {
+      if (message?.seen == false && message?.reciever == this.me._id) {
         counter = counter + 1;
       }
     });
     return counter;
+  }
+  seenByMe(seenBy:string[]):boolean{
+    return seenBy.includes(this.me._id);
   }
 }

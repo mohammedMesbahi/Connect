@@ -3,8 +3,8 @@
   <div class="nav flex-column">
 
     <div class="profile flex-row flex-row-center">
-      <img src="../../../assets/images-1.png" alt="" class="roundcorner profilePicture" />
-      <span>Mohammed mesbahi</span>
+      <img [src]="me.avatar" alt="" class="roundcorner profilePicture" />
+      <span>{{me.name}}</span>
     </div>
 
     <div class="search">
@@ -12,15 +12,15 @@
     </div>
 
     <div class="chats flex-column">
-      <ng-container *ngFor="let chat of chats | keyvalue">
-        <app-inbox [chat]="chat" (currentChat)="setUser($event)"></app-inbox>
+      <ng-container *ngFor="let conversation of conversations">
+        <app-inbox [chat]="conversation" (currentChat)="setUser($event)"></app-inbox>
       </ng-container>
     </div>
 
   </div>
 
-  <div class="chatContainer flex-column" >
-    <ng-container *ngIf="!selectedUser">
+  <div class="chatContainer flex-column">
+    <ng-container *ngIf="!ElevatedDiscussion">
       <div class="emptyChat flex-column flex-center fill">
         <i class="bi bi-send"></i>
         <span>send private photos and messages to a friend or group</span>
@@ -28,29 +28,32 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="selectedUser">
-      <div class="header flex-row " #profileId [id]="selectedUser.key">
-      <div class="friendProfile flex-row">
-        <img [src]="selectedUser.imgUrl" alt="" class="roundcorner"/>
-        <span>{{selectedUser.key}}</span>
+    <ng-container *ngIf="ElevatedDiscussion">
+      <div class="header flex-row " #profileId [id]="ElevatedDiscussion._id">
+        <div class="friendProfile flex-row">
+          <ng-container *ngFor="let p of ElevatedDiscussion.participents">
+            <ng-container *ngIf="p._id != me._id">
+              <img [src]="p.avatar" alt="" class="roundcorner" />
+              <span>{{p.name}}</span>
+            </ng-container>
+          </ng-container>
+        </div>
       </div>
-    </div>
-    <ul #messagesDiv class="messages flex-column">
+      <ul #messagesDiv class="messages flex-column">
 
-      <li [ngClass]="{
-        'hisMessage':message.sender!=me,
-        'myMessage':message.sender==me
-      }" *ngFor="let message of selectedUser.value">
-        {{message.content}}
-      </li>
-    </ul>
-    <div class="inputMessage flex-row space-around flex-row-center">
-      <input type="text" name="" id="" placeholder="Message..." (keyup.enter)="sendMessage(message.value,selectedUser.key);message.value=''" #message />
-      <button><i class="bi bi-send-fill"></i></button>
-    </div>
+        <li [ngClass]="{
+        'hisMessage':message.sender._id !=me._id,
+        'myMessage':message.sender._id==me._id
+      }" *ngFor="let message of ElevatedDiscussion.messages">
+          {{message.content}}
+        </li>
+      </ul>
+      <div class="inputMessage flex-row space-around flex-row-center">
+        <input type="text" name="" id="" placeholder="Message..."
+          (keyup.enter)="sendMessage(message.value,ElevatedDiscussion._id);message.value=''" #message />
+        <button><i class="bi bi-send-fill"></i></button>
+      </div>
     </ng-container>
 
   </div>
 </div>
-
-

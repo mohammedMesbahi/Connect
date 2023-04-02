@@ -90,6 +90,10 @@ export class UserService {
     );
   }
 
+  myProfile():User{
+    return JSON.parse(localStorage.getItem('user') as string)
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -115,4 +119,5 @@ export class UserService {
   private log(message: string) {
     console.log(`UserService: ${message}`);
   }
+
 }

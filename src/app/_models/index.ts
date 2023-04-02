@@ -19,7 +19,7 @@ export interface User {
   avatar: string,
   password?:string,
   posts?:Post[],
-  conversations?:Conversation[],
+  conversations:Conversation[],
   following?:Owner[],
   followers?:Owner[]
 
