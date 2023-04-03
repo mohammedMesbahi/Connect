@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Post, Reaction,Comment } from '../_models';
+import { Post, Reaction, Comment, NotificationToSend } from '../_models';
+import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +25,7 @@ export class PostService {
   };
 
   constructor(
-    private http: HttpClient) {
+    private http: HttpClient, private notificationService: NotificationService) {
     this._postsEmmiter = new BehaviorSubject(this.getPostsFromLocalStorage());
     this.getPosts().subscribe({
       next: (posts => this.postsEmmiter.next(posts))
@@ -116,41 +117,51 @@ export class PostService {
   }
 
   /** PUT: add or rmove like  */
-  toggleLike(postId: string): Observable<{liked:boolean,reaction:Reaction}> {
-    return this.http.put<{liked:boolean,reaction:Reaction}>("/api/posts/toggleLike", {postId:postId}, this.httpOptions).pipe(
-      map((data:{liked:boolean,reaction:Reaction}) => {
-        this.updateReactionsOfAPost(postId,data);
+  toggleLike(post: Post): Observable<{ liked: boolean, reaction: Reaction }> {
+    return this.http.put<{ liked: boolean, reaction: Reaction }>("/api/posts/toggleLike", { postId: post._id }, this.httpOptions).pipe(
+      map((data: { liked: boolean, reaction: Reaction }) => {
+        this.updateReactionsOfAPost(post._id, data);
+        if (data.liked) {
+          let notificationToSend: NotificationToSend = {
+            notifier: this.myId(),
+            recipients: [post.owner._id],
+            notificationContent: `${data.reaction.owner.name} reacted on one of your posts`,
+            postId: post._id
+          }
+
+          this.notificationService.emitNotification(notificationToSend)
+        }
         return data;
       }),
       catchError(this.handleError<any>('updatePost'))
     );
   }
-  updateReactionsOfAPost(postId:string,data:{liked:boolean,reaction:Reaction}){
+  updateReactionsOfAPost(postId: string, data: { liked: boolean, reaction: Reaction }) {
     let posts = this.getPostsFromLocalStorage();
     let index = posts.findIndex(p => p._id == postId);
     if (index != -1) {
       if (data.liked) {
         posts[index].reactions.push(data.reaction);
       } else {
-        let reactionIndex:number = posts[index].reactions.findIndex(r => r.owner._id = data.reaction.owner._id);
+        let reactionIndex: number = posts[index].reactions.findIndex(r => r.owner._id = data.reaction.owner._id);
         if (reactionIndex != -1) {
-          posts[index].reactions.splice(reactionIndex,1);
+          posts[index].reactions.splice(reactionIndex, 1);
         }
       }
     }
     this.upDatePostsInLocalStorage(posts);
   }
   /** PUT : add comment */
-  addComment(post:Post,commentText:string): Observable<{postId:string,comment:Comment}>  {
-    return this.http.put<{postId:string,comment:Comment}>("/api/posts/comment", {postId:post._id,commentText:commentText}, this.httpOptions).pipe(
-      map((data:{postId:string,comment:Comment}) => {
+  addComment(post: Post, commentText: string): Observable<{ postId: string, comment: Comment }> {
+    return this.http.put<{ postId: string, comment: Comment }>("/api/posts/comment", { postId: post._id, commentText: commentText }, this.httpOptions).pipe(
+      map((data: { postId: string, comment: Comment }) => {
         this.updateCommentsOfAPost(data);
         return data;
       }),
       catchError(this.handleError<any>('updatePost'))
     );
   }
-  updateCommentsOfAPost(data:{postId:string,comment:Comment}){
+  updateCommentsOfAPost(data: { postId: string, comment: Comment }) {
     let posts = this.getPostsFromLocalStorage();
     let index = posts.findIndex(p => p._id == data.postId);
     if (index != -1) {
@@ -158,8 +169,8 @@ export class PostService {
     }
     this.upDatePostsInLocalStorage(posts);
   }
-  upDatePostsInLocalStorage(posts:Post[]){
-    localStorage.setItem('posts',JSON.stringify(posts));
+  upDatePostsInLocalStorage(posts: Post[]) {
+    localStorage.setItem('posts', JSON.stringify(posts));
   }
   getPostsFromLocalStorage(): Post[] {
     if (localStorage.getItem("posts")) {
@@ -167,7 +178,7 @@ export class PostService {
     } else
       return []
   }
-  myId():string {
+  myId(): string {
     return JSON.parse(localStorage.getItem('user') as string)._id;
   }
 

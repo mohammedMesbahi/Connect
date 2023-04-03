@@ -30,6 +30,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { CreateComponent } from './components/create/create.component';
 import { UserService } from './services/user.service';
 import { PostService } from './services/post.service';
+import { NotificationService } from './services/notification.service';
 
 const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notifications`, options: {withCredentials:true} };
 @NgModule({
@@ -61,7 +62,7 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     MatDialogModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthService,ActionsService,MessagesService,UserService,PostService,
+  providers: [AuthService,ActionsService,MessagesService,UserService,PostService,NotificationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

@@ -26,7 +26,7 @@ export class PostComponent implements OnInit {
 
   toggleLike() {
     this.didILiked = !this.didILiked;
-    this.postsService.toggleLike(this.post._id).subscribe({
+    this.postsService.toggleLike(this.post).subscribe({
       next: (data: { liked: boolean, reaction: Reaction }) => {
         if (data.liked) {
           this.post.reactions.push(data.reaction);
