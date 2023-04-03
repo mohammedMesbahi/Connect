@@ -11,7 +11,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class MessagesService {
-  private nameSpacesUrl = '/messages_notifications';  // URL to web api
+  private nameSpacesUrl = '/messages_notifications';  // URL to socket
 
   private _conversationsEmmiter: BehaviorSubject<Conversation[]>;
 
@@ -118,7 +118,7 @@ export class MessagesService {
 
   // a method to add the new messages to the chats stored in the localhost
   upDateConversationInLocalStorage(conversationId: string, message: Message) {
-    let conversations: Conversation[] | null = JSON.parse(localStorage.getItem('conversations') as string);
+    let conversations: Conversation[] | null = this.getConversationsFromLocalStorage();
     if (conversations) {
       let index: number = conversations.findIndex(conversation => {
         // console.log(`(conversation._id : ${conversation._id}) - (conversation._id : ${conversationId}) = ${conversation._id == conversationId}`);
@@ -166,8 +166,8 @@ export class MessagesService {
   _id() { return JSON.parse(localStorage.getItem('user') as string)._id }
 
   getConversationsFromLocalStorage(): Conversation[] {
-    if (localStorage.getItem("user")) {
-      return JSON.parse(localStorage.getItem("user") as string).conversations;
+    if (localStorage.getItem("onversations")) {
+      return JSON.parse(localStorage.getItem("onversations") as string);
     } else {
       return [];
     }

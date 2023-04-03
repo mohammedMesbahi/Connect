@@ -1,14 +1,22 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { Post } from '../_models';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Post, Reaction } from '../_models';
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+
   private postsUrl = '/api/posts';  // URL to web api
 
+  private _postsEmmiter: BehaviorSubject<Post[]>;
+  public get postsEmmiter(): BehaviorSubject<Post[]> {
+    return this._postsEmmiter;
+  }
+  public set postsEmmiter(value: BehaviorSubject<Post[]>) {
+    this._postsEmmiter = value;
+  }
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true
@@ -16,18 +24,26 @@ export class PostService {
   };
 
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient) {
+    this._postsEmmiter = new BehaviorSubject(this.getPostsFromLocalStorage());
+    this.getPosts().subscribe({
+      next: (posts => this.postsEmmiter.next(posts))
+    })
+  }
 
   /** GET posts from the server */
-  getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postsUrl,this.httpOptions)
+  getPosts() {
+    return this.http.get<Post[]>(this.postsUrl, { withCredentials: true })
       .pipe(
-        tap(_ => this.log('fetched posts')),
+        map((posts: Post[]) => {
+          localStorage.setItem('posts', JSON.stringify(posts));
+          return posts
+        }),
         catchError(this.handleError<Post[]>('getposts', []))
       );
   }
-  getPostsById(id:string): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postsUrl,this.httpOptions)
+  getPostsById(id: string): Observable<Post[]> {
+    return this.http.get<Post[]>(this.postsUrl, this.httpOptions)
       .pipe(
         tap(_ => this.log('fetched posts')),
         catchError(this.handleError<Post[]>('getposts', []))
@@ -65,8 +81,8 @@ export class PostService {
     }
     return this.http.get<Post[]>(`${this.postsUrl}/?name=${term}`).pipe(
       tap(x => x.length ?
-         this.log(`found posts matching "${term}"`) :
-         this.log(`no posts matching "${term}"`)),
+        this.log(`found posts matching "${term}"`) :
+        this.log(`no posts matching "${term}"`)),
       catchError(this.handleError<Post[]>('searchposts', []))
     );
   }
@@ -75,7 +91,7 @@ export class PostService {
 
   /** POST: add a new Post to the server */
   addPost(formData: any): Observable<Post> {
-    return this.http.post<Post>(`${this.postsUrl}`, formData,{withCredentials: true}).pipe(
+    return this.http.post<Post>(`${this.postsUrl}`, formData, { withCredentials: true }).pipe(
       tap((newPost: Post) => this.log(`added Post w/ id=${newPost._id}`)),
       catchError(this.handleError<Post>('addPost'))
     );
@@ -97,6 +113,47 @@ export class PostService {
       tap(_ => this.log(`updated Post id=${Post._id}`)),
       catchError(this.handleError<any>('updatePost'))
     );
+  }
+
+  /** PUT: add or rmove like  */
+  toggleLike(postId: string): Observable<{liked:boolean,reaction:Reaction}> {
+    return this.http.put<{liked:boolean,reaction:Reaction}>("/api/posts/toggleLike", {postId:postId}, this.httpOptions).pipe(
+      map((data:{liked:boolean,reaction:Reaction}) => {
+        this.updateReactionsOfAPost(postId,data);
+        return data;
+      }),
+      catchError(this.handleError<any>('updatePost'))
+    );
+  }
+  updateReactionsOfAPost(postId:string,data:{liked:boolean,reaction:Reaction}){
+    let posts = this.getPostsFromLocalStorage();
+    let index = posts.findIndex(p => p._id == postId);
+    if (index != -1) {
+      if (data.liked) {
+        posts[index].reactions.push(data.reaction);
+      } else {
+        let reactionIndex:number = posts[index].reactions.findIndex(r => r.owner._id = data.reaction.owner._id);
+        if (reactionIndex != -1) {
+          posts[index].reactions.splice(reactionIndex,1);
+        }
+      }
+    }
+    this.upDatePostsInLocalStorage(posts);
+  }
+  addComment() {
+    throw new Error('Method not implemented.');
+  }
+  upDatePostsInLocalStorage(posts:Post[]){
+    localStorage.setItem('posts',JSON.stringify(posts));
+  }
+  getPostsFromLocalStorage(): Post[] {
+    if (localStorage.getItem("posts")) {
+      return JSON.parse(localStorage.getItem("posts") as string);
+    } else
+      return []
+  }
+  myId():string {
+    return JSON.parse(localStorage.getItem('user') as string)._id;
   }
 
   /**

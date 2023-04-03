@@ -77,3 +77,6 @@ button.btnComments{
 *{
   transition: 0.5;
 }
+i.bi.bi-heart-fill {
+  color: #C13584;
+}

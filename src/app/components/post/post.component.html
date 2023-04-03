@@ -10,13 +10,13 @@
     <p>{{post.caption | summary:300}} </p>
   </div>
   <div class="recactions">
-    <button class="like"><i class="bi bi-heart"></i> <span>{{post.reactions.length}}</span></button>
+    <button class="like" (click)="toggleLike()"><i class="bi" [ngClass]="{'bi-heart-fill':didILiked,'bi-heart':!didILiked}"></i> <span>{{post.reactions.length}}</span></button>
     <button class="commont"><i class="bi bi-card-heading"></i></button>
   </div>
-  <button class="btnComments" *ngIf="post.comments.length" (click)="shoComments=!shoComments">
+  <button class="btnComments" *ngIf="post.comments.length" (click)="showComments=!showComments">
     view all
     {{post.comments.length}} comments</button>
-  <div *ngIf="shoComments">
+  <div *ngIf="showComments">
     <ng-container *ngFor="let comment of post.comments">
       <div class="comment">
         <div class="info">
@@ -27,5 +27,5 @@
       </div>
     </ng-container>
   </div>
-  <textarea rows="1" class="inputComment" type="text" placeholder="Add a comment"></textarea>
+  <textarea rows="1" class="inputComment" type="text" placeholder="Add a comment" (keyup.enter)="postComment(comment.value);comment.value=''" #comment></textarea>
 </div>

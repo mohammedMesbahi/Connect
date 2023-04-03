@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/_models';
 
@@ -9,16 +9,27 @@ import { Post } from 'src/app/_models';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  posts: Post[] = [];
-  public _isLoading:boolean = true;
+  private onComment!: Observable<any>;
+  private onLike!: Observable<any>;
+  postsEmmiter!: BehaviorSubject<Post[]>;
 
-  constructor(private postService:PostService){}
+  posts: Post[] = [];
+  public _isLoading: boolean = true;
+
+  constructor(private postService: PostService) { }
   ngOnInit(): void {
-    this.getPosts();
+    this.isLoading = true;
+    // this.postService.getPosts().subscribe();
+    this.postsEmmiter = this.postService.postsEmmiter;
+    this.postsEmmiter.subscribe({
+      next: (posts) => {
+        this.posts = posts
+        this.isLoading = false;
+      }
+    })
   }
   getPosts(): void {
-    this.postService.getPosts()
-    .subscribe(posts => this.posts = posts);
+    // this.postService.getPosts().subscribe();
   }
 
   add(): void {
@@ -29,7 +40,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  set isLoading(data:boolean){
-    this._isLoading=data
+  set isLoading(data: boolean) {
+    this._isLoading = data
   }
 }
