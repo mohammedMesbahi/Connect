@@ -11,19 +11,15 @@
   </div>
   <div class="recactions">
     <button class="like" (click)="toggleLike()"><i class="bi" [ngClass]="{'bi-heart-fill':didILiked,'bi-heart':!didILiked}"></i> <span>{{post.reactions.length}}</span></button>
-    <button class="commont"><i class="bi bi-card-heading"></i></button>
+    <button class="btnComment" (click)="showComments=!showComments"><i class="bi bi-card-heading"></i><span *ngIf="post.comments.length">{{post.comments.length}}</span></button>
   </div>
-  <button class="btnComments" *ngIf="post.comments.length" (click)="showComments=!showComments">
-    view all
-    {{post.comments.length}} comments</button>
-  <div *ngIf="showComments">
+  <div *ngIf="showComments" class="comments">
     <ng-container *ngFor="let comment of post.comments">
       <div class="comment">
         <div class="info">
           <img [src]="comment.owner.avatar" class="skeleton" />
-          <span>{{comment.owner.name}}</span>
+          <span><b>{{comment.owner.name + "   "}}</b>{{comment.commentText}}</span>
         </div>
-        <p>{{comment.commentText}}</p>
       </div>
     </ng-container>
   </div>

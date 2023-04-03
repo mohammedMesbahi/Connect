@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Post, Reaction } from '../_models';
+import { Post, Reaction,Comment } from '../_models';
 @Injectable({
   providedIn: 'root'
 })
@@ -140,8 +140,23 @@ export class PostService {
     }
     this.upDatePostsInLocalStorage(posts);
   }
-  addComment() {
-    throw new Error('Method not implemented.');
+  /** PUT : add comment */
+  addComment(post:Post,commentText:string): Observable<{postId:string,comment:Comment}>  {
+    return this.http.put<{postId:string,comment:Comment}>("/api/posts/comment", {postId:post._id,commentText:commentText}, this.httpOptions).pipe(
+      map((data:{postId:string,comment:Comment}) => {
+        this.updateCommentsOfAPost(data);
+        return data;
+      }),
+      catchError(this.handleError<any>('updatePost'))
+    );
+  }
+  updateCommentsOfAPost(data:{postId:string,comment:Comment}){
+    let posts = this.getPostsFromLocalStorage();
+    let index = posts.findIndex(p => p._id == data.postId);
+    if (index != -1) {
+      posts[index].comments.push(data.comment);
+    }
+    this.upDatePostsInLocalStorage(posts);
   }
   upDatePostsInLocalStorage(posts:Post[]){
     localStorage.setItem('posts',JSON.stringify(posts));

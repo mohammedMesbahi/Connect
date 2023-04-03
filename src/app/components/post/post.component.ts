@@ -40,7 +40,14 @@ export class PostComponent implements OnInit {
     });
   }
   postComment(text:string){
-    this.postsService.addComment();
+    if (text.trim().length) {
+      this.postsService.addComment(this.post,text.trim()).subscribe({
+        next:(data) => {
+          this.post.comments.push(data.comment);
+          this.showComments=true;
+        }
+      });
+    }
 
   }
 }

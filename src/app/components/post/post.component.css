@@ -80,3 +80,13 @@ button.btnComments{
 i.bi.bi-heart-fill {
   color: #C13584;
 }
+.btnComment{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.comments{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
