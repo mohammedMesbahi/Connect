@@ -37,7 +37,7 @@ export class LoginComponent {
     this.authservice.login(this.f.email.value,this.f.password.value).subscribe({
       next:() => {
         this.loading = false;
-        this.router.navigate(['feed']);
+        this.router.navigate(['']);
       },
       error:(err) => {
         this.loading = false;

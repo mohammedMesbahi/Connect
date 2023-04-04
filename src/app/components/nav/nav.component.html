@@ -1,12 +1,12 @@
 <nav>
   <h1>Connect</h1>
   <div class="sections">
-    <ng-container>
+    <ng-container >
       <!-- home -->
-      <div class="section" (click)="changeViewTo('home')">
+      <a class="section" routerLink="" >
         <i class="bi bi-house-door-fill"></i>
         <span>Home</span>
-      </div>
+      </a>
 
       <!-- search -->
       <div [ngClass]="{'search_seaction':showSearch}">
@@ -21,7 +21,7 @@
 
       <div *ngIf="!showSearch"> <!-- the section i will hide if the user clicks on "search" -->
         <!-- messages -->
-        <div class="section flex-row-center" (click)="changeViewTo('messages')">
+        <a class="section flex-row-center" routerLink='/messages'>
           <i class="bi bi-send"></i>
           <span>Messages</span>
           <div class="counter" *ngIf="newmessagesCounter">
@@ -29,7 +29,7 @@
               {{newmessagesCounter}}
             </span>
           </div>
-        </div>
+        </a>
         <!-- notifications -->
         <div class="section" (click)="toggleNotifications()">
           <i class="bi bi-app-indicator"></i>
@@ -46,10 +46,10 @@
           </div>
           <!-- <button mat-button (click)="openCreatePostDialog()">Create Post</button> -->
           <!-- profile -->
-          <div class="section" (click)="changeViewTo('profile')">
+          <a class="section" routerLink="/profile">
             <i class="bi bi-person-circle"></i>
             <span>Profile</span>
-          </div>
+          </a>
         </ng-container>
 
       </div>

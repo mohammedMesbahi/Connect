@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/_models';
@@ -14,33 +15,55 @@ export class HomeComponent implements OnInit {
   postsEmmiter!: BehaviorSubject<Post[]>;
 
   posts: Post[] = [];
-  public _isLoading: boolean = true;
+  private _isLoading: boolean = true;
+  public get isLoading(): boolean {
+    return this._isLoading;
+  }
+  public set isLoading(value: boolean) {
+    this._isLoading = value;
+  }
 
-  constructor(private postService: PostService) { }
+  constructor(private activatedRout: ActivatedRoute, private postService: PostService) { }
   ngOnInit(): void {
-    this.isLoading = true;
+    this._isLoading = true;
     // this.postService.getPosts().subscribe();
     this.postsEmmiter = this.postService.postsEmmiter;
     this.postsEmmiter.subscribe({
       next: (posts) => {
         this.posts = posts
-        this.isLoading = false;
+        this._isLoading = false;
       }
     })
-  }
-  getPosts(): void {
-    // this.postService.getPosts().subscribe();
-  }
-
-  add(): void {
 
   }
+  jumpTo(post: any) {
+    setTimeout(() => {
+      const element = document.getElementById(post);
+      if (element) {
+        console.log(element);
 
-  delete(): void {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 2);
+    // document.getElementById(post)?.scrollIntoView({ behavior: 'smooth' })
+    // console.log(post);
 
-  }
-
-  set isLoading(data: boolean) {
-    this._isLoading = data
   }
 }
+
+/* getPosts(): void {
+  // this.postService.getPosts().subscribe();
+}
+
+add(): void {
+
+}
+
+delete(): void {
+
+}
+
+set isLoading(data: boolean) {
+  this._isLoading = data
+} */
+

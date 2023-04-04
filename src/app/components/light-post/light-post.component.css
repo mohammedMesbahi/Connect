@@ -1,0 +1,114 @@
+.post {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid black;
+  overflow: auto;
+}
+.m-500{
+  min-height: 500px;
+}
+.profileInfo{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  min-width: 200px;
+  gap: 1rem;
+  padding: 10px;
+  padding-left: 0px;
+}
+/*
+STYLE AMIGE PROFILE
+
+*/
+.profileInfo img {
+width: 55px;
+height: 55px;
+border-radius: 50%;
+}
+/* END */
+
+/*
+like button
+*/
+.recactions {
+  display: flex;
+  align-items: center;
+}
+.recactions button{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  background: none;
+}
+.inputComment{
+  resize: none;
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  border-bottom: 1px solid lightgray;
+}
+.inputComment:focus{
+  background: none;
+  outline: none;
+}
+.body img{
+width: 99%;
+align-self: center;
+border-radius: 20px;
+}
+button.btnComments{
+background-color: inherit;
+border: none;
+align-self: flex-start;
+}
+.comment{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+margin-left:8px;
+}
+.comment img{
+width: 25px;
+border-radius: 50%;
+}
+.info{
+display: flex;
+flex-direction: row;
+gap: 10px;
+}
+*{
+transition: 0.5;
+}
+i.bi.bi-heart-fill {
+color: #C13584;
+}
+.btnComment{
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.comments{
+display: flex;
+flex-direction: column;
+gap: 10px;
+max-height: 150px;
+overflow: auto;
+}
+a.profileInfo{
+text-decoration: none;
+color: black;
+cursor: pointer;
+border-radius: 19px;
+
+}
+/* a.profileInfo:hover{
+background-color: #eeeeee;
+transition: background 0.2s;
+} */
+.btnActions {
+  align-self: flex-end;
+}

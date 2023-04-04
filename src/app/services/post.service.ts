@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Post, Reaction, Comment, NotificationToSend } from '../_models';
+import { Post, Reaction, Comment, NotificationToSend, User } from '../_models';
 import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,13 @@ import { NotificationService } from './notification.service';
 export class PostService {
 
   private postsUrl = '/api/posts';  // URL to web api
-
+  private _me!: User;
+  public get me(): User {
+    return this._me;
+  }
+  public set me(value: User) {
+    this._me = value;
+  }
   private _postsEmmiter: BehaviorSubject<Post[]>;
   public get postsEmmiter(): BehaviorSubject<Post[]> {
     return this._postsEmmiter;
@@ -30,6 +36,7 @@ export class PostService {
     this.getPosts().subscribe({
       next: (posts => this.postsEmmiter.next(posts))
     })
+    this.me = JSON.parse(localStorage.getItem('user') as string);
   }
 
   /** GET posts from the server */
@@ -181,6 +188,7 @@ export class PostService {
   myId(): string {
     return JSON.parse(localStorage.getItem('user') as string)._id;
   }
+
 
   /**
    * Handle Http operation that failed.

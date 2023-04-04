@@ -31,6 +31,8 @@ import { CreateComponent } from './components/create/create.component';
 import { UserService } from './services/user.service';
 import { PostService } from './services/post.service';
 import { NotificationService } from './services/notification.service';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { LightPostComponent } from './components/light-post/light-post.component';
 
 const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notifications`, options: {withCredentials:true} };
 @NgModule({
@@ -50,7 +52,9 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     PostComponent,
     SummaryPipe,
     InboxComponent,
-    CreateComponent
+    CreateComponent,
+    UserProfileComponent,
+    LightPostComponent
   ],
   imports: [
     BrowserModule,

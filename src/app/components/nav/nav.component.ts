@@ -3,6 +3,9 @@ import { Observable, Subscription } from 'rxjs';
 import { MessagesService } from 'src/app/services/messages.service';
 import {MatDialog} from '@angular/material/dialog';
 import { CreateComponent } from '../create/create.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -26,6 +29,7 @@ export class NavComponent implements OnInit,OnDestroy{
     this._newmessagesCounter = value;
   }
   constructor(private messagesService: MessagesService,
+    private authService:AuthService,private router:Router,private dataService:DataService,
     public matDialog:MatDialog) {
     /* this.onMessage = this.messagesService.onMessage();
     this.messagesObseravable = this.onMessage.subscribe(() => {
@@ -64,10 +68,16 @@ export class NavComponent implements OnInit,OnDestroy{
     this.EventChangeToSelectedView.emit(selectedView);
   }
   logOut(){
-    this.EventlogOut.emit();
+    this.authService.logOut().subscribe({next:()=>this.router.navigate(['/login'])});
   }
 
   openCreatePostDialog() {
-    this.EventCreate.emit("");
+    const dialogRef = this.matDialog.open(CreateComponent,{
+      width: '40%',
+      disableClose: false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
 }
 }

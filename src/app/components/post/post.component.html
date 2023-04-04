@@ -1,27 +1,33 @@
 <div class="post" [id]="post._id" *ngIf="post">
-  <div class="profileInfo">
+
+  <a class="profileInfo" [routerLink]="'/profile/'+ post.owner._id">
     <div class="css-after-gradiant">
       <img [src]="post.owner.avatar" class="skeleton" />
     </div>
     <h3>{{post.owner.name}}</h3>
-  </div>
+  </a>
+
   <div class="body">
     <img [src]="post.media" *ngIf="post.media">
     <p>{{post.caption | summary:300}} </p>
   </div>
   <div class="recactions">
-    <button class="like" (click)="toggleLike()"><i class="bi" [ngClass]="{'bi-heart-fill':didILiked,'bi-heart':!didILiked}"></i> <span>{{post.reactions.length}}</span></button>
-    <button class="btnComment" (click)="showComments=!showComments"><i class="bi bi-card-heading"></i><span *ngIf="post.comments.length">{{post.comments.length}}</span></button>
+    <button class="like" (click)="toggleLike()"><i class="bi"
+        [ngClass]="{'bi-heart-fill':didILiked,'bi-heart':!didILiked}"></i>
+      <span>{{post.reactions.length}}</span></button>
+    <button class="btnComment" (click)="showComments=!showComments"><i class="bi bi-card-heading"></i><span
+        *ngIf="post.comments.length">{{post.comments.length}}</span></button>
   </div>
   <div *ngIf="showComments" class="comments">
     <ng-container *ngFor="let comment of post.comments">
       <div class="comment">
         <div class="info">
           <img [src]="comment.owner.avatar" class="skeleton" />
-          <span><b>{{comment.owner.name + "   "}}</b>{{comment.commentText}}</span>
+          <span><b>{{comment.owner.name + " "}}</b>{{comment.commentText}}</span>
         </div>
       </div>
     </ng-container>
   </div>
-  <textarea rows="1" class="inputComment" type="text" placeholder="Add a comment" (keyup.enter)="postComment(comment.value);comment.value=''" #comment></textarea>
+  <textarea rows="1" class="inputComment" type="text" placeholder="Add a comment"
+    (keyup.enter)="postComment(comment.value);comment.value=''" #comment></textarea>
 </div>

@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
+    min-width: 200px;
     gap: 1rem;
     padding: 10px;
     padding-left: 0px;
@@ -53,6 +54,7 @@ STYLE AMIGE PROFILE
 .body img{
   width: 99%;
   align-self: center;
+  border-radius: 20px;
 }
 button.btnComments{
   background-color: inherit;
@@ -90,3 +92,14 @@ i.bi.bi-heart-fill {
   flex-direction: column;
   gap: 10px;
 }
+a.profileInfo{
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  border-radius: 19px;
+
+}
+/* a.profileInfo:hover{
+  background-color: #eeeeee;
+  transition: background 0.2s;
+} */

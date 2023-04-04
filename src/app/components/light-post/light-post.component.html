@@ -1,0 +1,33 @@
+<div class="post" [id]="post._id" *ngIf="post" [ngClass]="{
+  'm-500':post.media ? 1:0
+}">
+
+  <div class="body">
+    <img [src]="post.media" *ngIf="post.media">
+    <p>{{post.caption | summary:300}} </p>
+
+    <div class="recactions">
+      <button class="like" (click)="toggleLike()"><i class="bi"
+          [ngClass]="{'bi-heart-fill':didILiked,'bi-heart':!didILiked}"></i>
+        <span>{{post.reactions.length}}</span></button>
+      <button class="btnComment" (click)="showComments=!showComments"><i class="bi bi-card-heading"></i><span
+          *ngIf="post.comments.length">{{post.comments.length}}</span></button>
+    </div>
+  </div>
+
+
+  <div *ngIf="showComments" class="comments">
+    <ng-container *ngFor="let comment of post.comments">
+      <div class="comment">
+        <div class="info">
+          <img [src]="comment.owner.avatar" class="skeleton" />
+          <span><b>{{comment.owner.name + " "}}</b>{{comment.commentText}}</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="btnActions d-flex gap-1">
+    <button type="button" class="btn btn-primary"><i class="bi bi-trash3-fill"></i></button>
+    <button type="button" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></button>
+  </div>
+</div>

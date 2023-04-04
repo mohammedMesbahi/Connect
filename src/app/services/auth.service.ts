@@ -49,9 +49,8 @@ export class AuthService {
       .pipe(
         map((message) => {
           // remove user from local storage to log user out
-          localStorage.removeItem('user');
+          localStorage.clear();
           // remove message from local storage after successful signout
-          localStorage.removeItem('chats');
           return message;
         })
       );
