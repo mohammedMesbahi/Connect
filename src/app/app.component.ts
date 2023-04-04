@@ -8,15 +8,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AppComponent implements OnInit{
   title = 'Project-frontEnd';
+
   constructor(private activatedRout:ActivatedRoute){
 
   }
   ngOnInit(): void {
-    this.activatedRout.fragment.subscribe((post:any) => {
-      this.jumpTo(post)
-    })
+
+
   }
-  jumpTo(post:any){
-    document.getElementById(post)?.scrollIntoView({behavior:'smooth'})
-  }
+
 }

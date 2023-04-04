@@ -1,3 +1,7 @@
+:host{
+  display: flex;
+  align-self: stretch;
+}
 .post {
   padding: 10px;
   display: flex;
@@ -5,6 +9,9 @@
   justify-content: space-between;
   border: 1px solid black;
   overflow: auto;
+  align-self: stretch;
+  display: flex;
+  align-self: stretch;
 }
 .m-500{
   min-height: 500px;

@@ -7,35 +7,25 @@ import { CreateComponent } from '../create/create.component';
 
 @Component({
   selector: 'app-feed',
-  templateUrl: './feed.component.html',
+  templateUrl:
+    './feed.component.html',
   styleUrls: ['./feed.component.css']
 })
-export class FeedComponent implements OnInit,OnDestroy{
-  constructor(private authService:AuthService,private router:Router,private dataService:DataService,
-    public matDialog:MatDialog){
+export class FeedComponent {
+/*   constructor(private authService: AuthService, private router: Router, private dataService: DataService,
+    public matDialog: MatDialog) {
 
   }
-  ngOnDestroy(): void {
-    this.dataService.clearLocalStorege();
-  }
+
   ngOnInit(): void {
 
   }
-  private _view:string = "home";
-  get view(){
-    return this._view
+
+  logOut() {
+    this.authService.logOut().subscribe({ next: () => this.router.navigate(['login']) });
   }
-  set view(data: string) {
-    this._view = data;
-  }
-  changeView(value:string){
-    this._view=value
-  }
-  logOut(){
-    this.authService.logOut().subscribe({next:()=>this.router.navigate(['login'])});
-  }
-  openCreat(){
-    const dialogRef = this.matDialog.open(CreateComponent,{
+  openCreat() {
+    const dialogRef = this.matDialog.open(CreateComponent, {
       width: '40%',
       disableClose: false
     });
@@ -43,5 +33,7 @@ export class FeedComponent implements OnInit,OnDestroy{
       console.log(`Dialog result: ${result}`);
     });
   }
-
+  ngOnDestroy(): void {
+    this.dataService.clearLocalStorege();
+  } */
 }

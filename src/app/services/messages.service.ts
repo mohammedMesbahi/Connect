@@ -3,7 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { Conversation, Message, User } from '../_models';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -11,34 +11,49 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class MessagesService {
+
   private nameSpacesUrl = '/messages_notifications';  // URL to socket
+  public newMessage!: BehaviorSubject<string>;
+  public conversationsEmmiter: BehaviorSubject<Conversation[]>;
+  arrayOfSubscriptions!: Subscription[];
 
-  private _conversationsEmmiter: BehaviorSubject<Conversation[]>;
+  constructor(public socket: Socket,
 
-  public get conversationsEmmiter(): BehaviorSubject<Conversation[]> {
-    return this._conversationsEmmiter;
+    private http: HttpClient) {
+    this.arrayOfSubscriptions = []
+    this.conversationsEmmiter = new BehaviorSubject(this.getConversationsFromLocalStorage());
+    this.newMessage = new BehaviorSubject('');
+
   }
 
+  connect() {
+    this.socket.connect();
+    this.arrayOfSubscriptions.push(this.getConversations().subscribe())
+    this.arrayOfSubscriptions.push(
+      this.socket.fromEvent('newMessage')
+        .pipe(
+          map((data: any) => {
+            this.newMessage.next('')
+            this.upDateConversationInLocalStorage(data.conversationId, data.message)
+            this.log(`added Message w/ id=${data.message._id} to conversation${data.conversationId} i am in the connect methode`)
+          }))
+        .subscribe())
 
-  constructor(private _socket: Socket, private http: HttpClient) {
-    this._conversationsEmmiter = new BehaviorSubject(this.getConversationsFromLocalStorage());
   }
-  get socket() { return this._socket }
 
   /**
    * onConnection event
    */
-  public onConnection() { return this._socket.fromEvent('connection'); }
+  public onConnection(): Observable<string[]> { return this.socket.fromEvent('connection'); }
 
   /**
    * message event
    */
-  public emitMessage(data: any) { this._socket.emit('message', data); }
+  public emitMessage(data: any) { this.socket.emit('message', data); }
   public onMessage() {
-    return this._socket.fromEvent('newMessage').pipe(
+    return this.socket.fromEvent('newMessage').pipe(
       map((data: any) => {
-        this.upDateConversationInLocalStorage(data.conversationId, data.message)
-        this.log(`added Message w/ id=${data.message._id} to conversation${data.conversationId} `)
+        this.log(`added Message "onMessageFunction" `)
         return data
       }),
       catchError(this.handleError<Message>('addMessage'))
@@ -48,59 +63,63 @@ export class MessagesService {
   /**
    * comment event
    */
-  public emitComment(comment: any) { this._socket.emit('notification-comment', comment) }
-  public OnComment() { return this._socket.fromEvent('notification-comment') }
+  public emitComment(comment: any) { this.socket.emit('notification-comment', comment) }
+  public OnComment() { return this.socket.fromEvent('notification-comment') }
 
   /**
    * replay event
    */
-  public emitReplay(replay: any) { this._socket.emit('notification-comment', replay) }
-  public OnReplay() { return this._socket.fromEvent('notification-replay') }
+  public emitReplay(replay: any) { this.socket.emit('notification-comment', replay) }
+  public OnReplay() { return this.socket.fromEvent('notification-replay') }
 
   /**
    * reaction event
    */
-  public emitReaction(reaction: any) { this._socket.emit('notification-reaction', reaction) }
-  public OnReaction() { return this._socket.fromEvent('notification-reaction') }
+  public emitReaction(reaction: any) { this.socket.emit('notification-reaction', reaction) }
+  public OnReaction() { return this.socket.fromEvent('notification-reaction') }
 
   /**
    * disconnection event
    */
-  public emitDisconnection(disconnection: any) { this._socket.emit('notification-disconnection', disconnection) }
-  public OnDisconnection() { return this._socket.fromEvent('disconnection') }
+  public emitDisconnection(disconnection: any) { this.socket.emit('notification-disconnection', disconnection) }
+  public OnDisconnection() { return this.socket.fromEvent('disconnection') }
 
   /* *
     seenMessages event
   */
   public onSeenMessages() {
-    return this._socket.fromEvent('newSeenMessages').pipe(map((data: any) => {
-      let user: User | null = JSON.parse(localStorage.getItem('user') as string);
-      if (user) {
-        let index: number = user.conversations?.findIndex(conversation => {
+    return this.socket.fromEvent('newSeenMessages').pipe(map((data: any) => {
+      let conversations: Conversation[] = JSON.parse(localStorage.getItem('conversations') as string);
+      if (conversations) {
+        let index: number = conversations?.findIndex(conversation => {
           conversation._id === data.conversationId
         })
-        if (index && index != -1) {
+        if (index != -1) {
           data.messages.forEach((message: any) => {
             let messagIndex: number = -1;
-            messagIndex = user?.conversations.at(index)?.messages.findIndex(m => m._id === message) as number;
+            messagIndex = conversations[index].messages.findIndex(m => m._id === message);
             if (messagIndex != -1) {
-              user?.conversations?.at(index)?.messages.at(messagIndex)?.seenBy.push(data.seenBy);
+              conversations[index].messages[messagIndex].seenBy.push(data.seenBy);
             }
 
           })
-          localStorage.setItem('user',
-            JSON.stringify(user)
+          localStorage.setItem('conversations', JSON.stringify(conversations)
           )
-          this._conversationsEmmiter.next(user.conversations)
+          this.conversationsEmmiter.next(conversations)
         }
 
       }
       return data;
     }))
   }
-  public markAsSeenMessages(data: any) { this._socket.emit('markAsSeenMessages', data) }
+  public markAsSeenMessages(data: any) { this.socket.emit('markAsSeenMessages', data) }
 
-  disconnect() { if (this._socket) { this._socket.disconnect() } }
+  disconnect() {
+    if (this.socket) {
+      this.socket.disconnect()
+    }
+    this.arrayOfSubscriptions.forEach(s => s.unsubscribe())
+  }
 
 
   getConversations() {
@@ -110,6 +129,7 @@ export class MessagesService {
       })
       .pipe(
         map((conversations: Conversation[]) => {
+          console.log("fetched conversation from the server");
           localStorage.setItem('conversations', JSON.stringify(conversations));
           this.conversationsEmmiter.next(conversations);
         })
@@ -118,16 +138,16 @@ export class MessagesService {
 
   // a method to add the new messages to the chats stored in the localhost
   upDateConversationInLocalStorage(conversationId: string, message: Message) {
-    let conversations: Conversation[] | null = this.getConversationsFromLocalStorage();
+    let conversations: Conversation[] = this.getConversationsFromLocalStorage();
     if (conversations) {
       let index: number = conversations.findIndex(conversation => {
         // console.log(`(conversation._id : ${conversation._id}) - (conversation._id : ${conversationId}) = ${conversation._id == conversationId}`);
         return conversation._id == conversationId
       })
       if (index != -1) {
-        conversations.at(index)?.messages.push(message);
-        localStorage.setItem('conversations',JSON.stringify(conversations))
-        this._conversationsEmmiter.next(conversations)
+        conversations[index].messages.push(message);
+        localStorage.setItem('conversations', JSON.stringify(conversations))
+        this.conversationsEmmiter.next(conversations)
         console.log("updated conversations in the localstorage");
       }
 
@@ -160,18 +180,19 @@ export class MessagesService {
 
   saveChatsInLocalStorage(chats: any) {
     localStorage.setItem('chats', JSON.stringify(chats));
-    this._conversationsEmmiter.next(this.getConversationsFromLocalStorage());
+    this.conversationsEmmiter.next(this.getConversationsFromLocalStorage());
   }
 
   _id() { return JSON.parse(localStorage.getItem('user') as string)._id }
 
   getConversationsFromLocalStorage(): Conversation[] {
-    if (localStorage.getItem("onversations")) {
-      return JSON.parse(localStorage.getItem("onversations") as string);
+    if (localStorage.getItem("conversations")) {
+      return JSON.parse(localStorage.getItem("conversations") as string);
     } else {
       return [];
     }
   }
+
   /**
  * Handle Http operation that failed.
  * Let the app continue.

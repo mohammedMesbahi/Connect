@@ -66,7 +66,12 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     MatDialogModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthService,ActionsService,MessagesService,UserService,PostService,NotificationService,
+  providers: [AuthService,
+    ActionsService,
+    MessagesService,
+    UserService,
+    PostService,
+    NotificationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

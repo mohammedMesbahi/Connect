@@ -46,5 +46,16 @@ export class InboxComponent implements OnChanges {
   public onClick() {
     this.unReadMessages = 0;
     this.currentconversation.emit(this.conversation);
+    let unSeenMessages = (this.conversation.messages).filter(
+      (message: Message) => {
+        return (message.receivers.includes(this._id) && !message.seenBy.includes(this._id));
+      }
+    )
+    if (unSeenMessages.length) {
+      let data: { conversationId: string, messages: string[] } = { conversationId: "", messages: [] };
+      this.conversation.messages.forEach((message: Message) => data.messages.push(message._id));
+      data.conversationId = this.conversation._id;
+      this.messagesService.markAsSeenMessages(data);
+    }
   }
 }
