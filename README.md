@@ -9,8 +9,10 @@
 ![image](https://user-images.githubusercontent.com/116631139/229256384-178d088e-9a7e-4007-8b69-11baca13d790.png)
 ## search user
 ![image](https://user-images.githubusercontent.com/116631139/229301379-c7e1835e-1457-4349-8c9a-7519ecf932cc.png)
-## profile
+## user profile
 ![image](https://user-images.githubusercontent.com/116631139/229673986-d1fc0e65-40eb-470e-a0bb-602ee35b983f.png)
+## friend profile
+![image](https://user-images.githubusercontent.com/116631139/229689296-2a9525bb-b89e-47ac-b933-b306f5551aad.png)
 ## messanger 
 ![image](https://user-images.githubusercontent.com/116631139/229330522-e8e33a34-5d5a-493f-9a10-79d7f54b3f1b.png)
 ![image](https://user-images.githubusercontent.com/116631139/229366621-9c210931-1f95-42ed-a9da-52371248771d.png)
