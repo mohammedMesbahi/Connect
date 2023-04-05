@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -11,9 +10,9 @@ import { PostService } from 'src/app/services/post.service';
 export class CreateComponent {
   form: FormGroup;
   selectedFile!: File;
-  loading = false;
-  submitted = false;
-  success=false;
+  loading!:boolean;
+  submitted!:boolean;
+  success!:boolean;
 
   constructor(private fb: FormBuilder, private postService: PostService, private dialogRef: MatDialogRef<CreateComponent>) {
     this.form = this.fb.group({

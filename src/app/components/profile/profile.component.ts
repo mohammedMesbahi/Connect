@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/_models';
+import { Post, User } from 'src/app/_models';
 
 @Component({
   selector: 'app-profile',
@@ -12,22 +12,34 @@ import { User } from 'src/app/_models';
 })
 export class ProfileComponent implements OnInit,OnDestroy{
   private _posts:any;
-  public _isLoading:boolean = true;
+  public _isLoading!:boolean;
   subscription!:Subscription;
   me!:User;
+  arrayOfSubscriptions!:Subscription[]
   constructor(private postService:PostService,private userService:UserService){}
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.arrayOfSubscriptions.forEach(s => s.unsubscribe())
   }
   ngOnInit(): void {
-    this.me = this.userService.myProfile();;
+    this._isLoading=true;
+    this.me = this.userService.myProfile();
+    this.arrayOfSubscriptions = [] as Subscription[]
     // Perform any initialization tasks here.
-    this.subscription = this.postService.postsEmmiter.subscribe({
-      next:(data)=>{
-        this._posts=data.filter(p => p.owner._id == this.me._id);
-        this._isLoading=false;
+    this.arrayOfSubscriptions.push(this.postService.postsEmmiter.subscribe({
+      next: (posts) => {
+        this._posts = posts.filter(p => p.owner._id == this.me._id);
+        this._isLoading = false;
       }
-    })
+    }))
+    if (this.postService.getPostsFromLocalStorage()) {
+      this.postService.postsEmmiter.next(this.postService.getPostsFromLocalStorage())
+    } else {
+      this.postService.getPostsFromTheServer().subscribe({
+        next:(posts:Post[]) => {
+          this.postService.savePostsInLocalStorage(posts);
+        }
+      })
+    }
 
   }
   get posts():any{

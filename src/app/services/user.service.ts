@@ -15,10 +15,10 @@ export class UserService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true
   };
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient) { }
   /** GET users from the server */
   getusers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl)
+    return this.http.get<User[]>(this.usersUrl,{withCredentials:true})
       .pipe(
         tap(_ => this.log('fetched users')),
         catchError(this.handleError<User[]>('getusers', []))
@@ -27,7 +27,7 @@ export class UserService {
 
   /** GET User by id. Return `undefined` when id not found */
   getUserNo404<Data>(id: number): Observable<User> {
-    const url = `${this.usersUrl}/?id=${id}`;
+    const url = `${this.usersUrl}/profile/${id}`;
     return this.http.get<User[]>(url)
       .pipe(
         map(users => users[0]), // returns a {0|1} element array
@@ -40,13 +40,14 @@ export class UserService {
   }
 
   /** GET User by id. Will 404 if id not found */
-  getUser(id: number): Observable<User> {
-    const url = `${this.usersUrl}/${id}`;
+  getUser(id:string): Observable<User> {
+    const url = `${this.usersUrl}/profile/${id}`;
     return this.http.get<User>(url).pipe(
       tap(_ => this.log(`fetched User id=${id}`)),
       catchError(this.handleError<User>(`getUser id=${id}`))
     );
   }
+
 
   /* GET users whose name contains search term */
   searchUsers(term: string): Observable<User[]> {
@@ -54,7 +55,7 @@ export class UserService {
       // if not search term, return empty User array.
       return of([]);
     }
-    return this.http.get<User[]>(`${this.usersUrl}?name=${term}`).pipe(
+    return this.http.get<User[]>(`${this.usersUrl}?name=${term}`,{withCredentials:true}).pipe(
       tap(x => x.length ?
         this.log(`found users matching "${term}"`) :
         this.log(`no users matching "${term}"`)),

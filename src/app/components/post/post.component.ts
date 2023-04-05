@@ -10,12 +10,13 @@ export class PostComponent implements OnInit {
   @Input('post') post!: Post;
 
   _id = this.postsService.myId();
-  showComments = false;
-  didILiked: boolean = false;
-  numberOflikes:number = 0;
+  showComments!: boolean;
+  didILiked!:boolean;
+  numberOflikes!:number;
   constructor(private postsService: PostService) { }
   ngOnInit(): void {
     this.didILiked = this.IslikedByMe();
+    this.showComments = false;
     this.numberOflikes = this.post.reactions.length;
   }
 

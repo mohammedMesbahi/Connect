@@ -54,7 +54,8 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     InboxComponent,
     CreateComponent,
     UserProfileComponent,
-    LightPostComponent
+    LightPostComponent,
+    
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,16 @@
+:host{
+  display: flex;
+  align-self: stretch;
+}
 .post {
-  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid black;
   overflow: auto;
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 10px;
+  align-self: stretch;
 }
 .m-500{
   min-height: 500px;

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/_models';
 
@@ -9,13 +9,13 @@ import { Post } from 'src/app/_models';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,OnDestroy {
   private onComment!: Observable<any>;
   private onLike!: Observable<any>;
   postsEmmiter!: BehaviorSubject<Post[]>;
-
+  arrayOfSubscriptions!:Subscription[]
   posts: Post[] = [];
-  private _isLoading: boolean = true;
+  private _isLoading!: boolean;
   public get isLoading(): boolean {
     return this._isLoading;
   }
@@ -24,19 +24,30 @@ export class HomeComponent implements OnInit {
   }
 
   constructor(private activatedRout: ActivatedRoute, private postService: PostService) { }
+  ngOnDestroy(): void {
+    this.arrayOfSubscriptions.forEach(s => s.unsubscribe())
+  }
   ngOnInit(): void {
+    this.arrayOfSubscriptions = [] as Subscription[]
     this._isLoading = true;
-    // this.postService.getPosts().subscribe();
-    this.postsEmmiter = this.postService.postsEmmiter;
-    this.postsEmmiter.subscribe({
+    this.arrayOfSubscriptions.push(this.postService.postsEmmiter.subscribe({
       next: (posts) => {
         this.posts = posts
         this._isLoading = false;
       }
-    })
+    }))
+    if (this.postService.getPostsFromLocalStorage()) {
+      this.postService.postsEmmiter.next(this.postService.getPostsFromLocalStorage())
+    } else {
+      this.postService.getPostsFromTheServer().subscribe({
+        next:(posts:Post[]) => {
+          this.postService.savePostsInLocalStorage(posts);
+        }
+      })
+    }
 
   }
-  jumpTo(post: any) {
+  /* jumpTo(post: any) {
     setTimeout(() => {
       const element = document.getElementById(post);
       if (element) {
@@ -48,7 +59,7 @@ export class HomeComponent implements OnInit {
     // document.getElementById(post)?.scrollIntoView({ behavior: 'smooth' })
     // console.log(post);
 
-  }
+  } */
 }
 
 /* getPosts(): void {

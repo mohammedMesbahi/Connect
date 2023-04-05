@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Post, Reaction, Comment, NotificationToSend, User } from '../_models';
+import { Post, Reaction, Comment, NotificationToSend, User, Conversation } from '../_models';
 import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root'
@@ -32,31 +32,30 @@ export class PostService {
 
   constructor(
     private http: HttpClient, private notificationService: NotificationService) {
-    this._postsEmmiter = new BehaviorSubject(this.getPostsFromLocalStorage());
-    this.getPosts().subscribe({
-      next: (posts => this.postsEmmiter.next(posts))
-    })
+    this._postsEmmiter = new BehaviorSubject([] as Post[]);
     this.me = JSON.parse(localStorage.getItem('user') as string);
   }
 
   /** GET posts from the server */
-  getPosts() {
+  getPostsFromTheServer() {
     return this.http.get<Post[]>(this.postsUrl, { withCredentials: true })
       .pipe(
         map((posts: Post[]) => {
-          localStorage.setItem('posts', JSON.stringify(posts));
-          this.postsEmmiter.next(posts);
+          // localStorage.setItem('posts', JSON.stringify(posts));
+          // this.postsEmmiter.next(posts);
           return posts
         }),
         catchError(this.handleError<Post[]>('getposts', []))
       );
   }
-  getPostsById(id: string): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postsUrl, this.httpOptions)
-      .pipe(
-        tap(_ => this.log('fetched posts')),
-        catchError(this.handleError<Post[]>('getposts', []))
-      );
+
+
+  public getPostsById(id: string):Post[] {
+    return this.getPostsFromLocalStorage().filter(p => p.owner._id == id)
+  }
+
+  getPostsOfAUserFromLocalStorage(id: string):Post[] {
+    return this.getPostsFromLocalStorage().filter(p => p.owner._id == id)
   }
 
   /** GET Post by id. Return `undefined` when id not found */
@@ -126,7 +125,8 @@ export class PostService {
 
   /** PUT: add or rmove like  */
   toggleLike(post: Post): Observable<{ liked: boolean, reaction: Reaction }> {
-    return this.http.put<{ liked: boolean, reaction: Reaction }>("/api/posts/toggleLike", { postId: post._id }, this.httpOptions).pipe(
+    return this.http.put<{ liked: boolean, reaction: Reaction }>("/api/posts/toggleLike", { postId: post._id }, this.httpOptions)
+    .pipe(
       map((data: { liked: boolean, reaction: Reaction }) => {
         this.updateReactionsOfAPost(post._id, data);
         if (data.liked) {
@@ -144,6 +144,7 @@ export class PostService {
       catchError(this.handleError<any>('updatePost'))
     );
   }
+
   updateReactionsOfAPost(postId: string, data: { liked: boolean, reaction: Reaction }) {
     let posts = this.getPostsFromLocalStorage();
     let index = posts.findIndex(p => p._id == postId);
@@ -157,7 +158,7 @@ export class PostService {
         }
       }
     }
-    this.upDatePostsInLocalStorage(posts);
+    this.savePostsInLocalStorage(posts);
   }
   /** PUT : add comment */
   addComment(post: Post, commentText: string): Observable<{ postId: string, comment: Comment }> {
@@ -169,22 +170,26 @@ export class PostService {
       catchError(this.handleError<any>('updatePost'))
     );
   }
+
   updateCommentsOfAPost(data: { postId: string, comment: Comment }) {
     let posts = this.getPostsFromLocalStorage();
     let index = posts.findIndex(p => p._id == data.postId);
     if (index != -1) {
       posts[index].comments.push(data.comment);
     }
-    this.upDatePostsInLocalStorage(posts);
+    this.savePostsInLocalStorage(posts);
   }
-  upDatePostsInLocalStorage(posts: Post[]) {
+
+  savePostsInLocalStorage(posts: Post[]) {
     localStorage.setItem('posts', JSON.stringify(posts));
+    this.postsEmmiter.next(posts);
   }
+
   getPostsFromLocalStorage(): Post[] {
-    if (localStorage.getItem("posts")) {
-      return JSON.parse(localStorage.getItem("posts") as string);
+    return JSON.parse(localStorage.getItem("posts") as string);
+    /* if (localStorage.getItem("posts")) {
     } else
-      return []
+      return [] */
   }
   myId(): string {
     return JSON.parse(localStorage.getItem('user') as string)._id;

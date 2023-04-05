@@ -26,7 +26,7 @@
     <h1 class="fill-width">Posts</h1>
     <div class="posts container d-flex grid gap-3 flex-wrap" *ngIf="posts">
       <ng-container *ngFor="let post of posts">
-        <div class="col-3">
+        <div class="col-3 d-flex align-self-stretch">
           <app-light-post [post]="post"></app-light-post>
         </div>
     </ng-container>
