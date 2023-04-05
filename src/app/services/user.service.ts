@@ -40,8 +40,8 @@ export class UserService {
   }
 
   /** GET User by id. Will 404 if id not found */
-  getUser(id:string): Observable<User> {
-    const url = `${this.usersUrl}/profile/${id}`;
+  getUser(id: number): Observable<User> {
+    const url = `${this.usersUrl}/${id}`;
     return this.http.get<User>(url).pipe(
       tap(_ => this.log(`fetched User id=${id}`)),
       catchError(this.handleError<User>(`getUser id=${id}`))

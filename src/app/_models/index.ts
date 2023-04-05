@@ -20,8 +20,8 @@ export interface User {
   password?: string,
   posts?: Post[],
   conversations: Conversation[],
-  following?: string[],
-  followers?: string[]
+  following?: Owner[],
+  followers?: Owner[]
 
 }
 export interface Conversation {

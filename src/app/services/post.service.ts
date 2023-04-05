@@ -51,8 +51,12 @@ export class PostService {
         catchError(this.handleError<Post[]>('getposts', []))
       );
   }
-  getPostsById(id: string):Post[] {
-    return this.getPostsFromLocalStorage().filter(p => p.owner._id == id)
+  getPostsById(id: string): Observable<Post[]> {
+    return this.http.get<Post[]>(this.postsUrl, this.httpOptions)
+      .pipe(
+        tap(_ => this.log('fetched posts')),
+        catchError(this.handleError<Post[]>('getposts', []))
+      );
   }
 
   /** GET Post by id. Return `undefined` when id not found */

@@ -24,9 +24,9 @@
 
   <section class="bottom flex-column fill-width">
     <h1 class="fill-width">Posts</h1>
-    <div class="d-flex gap-3 row-cols-7 flex-wrap " *ngIf="posts">
+    <div class="posts container d-flex grid gap-3 flex-wrap" *ngIf="posts">
       <ng-container *ngFor="let post of posts">
-        <div class="col-3 d-flex flex-align-stretch" >
+        <div class="col-3">
           <app-light-post [post]="post"></app-light-post>
         </div>
     </ng-container>

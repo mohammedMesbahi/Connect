@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,79 +10,75 @@ import { Conversation, Message, Owner, User } from 'src/app/_models';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css'],
 })
-export class MessagesComponent implements OnInit,OnDestroy {
+export class MessagesComponent implements OnInit {
   @ViewChild('messagesDiv') m: ElementRef | undefined;
-
-  onConnection!: Observable<any>;
-  OnDisconnection!: Observable<any>;
-  onMessage!: Observable<any>;
+  private onConnection: Observable<any>;
+  private onMessage: Observable<any>;
+  private OnDisconnection: Observable<any>;
+  me:User ;
   conversations!: Conversation[];
-  conversationsEmmiter!: BehaviorSubject<Conversation[]>;
-  ElevatedDiscussion: Conversation | undefined = undefined;
-  onSeenMessages!: Observable<any>;
-  me!: User;
 
-  arrayOfSubscriptions!: Subscription[];
+  conversationsEmmiter: BehaviorSubject<Conversation[]>;
+
+  ElevatedDiscussion: Conversation | undefined = undefined;
+
+  onSeenMessages: Observable<any>;
+
 
   constructor(
-    private messagesService: MessagesService, private userService: UserService
+    private messagesService: MessagesService,userService:UserService
   ) {
-
-  }
-  ngOnDestroy(): void {
-    this.arrayOfSubscriptions.forEach(s => s.unsubscribe());
-  }
-  ngOnInit(): void {
-
-    this.me = this.userService.myProfile();
-
+    this.me = userService.myProfile();
     this.onConnection = this.messagesService.onConnection();
-    this.OnDisconnection = this.messagesService.OnDisconnection();
     this.onMessage = this.messagesService.onMessage();
     this.onSeenMessages = this.messagesService.onSeenMessages();
-    this.conversationsEmmiter = this.messagesService.conversationsEmmiter;
 
-    this.arrayOfSubscriptions = []
     // this.OnComment = this.messagesService.OnComment();
     // this.OnReplay = this.messagesService.OnReplay();
     // this.OnReaction = this.messagesService.OnReaction();
     // this.OnNewPost = this.messagesService.OnNewPost();
-    this.arrayOfSubscriptions.push(
-      this.conversationsEmmiter.subscribe({
-        next: (conversations: Conversation[]) => {
-          console.log(conversations);
 
-          this.conversations = conversations;
-        },
-      }),
-      this.onSeenMessages.subscribe(({
-        next: (data: any) => {
-          if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
-            data.messages.forEach((message: any) => {
-              let messagIndex: number = -1;
-              messagIndex = this.ElevatedDiscussion?.messages.findIndex(m => m._id === message) as number;
-              if (messagIndex != -1) {
-                this.ElevatedDiscussion?.messages[messagIndex].seenBy.push(data.seenBy);
-              }
-            })
-          }
-        },
-      })),
-      this.onMessage.subscribe({
-        next: (data: any) => {
-          if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
-            this.ElevatedDiscussion.messages.push(data.message)
-            this.scrollToBottom();
-          }
-        },
-      }),
-      this.onConnection.subscribe({
-        next: (data) => console.log(data)
-      }),
-      this.OnDisconnection.subscribe({
-        next: (data) => console.log(data)
-      })
-    )
+    this.OnDisconnection = this.messagesService.OnDisconnection();
+    this.conversationsEmmiter = this.messagesService.conversationsEmmiter;
+
+    this.conversationsEmmiter.subscribe({
+      next: (conversations: Conversation[]) => {
+        this.conversations = conversations;
+      },
+    });
+    this.onSeenMessages.subscribe(({
+      next: (data: any) => {
+        if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
+          data.messages.forEach((message: any) => {
+            let messagIndex: number = -1;
+            messagIndex = this.ElevatedDiscussion?.messages.findIndex(m => m._id === message) as number;
+            if (messagIndex != -1) {
+              this.ElevatedDiscussion?.messages.at(messagIndex)?.seenBy.push(data.seenBy);
+            }
+
+          })
+        }
+      },
+    }))
+
+    this.onMessage.subscribe({
+      next: (data: any) => {
+        if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
+          this.ElevatedDiscussion.messages.push(data.message)
+          this.scrollToBottom();
+        }
+      },
+    });
+
+    this.onConnection.subscribe({
+      next:(data) => console.log(data)
+    });
+    this.OnDisconnection.subscribe({
+      next:(data)=> console.log(data)
+    });
+  }
+  ngOnInit(): void {
+    this.messagesService.getConversations().subscribe();
   }
 
 
@@ -102,6 +98,7 @@ export class MessagesComponent implements OnInit,OnDestroy {
   }
 
   public setUser(conversation: any) {
+    console.log(conversation);
     this.ElevatedDiscussion = conversation;
 
     // chat.numberOfUnreadMessages = this.numberOfUnreadMessages(chat.value);
@@ -119,20 +116,25 @@ export class MessagesComponent implements OnInit,OnDestroy {
     this.scrollToBottom();
   }
 
+  /*
+    {
+    "receivers":["64243dd585520c47472cd6ff"],
+    "content":"message 5 from user1",
+    "conversationId":"642617b86c9ae3105722210a"
+}
 
-  public sendMessage(conversationId: string, receivers: Owner[], content: string) {
-    if (!content.length)
+  */
+
+  public sendMessage(conversationId: string, receivers: Owner[],content:string) {
+    if (!content.length) {
       return
-    let r: string[] = [];
-    receivers.forEach(p => {
-      if (p._id != this.me._id) {
-        r.push(p._id)
-      }
-    });
+    }
+    let r:string[] = [];
+    receivers.forEach(p => r.push(p._id));
     this.messagesService.emitMessage({
       receivers: r,
       content: content.trim(),
-      conversationId: conversationId
+      conversationId:conversationId
     });
   }
 
@@ -161,8 +163,7 @@ export class MessagesComponent implements OnInit,OnDestroy {
     });
     return counter;
   }
-
-  seenByMe(seenBy: string[]): boolean {
+  seenByMe(seenBy:string[]):boolean{
     return seenBy.includes(this.me._id);
   }
 }
