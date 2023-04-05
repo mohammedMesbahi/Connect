@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.arrayOfSubscriptions = []
+    this.postService.getPosts().subscribe();
     this.arrayOfSubscriptions.push(
       this.postService.postsEmmiter.subscribe({
         next: (posts) => {

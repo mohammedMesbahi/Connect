@@ -51,6 +51,7 @@ export class AuthService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('user', JSON.stringify(user));
           this.messagesService.connect();
+
           /* this.onConnection = this.messagesService.onConnection().subscribe();
           this.OnDisconnection = this.messagesService.OnDisconnection().subscribe();
           this.onMessage = this.messagesService.onMessage().subscribe();

@@ -45,6 +45,7 @@ export class PostService {
       .pipe(
         map((posts: Post[]) => {
           localStorage.setItem('posts', JSON.stringify(posts));
+          this.postsEmmiter.next(posts);
           return posts
         }),
         catchError(this.handleError<Post[]>('getposts', []))

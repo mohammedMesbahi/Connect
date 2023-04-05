@@ -23,7 +23,7 @@ export class InboxComponent implements OnChanges {
   _id: string;
   unReadMessages: number = 0;
 
-  constructor(public messagesService:MessagesService) {
+  constructor(public messagesService: MessagesService) {
     this._id = messagesService._id();
   }
 
@@ -36,7 +36,7 @@ export class InboxComponent implements OnChanges {
   private setNumberOfUnreadMessages() {
     let counter: any = 0;
     this.conversation?.messages.forEach((message: Message) => {
-      if (message.receivers.includes(this._id) && !message.seenBy.includes(this._id)) {
+      if (message.sender != this._id && message.receivers.includes(this._id) && !message.seenBy.includes(this._id)) {
         counter = counter + 1;
       }
     });
@@ -48,7 +48,7 @@ export class InboxComponent implements OnChanges {
     this.currentconversation.emit(this.conversation);
     let unSeenMessages = (this.conversation.messages).filter(
       (message: Message) => {
-        return (message.receivers.includes(this._id) && !message.seenBy.includes(this._id));
+        return (message.receivers.includes(this._id) && !(message.seenBy.includes(this._id)));
       }
     )
     if (unSeenMessages.length) {
@@ -56,6 +56,8 @@ export class InboxComponent implements OnChanges {
       this.conversation.messages.forEach((message: Message) => data.messages.push(message._id));
       data.conversationId = this.conversation._id;
       this.messagesService.markAsSeenMessages(data);
+      console.log("inside click",data);
+
     }
   }
 }

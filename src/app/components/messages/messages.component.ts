@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { UserService } from 'src/app/services/user.service';
@@ -50,6 +50,8 @@ export class MessagesComponent implements OnInit,OnDestroy {
     this.arrayOfSubscriptions.push(
       this.conversationsEmmiter.subscribe({
         next: (conversations: Conversation[]) => {
+          console.log(conversations);
+
           this.conversations = conversations;
         },
       }),
@@ -122,13 +124,33 @@ export class MessagesComponent implements OnInit,OnDestroy {
     if (!content.length)
       return
     let r: string[] = [];
-    receivers.forEach(p => r.push(p._id));
+    receivers.forEach(p => {
+      if (p._id != this.me._id) {
+        r.push(p._id)
+      }
+    });
     this.messagesService.emitMessage({
       receivers: r,
       content: content.trim(),
       conversationId: conversationId
     });
   }
+
+  /*   public sendMessage(content: string) {
+    if (!content.length)
+      return
+    let r: string[] = [];
+    this.ElevatedDiscussion?.participents.forEach(p => {
+      if (p._id != this.me._id) {
+        r.push(p._id)
+      }
+    });
+    this.messagesService.emitMessage({
+      receivers: r,
+      content: content.trim(),
+      conversationId: this.ElevatedDiscussion?._id
+    });
+  } */
 
   public numberOfUnreadMessages(array: any) {
     let counter: any = 0;

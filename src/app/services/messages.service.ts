@@ -33,12 +33,36 @@ export class MessagesService {
       this.socket.fromEvent('newMessage')
         .pipe(
           map((data: any) => {
-            this.newMessage.next('')
+            console.log("new message");
+            if (data.message.sender != this._id()) {
+              this.newMessage.next('')
+            }
             this.upDateConversationInLocalStorage(data.conversationId, data.message)
             this.log(`added Message w/ id=${data.message._id} to conversation${data.conversationId} i am in the connect methode`)
           }))
         .subscribe())
 
+    this.arrayOfSubscriptions.push(
+      this.socket.fromEvent<Conversation>('newConversation')
+        .pipe(
+          map((conversation: Conversation) => {
+            this.newMessage.next('')
+            this.addNewConversationToLocalStorage(conversation);
+            this.log(`added conversation${conversation._id} i am in the connect methode`)
+          }))
+        .subscribe())
+
+  }
+
+  addNewConversationToLocalStorage(conversation: Conversation) {
+    let conversations: Conversation[] | null = this.getConversationsFromLocalStorage();
+    if (conversations) {
+      conversations.push(conversation);
+      localStorage.setItem('conversations', JSON.stringify(conversations))
+      this.conversationsEmmiter.next(conversations)
+      console.log("updated conversations in the localstorage");
+
+    }
   }
 
   /**
@@ -55,8 +79,7 @@ export class MessagesService {
       map((data: any) => {
         this.log(`added Message "onMessageFunction" `)
         return data
-      }),
-      catchError(this.handleError<Message>('addMessage'))
+      })
     );
   }
 
@@ -89,26 +112,30 @@ export class MessagesService {
   */
   public onSeenMessages() {
     return this.socket.fromEvent('newSeenMessages').pipe(map((data: any) => {
+      console.log('new seen messages');
       let conversations: Conversation[] = JSON.parse(localStorage.getItem('conversations') as string);
+      console.log(conversations.length);
+      let conversationIndex = -1;
       if (conversations) {
-        let index: number = conversations?.findIndex(conversation => {
-          conversation._id === data.conversationId
+        conversationIndex = conversations?.findIndex(conversation => {
+          conversation._id == data.conversationId
         })
-        if (index != -1) {
+        if (!(conversationIndex == -1)) {
+          console.log('if2');
+
           data.messages.forEach((message: any) => {
             let messagIndex: number = -1;
-            messagIndex = conversations[index].messages.findIndex(m => m._id === message);
-            if (messagIndex != -1) {
-              conversations[index].messages[messagIndex].seenBy.push(data.seenBy);
+            messagIndex = conversations[conversationIndex].messages.findIndex(m => m._id === message);
+            if (!(messagIndex == -1)) {
+              conversations[conversationIndex].messages[messagIndex].seenBy.push(data.seenBy);
             }
 
           })
-          localStorage.setItem('conversations', JSON.stringify(conversations)
-          )
-          this.conversationsEmmiter.next(conversations)
         }
 
       }
+      localStorage.setItem('conversations', JSON.stringify(conversations))
+      this.conversationsEmmiter.next(conversations)
       return data;
     }))
   }
@@ -132,6 +159,7 @@ export class MessagesService {
           console.log("fetched conversation from the server");
           localStorage.setItem('conversations', JSON.stringify(conversations));
           this.conversationsEmmiter.next(conversations);
+          return conversations;
         })
       );
   }
@@ -173,7 +201,7 @@ export class MessagesService {
   }
 
   getConversationFromLocalStorage(conversationId: string) {
-    return this.getConversationsFromLocalStorage().find((convesation) => {
+    return this.getConversationsFromLocalStorage()?.find((convesation) => {
       convesation._id === conversationId
     })
   }
