@@ -2,15 +2,51 @@
   width: 100%;
   height: 100%;
   display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
   gap: 10px;
 }
-
+.vh-100{
+  overflow: auto;
+}
 .postsContainer{
     overflow: auto;
-    width: 80%;
+    width: 40%;
+}
+#notificationsPanel{
+  width: 35%;
+}
+/* scroll bar  */
+.postsContainer::-webkit-scrollbar {
+  width: 0px;
+}
+
+.postsContainer::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.postsContainer::-webkit-scrollbar-thumb {
+  background-color: #C13584;
+  border-radius: 100px;
+}
+
+/* scroll bar  */
+#notificationsPanel::-webkit-scrollbar {
+  width: 3px;
+}
+
+#notificationsPanel::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+#notificationsPanel::-webkit-scrollbar-thumb {
+  background-color: #C13584;
+  border-radius: 100px;
 }
 .posts{
-  width: 50%;
+  width: 99%;
 }
 :host{
   width: 100%;

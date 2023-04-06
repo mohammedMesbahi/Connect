@@ -12,12 +12,12 @@ export class LoginComponent {
   form!: FormGroup;
   loading = false;
   submitted = false;
-  wrongCredintials:boolean = false
+  wrongCredintials: boolean = false
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authservice:AuthService,
+    private authservice: AuthService,
   ) { }
 
   ngOnInit() {
@@ -29,21 +29,22 @@ export class LoginComponent {
   }
 
   // convenience getter for easy access to form fields
-  get f():any { return this.form.controls; }
+  get f(): any { return this.form.controls; }
 
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-    this.authservice.login(this.f.email.value,this.f.password.value).subscribe({
-      next:(data) => {
+    this.authservice.login(this.f.email.value, this.f.password.value).subscribe({
+      next: (data) => {
         this.loading = false;
+        // const redirectUrl = this.authservice.redirectUrl ? this.authservice.redirectUrl : '/feed';
         this.router.navigate(['feed']);
       },
-      error:(err) => {
+      error: (err) => {
         this.loading = false;
         console.log(err.message);
         this.form.setErrors({
-          invalidLoign:{message:err.error}
+          invalidLoign: { message: err.error }
         })
       }
     })

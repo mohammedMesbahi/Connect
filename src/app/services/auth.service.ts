@@ -17,7 +17,7 @@ export class AuthService {
   redirectUrl!: string;
 
   constructor(private router: Router, private http: HttpClient) {
-    this.redirectUrl = 'login';
+    this.redirectUrl = '';
     this.loggedIn$ = new BehaviorSubject(false);
     this.isAuthenticated().subscribe(
       (respanse:any)=>{

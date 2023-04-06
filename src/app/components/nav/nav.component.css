@@ -40,7 +40,7 @@ nav {
 }
 
 .sections .section:hover {
-  background-color: #C13584;
+  background-color: var(--lightblue);
   color: white;
   transition: 0.3s;
 }
@@ -85,7 +85,7 @@ h1 {
   justify-self: right;
   font-size: smaller;
   color: white;
-  background-color: #C13584;
+  background-color: var(--lightblue);
   padding: 0px 12px;
   border-radius: 5px;
 }
@@ -103,6 +103,6 @@ h1 {
 }
 
 .search_seaction::-webkit-scrollbar-thumb {
-  background-color: #C13584;
+  background-color: var(--lightblue);
   border-radius: 100px;
 }
