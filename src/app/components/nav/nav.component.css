@@ -11,6 +11,7 @@ nav {
   height: 100%;
   /* background-color: aliceblue; */
   overflow: auto;
+  flex-direction: column;
 
 }
 
@@ -19,6 +20,7 @@ nav {
   flex-direction: column;
   justify-content: flex-start;
   height: 85%;
+  flex-wrap: wrap;
 }
 
 .sections .section {
@@ -42,7 +44,7 @@ nav {
 .sections .section:hover {
   background-color: var(--lightblue);
   color: white;
-  transition: 0.3s;
+  transition: 0.3s !important;
 }
 
 h1 {

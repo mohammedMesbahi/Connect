@@ -37,7 +37,10 @@ export class MessagesComponent implements OnInit,OnDestroy {
     this.me = this.userService.myProfile();
     this.arrayOfSubscriptions = [];
 
-    this.arrayOfSubscriptions.push(this.messagesService.conversationsEmmiter.subscribe((conversations: Conversation[]) => { this.conversations = conversations }))
+    this.arrayOfSubscriptions.push(this.messagesService.conversationsEmmiter.subscribe({
+      next:(conversations: Conversation[]) => { this.conversations = conversations },
+      error:console.log
+    }))
     this.arrayOfSubscriptions.push(this.messagesService.newSeenMessages().subscribe((data: any) => {
       if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
         data.messages.forEach((message: any) => {
@@ -51,6 +54,7 @@ export class MessagesComponent implements OnInit,OnDestroy {
     }))
     this.arrayOfSubscriptions.push(this.messagesService.newMessage().subscribe((data: any) => {
       if (this.ElevatedDiscussion && (data.conversationId == this.ElevatedDiscussion._id)) {
+        this.messagesService.markAsSeenMessages({conversationId:data.conversationId,messages:[data.message._id]})
         this.ElevatedDiscussion.messages.push(data.message)
         this.scrollToBottom();
       }

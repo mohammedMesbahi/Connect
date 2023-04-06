@@ -1,29 +1,31 @@
-<h2 class="mx-3">Create Post</h2>
-<form class="p-3" [formGroup]="form" (submit)="onSubmit()">
-  <div class="alert alert-danger" *ngIf="form.errors?.['invalidInputs']?.message"></div>
-  <div class="alert alert-success" role="alert" *ngIf="success">Done</div>
-  <div class="mb-3">
-    <label for="formFile" class="form-label">image</label>
-    <input class="form-control" type="file" id="image" (change)="onImageSelected($event)" formControlName="media" />
-  </div>
-  <div class="input-group">
-    <span class="input-group-text">add caption</span>
-    <textarea class="form-control" aria-label="With textarea" rows="2" id="caption"
-      formControlName="caption"></textarea>
-  </div>
-  <mat-dialog-actions align="end">
-    <div class="col-auto m-1">
-      <button mat-button mat-dialog-close class="btn btn-secondary ">
-        Cancel
-      </button>
+<div class="p-3">
+  <h2 class="mx-3">Create Post</h2>
+  <form class="p-3" [formGroup]="form" (submit)="onSubmit()">
+    <div class="alert alert-danger" *ngIf="form.errors?.['invalidInputs']?.message"></div>
+    <div class="alert alert-success" role="alert" *ngIf="success">Done</div>
+    <div class="mb-3">
+      <label for="formFile" class="form-label">image</label>
+      <input class="form-control" type="file" id="image" (change)="onImageSelected($event)" formControlName="media" />
     </div>
+    <div class="input-group">
+      <span class="input-group-text">add caption</span>
+      <textarea class="form-control" aria-label="With textarea" rows="2" id="caption"
+        formControlName="caption"></textarea>
+    </div>
+    <mat-dialog-actions align="end">
+      <div class="col-auto m-1">
+        <button mat-button mat-dialog-close class="btn btn-secondary ">
+          Cancel
+        </button>
+      </div>
 
-    <div class="col-auto">
-      <button type="submit" class="btn btn-primary" [disabled]="loading || form.invalid" type="submit"
-        [disabled]="form.invalid">
-        submit
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      </button>
-    </div>
-  </mat-dialog-actions>
-</form>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary" [disabled]="loading || form.invalid" type="submit"
+          [disabled]="form.invalid">
+          submit
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        </button>
+      </div>
+    </mat-dialog-actions>
+  </form>
+</div>

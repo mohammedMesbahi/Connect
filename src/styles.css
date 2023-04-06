@@ -2,6 +2,17 @@
 @import '~bootstrap-icons/font/bootstrap-icons.css';
 *{
     box-sizing: border-box;
+    transition: all 0.3s;
+}
+@media (max-width: 991.98px) {
+  #notificationsPanel{
+    display: none;
+  }
+  .nav {
+    position: fixed;
+    flex-direction: row;
+  }
+
 }
 :root{
   --lightblue : #0d6efd

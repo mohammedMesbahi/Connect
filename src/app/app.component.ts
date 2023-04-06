@@ -10,7 +10,7 @@ import { Conversation } from './_models';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit,OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Project-frontEnd';
   arrayOfSubscriptions: Subscription[];
   constructor(private authService: AuthService, private messagesService: MessagesService) {
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit,OnDestroy {
   }
   ngOnDestroy(): void {
     console.log("ondestroy AppComponent");
-    this.arrayOfSubscriptions.forEach(s =>s.unsubscribe())
+    this.arrayOfSubscriptions.forEach(s => s.unsubscribe())
   }
   ngOnInit(): void {
     this.authService.loggedIn$?.subscribe((loggedIn: boolean) => {
@@ -35,6 +35,8 @@ export class AppComponent implements OnInit,OnDestroy {
         }))
         this.messagesService.connectTheSocket();
         this.arrayOfSubscriptions.push(this.messagesService.newMessage().subscribe((data: any) => {
+          console.log("app commpoent newMessage");
+
           this.messagesService.addNewMessageToConversation(data.conversationId, data.message);
         }))
         this.arrayOfSubscriptions.push(this.messagesService.newConversation().subscribe((con: any) => {
@@ -43,11 +45,10 @@ export class AppComponent implements OnInit,OnDestroy {
         this.arrayOfSubscriptions.push(this.messagesService.newSeenMessages().subscribe((data: any) => {
           let conversations: Conversation[] = this.messagesService.getConversationsFromLocalStorage();
           if (conversations) {
-            let conversationIndex = conversations.findIndex(conversation => { conversation._id === data.conversationId });
+            let conversationIndex = conversations.findIndex(conversation => conversation._id == data.conversationId)
             if (!(conversationIndex == -1)) {
-
               data.messages.forEach((message: any) => {
-                let messagIndex = conversations[conversationIndex].messages.findIndex(m => m._id === message);
+                let messagIndex = conversations[conversationIndex].messages.findIndex(m => m._id == message);
                 if (!(messagIndex == -1)) {
                   conversations[conversationIndex].messages[messagIndex].seenBy.push(data.seenBy);
                 }

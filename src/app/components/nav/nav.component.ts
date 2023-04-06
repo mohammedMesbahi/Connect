@@ -27,9 +27,15 @@ export class NavComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.arrayOfSubscriptions = [];
+    this.newmessagesCounter = 0;
     this.showNotifications = false;
     this.showSearch = false;
-    this.arrayOfSubscriptions.push(this.messagesService.newMessage().subscribe((data:any) => this.newmessagesCounter++))
+    this.arrayOfSubscriptions.push(this.messagesService.newMessage().subscribe({
+      next:(data:any) => {
+        this.newmessagesCounter++
+      },
+      error:console.log
+    }))
   }
   public toggleNotifications() {
     this.showNotifications = !this.showNotifications

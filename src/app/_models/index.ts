@@ -87,4 +87,8 @@ export enum AlertType {
   Info,
   Warning
 }
+export interface Data{
+  conversationId:string,
+  messages:string[]
+}
 export * from "./alert"
