@@ -9,16 +9,16 @@ import { Conversation, Message, User,Notification, NotificationToSend } from '..
   providedIn: 'root'
 })
 export class NotificationService {
-private _socket!:Socket;
+private socket!:Socket;
   constructor(private messagesServiece:MessagesService) {
-    this._socket = messagesServiece.socket
+    this.socket = this.messagesServiece.socket
   }
   /**
    * reaction event
    */
-  public emitNotification(notification:NotificationToSend) { this._socket.emit('notification', notification); }
-  public onNotification() {
-    return this._socket.fromEvent('newNotification').pipe(
+  public emitNotification(notification:NotificationToSend) { this.socket.emit('notification', notification); }
+  public newNotification() {
+    return this.socket.fromEvent('newNotification').pipe(
       map((data: any) => {
         this.upDateNotificationsInLocalStorage()
         this.log(`added notification w/ id=${data.notification._id} to notifications`)

@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Conversation, Message, User } from '../_models';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessagesService {
+  public addNewConversation(conversation: Conversation) {
+    let conversations = this.getConversationsFromLocalStorage();
+    if (conversations) {
+      conversations.push(conversation);
+    }
+    this.saveConversationsInLocalStorage(conversations);
+  }
   public _id!: string
-  private conversationsEmmiter: BehaviorSubject<Conversation[]>;
+  conversationsEmmiter: BehaviorSubject<Conversation[]>;
 
-  constructor(private socket: Socket, private http: HttpClient) {
+  constructor(public socket: Socket,
+    private userService:UserService,
+    private http: HttpClient) {
+    this._id = this.userService.myProfile()?._id
     this.conversationsEmmiter = new BehaviorSubject([] as Conversation[]);
-    this._id = JSON.parse(localStorage.getItem('user') as string)._id;
   }
 
   disconnectTheSocket() { this.socket.disconnect() }
-  connectTheSocket(){ this.socket.connect() }
+  connectTheSocket() { this.socket.connect() }
 
   /**
    * onConnection event
@@ -29,7 +38,13 @@ export class MessagesService {
    * message event
    */
   public emitMessage(data: any) { this.socket.emit('message', data); }
-  public newMessage() {return this.socket.fromEvent('newMessage')}
+  public newMessage() { return this.socket.fromEvent('newMessage') }
+
+
+  /*
+     new conversation event
+  */
+  public newConversation(){return this.socket.fromEvent('newConversation')}
 
   /**
    * comment event
@@ -60,33 +75,22 @@ export class MessagesService {
   */
   public markAsSeenMessages(data: any) { this.socket.emit('markAsSeenMessages', data) }
   public newSeenMessages() {
-    return this.socket.fromEvent('newSeenMessages').pipe(map((data: any) => {
-      let conversations: Conversation[] = this.getConversationsFromLocalStorage();
-      let conversationIndex = conversations.findIndex(conversation => { conversation._id === data.conversationId });
-      if (!(conversationIndex == -1)) {
-
-        data.messages.forEach((message: any) => {
-          let messagIndex = conversations[conversationIndex].messages.findIndex(m => m._id === message);
-          if (!(messagIndex == -1)) {
-            conversations[conversationIndex].messages[messagIndex].seenBy.push(data.seenBy);
-          }
-        })
-      }
-      this.saveConversationsInLocalStorage(conversations);
-      return data;
-    }))
+    return this.socket.fromEvent('newSeenMessages')
   }
 
   getConversationsFromTheServer() {
-    return this.http.get<Conversation[]>(`/api/messages/conversations`, {withCredentials: true,})
+    return this.http.get<Conversation[]>(`/api/messages/conversations`, { withCredentials: true, })
   }
 
   addNewMessageToConversation(conversationId: string, message: Message) {
-    let conversations: Conversation[] | null = this.getConversationsFromLocalStorage();
-    let conversationIndex = conversations.findIndex(conversation => conversation._id == conversationId)
-    if (!(conversationIndex == -1)) {
-      conversations[conversationIndex].messages.push(message);
+    let conversations: Conversation[] = this.getConversationsFromLocalStorage();
+    if (conversations) {
+      let conversationIndex = conversations.findIndex(conversation => conversation._id == conversationId)
+      if (!(conversationIndex == -1)) {
+        conversations[conversationIndex].messages.push(message);
+      }
     }
+
     this.saveConversationsInLocalStorage(conversations);
   }
 
@@ -102,7 +106,7 @@ export class MessagesService {
   }
 
   getConversationsFromLocalStorage(): Conversation[] {
-    return JSON.parse(localStorage.getItem("onversations") as string);
+    return JSON.parse(localStorage.getItem("conversations") as string);
   }
 
   /**

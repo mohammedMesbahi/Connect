@@ -100,7 +100,7 @@
   <div
     class="card mx-4 mx-md-5 shadow-5-strong"
     style="
-      margin-top: -100px;
+      margin-top: -450px;
       background: hsla(0, 0%, 100%, 0.8);
       backdrop-filter: blur(30px);
     "
@@ -108,10 +108,10 @@
     <div class="card-body py-3 px-md-3">
       <div class="row d-flex justify-content-center">
         <div class="col-lg-8">
-          <h2 class="fw-bold mb-4">Sign up now</h2>
+          <h2 class="fw-bold mb-3">Sign up now</h2>
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div
-              class="alert alert-danger col-auto mb-2"
+              class="alert alert-danger col-auto mb-1"
               *ngIf="form.errors?.['invalidInputs']"
             >
               <div *ngIf="form.errors?.['invalidInputs'].message.errors?.email"
@@ -122,7 +122,7 @@
 
             <!-- first name start -->
             <div class="row mb-4 row-cols-2 d-flex justify-content-between">
-              <div class="mb-2 col-5">
+              <div class="mb-1 col-5">
                 <div class="input-group has-validation">
                   <div class="col form-floating is-invalid">
                     <input
@@ -130,10 +130,10 @@
                       type="text"
                       class="form-control"
                       id="floatingInputGroup2"
-                      placeholder="First Name"
+                      placeholder="Name"
                       [ngClass]="{'is-invalid':name?.touched && name?.invalid}"
                     />
-                    <label for="floatingInputGroup2">First Name</label>
+                    <label for="floatingInputGroup2">Name</label>
                   </div>
                   <div
                   *ngIf="name?.touched && name?.errors?.['required']"
@@ -145,7 +145,7 @@
               <!-- *first name end -->
 
               <!-- avatar  start -->
-              <div class="mb-2 col">
+              <div class="mb-1 col">
                 <div>
                   <input class="form-control form-control-lg d-flex justify-content-center"
                    formControlName="avatar"
@@ -235,8 +235,7 @@
             <button
               [disabled]="loading || form.invalid"
               type="submit"
-              class="btn mb-4 btn-primary btn-block mb-4"
-              style="background-color: #c13584;padding: 1rem 2rem; border: none;"
+              class="btn btn-primary btn-block btn-lg mb-4 px-5 py-3"
             >
               Sign up
             </button>

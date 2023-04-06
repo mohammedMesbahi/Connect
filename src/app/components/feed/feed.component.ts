@@ -1,47 +1,53 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { CreateComponent } from '../create/create.component';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { PostService } from 'src/app/services/post.service';
+import { Post } from 'src/app/_models';
 
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.css']
 })
-export class FeedComponent implements OnInit,OnDestroy{
-  constructor(private authService:AuthService,private router:Router,private dataService:DataService,
-    public matDialog:MatDialog){
-
+export class FeedComponent implements OnInit,OnDestroy {
+  private onComment!: Observable<any>;
+  private onLike!: Observable<any>;
+  postsEmmiter!: BehaviorSubject<Post[]>;
+  arrayOfSubscriptions!:Subscription[]
+  posts: Post[] = [];
+  private _isLoading!: boolean;
+  public get isLoading(): boolean {
+    return this._isLoading;
   }
+  public set isLoading(value: boolean) {
+    this._isLoading = value;
+  }
+
+  constructor(private activatedRout: ActivatedRoute, private postService: PostService) { }
   ngOnDestroy(): void {
-    this.dataService.clearLocalStorege();
+    this.arrayOfSubscriptions.forEach(s => s.unsubscribe())
   }
   ngOnInit(): void {
+    this.arrayOfSubscriptions = [] as Subscription[]
+    this._isLoading = true;
+    this.arrayOfSubscriptions.push(this.postService.postsEmmiter.subscribe({
+      next: (posts) => {
+        this.posts = posts
+        this._isLoading = false;
+      }
+    }))
+    if (this.postService.getPostsFromLocalStorage()) {
+      this.postService.postsEmmiter.next(this.postService.getPostsFromLocalStorage())
+    } else {
+      this.postService.getPostsFromTheServer().subscribe({
+        next:(posts:Post[]) => {
+          this.postService.savePostsInLocalStorage(posts);
+        }
+      })
+    }
 
   }
-  private _view:string = "home";
-  get view(){
-    return this._view
-  }
-  set view(data: string) {
-    this._view = data;
-  }
-  changeView(value:string){
-    this._view=value
-  }
-  logOut(){
-    this.authService.logOut().subscribe({next:()=>this.router.navigate(['login'])});
-  }
-  openCreat(){
-    const dialogRef = this.matDialog.open(CreateComponent,{
-      width: '40%',
-      disableClose: false
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
 }
+
+
+

@@ -35,13 +35,13 @@ export class LoginComponent {
     this.submitted = true;
     this.loading = true;
     this.authservice.login(this.f.email.value,this.f.password.value).subscribe({
-      next:() => {
+      next:(data) => {
         this.loading = false;
-        this.router.navigate(['']);
+        this.router.navigate(['feed']);
       },
       error:(err) => {
         this.loading = false;
-        console.log(err.error);
+        console.log(err.message);
         this.form.setErrors({
           invalidLoign:{message:err.error}
         })

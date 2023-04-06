@@ -1,48 +1,15 @@
-<div class="feed">
-  <app-nav></app-nav>
-
-  <div class="postsContainer">
-    <ng-container *ngIf="isLoading">
-      <div class="card">
-        <div class="header">
-          <img class="header-img skeleton" />
-          <div class="title" data-title>
-            <div class="skeleton skeleton-text name"></div>
-          </div>
-        </div>
-        <div data-body>
-          <div class="skeleton skeleton-image"></div>
-        </div>
+<div class="container">
+  <div class="row p-4 pb-10 pe-lg-0 pb-lg-5 pt-lg-5 align-items-center rounded-3 border shadow-lg h-100">
+    <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+      <h1 class="display-4 fw-bold lh-1 text-body-emphasis">Université Sidi Mohamed Ben Abdellah</h1>
+      <p class="lead">Ecole Supérieure de Technologie de Fès</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" routerLink="/login">Sign In</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4" routerLink="/register">Join</button>
       </div>
-      <div class="card">
-        <div class="header">
-          <img class="header-img skeleton" />
-          <div class="title" data-title>
-            <div class="skeleton skeleton-text name"></div>
-          </div>
-        </div>
-        <div data-body>
-          <div class="skeleton skeleton-text"></div>
-          <div class="skeleton skeleton-text"></div>
-          <div class="skeleton skeleton-text"></div>
-          <div class="skeleton skeleton-text"></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="header">
-          <img class="header-img skeleton" />
-          <div class="title" data-title>
-            <div class="skeleton skeleton-text name"></div>
-          </div>
-        </div>
-        <div data-body>
-          <div class="skeleton skeleton-image"></div>
-        </div>
-      </div>
-    </ng-container>
-
-    <div class="posts" *ngFor="let post of posts">
-      <app-post [post]="post"></app-post>
+    </div>
+    <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+        <img class="rounded-lg-3" src="https://user-images.githubusercontent.com/116631139/229673986-d1fc0e65-40eb-470e-a0bb-602ee35b983f.png" alt="" width="820">
     </div>
   </div>
 </div>

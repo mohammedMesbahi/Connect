@@ -1,5 +1,5 @@
 section > div.p-5.bg-image {
-  height: 200px;
+  height: 500px;
   background-repeat: no-repeat;
   background-position: center;
   background-repeat: no-repeat;
@@ -12,3 +12,14 @@ section > div.p-5.bg-image {
   padding: 0px;
   margin: 0px;
 }
+:host{
+  height: 90%;
+  width: 70%;
+  position: relative;
+  top: 5%;
+  left: 15%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+

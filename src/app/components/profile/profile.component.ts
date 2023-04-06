@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 import { Post, User } from 'src/app/_models';
@@ -27,21 +26,14 @@ export class ProfileComponent implements OnInit,OnDestroy{
     // Perform any initialization tasks here.
     this.arrayOfSubscriptions.push(this.postService.postsEmmiter.subscribe({
       next: (posts) => {
-        this._posts = posts.filter(p => p.owner._id == this.me._id);
+        this._posts = this.postService.getPostsFromLocalStorage().filter(p => p.owner._id == this.me._id);
         this._isLoading = false;
       }
     }))
-    if (this.postService.getPostsFromLocalStorage()) {
-      this.postService.postsEmmiter.next(this.postService.getPostsFromLocalStorage())
-    } else {
-      this.postService.getPostsFromTheServer().subscribe({
-        next:(posts:Post[]) => {
-          this.postService.savePostsInLocalStorage(posts);
-        }
-      })
-    }
+
 
   }
+  
   get posts():any{
     return this._posts;
   }
