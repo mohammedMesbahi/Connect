@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MessagesService } from './messages.service';
 import { catchError,map } from 'rxjs/operators';
-import { Conversation, Message, User,Notification, NotificationToSend } from '../_models';
+import {Message, User,Notification, NotificationToSend } from '../_models';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 private socket!:Socket;
-  constructor(private messagesServiece:MessagesService) {
-    this.socket = this.messagesServiece.socket
+notificationsEmmiter: BehaviorSubject<Notification[]>;
+
+  constructor(private messagesServiece:MessagesService,
+    private http: HttpClient
+    ) {
+    this.socket = this.messagesServiece.socket;
+    this.notificationsEmmiter = new BehaviorSubject([] as Notification[]);
+
   }
   /**
    * reaction event
@@ -20,16 +27,33 @@ private socket!:Socket;
   public newNotification() {
     return this.socket.fromEvent('newNotification').pipe(
       map((data: any) => {
-        this.upDateNotificationsInLocalStorage()
-        this.log(`added notification w/ id=${data.notification._id} to notifications`)
         return data
       }),
       catchError(this.handleError<Notification>('newNotification'))
     );
   }
-  upDateNotificationsInLocalStorage() {
-    throw new Error('Method not implemented.');
+
+  getNotificationsFromTheServer() {
+    return this.http.get<Notification[]>(`/api/notifications/`, { withCredentials: true, })
   }
+
+  saveNotificationsInLocalStorage(notifications: Notification[]) {
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+    this.notificationsEmmiter.next(notifications);
+  }
+
+  getNotificationsFromLocalStorage():Notification[] {
+    return JSON.parse(localStorage.getItem("notifications") as string);
+  }
+
+  addNewNotification(notification:Notification){
+    let notifications = this.getNotificationsFromLocalStorage();
+    if (notifications) {
+      notifications.push(notification);
+    }
+    this.saveNotificationsInLocalStorage(notifications);
+  }
+
     /**
  * Handle Http operation that failed.
  * Let the app continue.

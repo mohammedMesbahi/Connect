@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-between;
   padding-right: 10px;
+  padding-top: 20px;
   gap: 10px;
   scroll-behavior: smooth;
 }
@@ -15,8 +16,16 @@
     width: 40%;
     scroll-behavior: smooth;
 }
+#nl{
+  overflow: auto;
+  height: 80%;
+  padding: 10px;
+}
 #notificationsPanel{
   width: 35%;
+  height: 35%;
+  /* overflow: auto; */
+
 }
 /* scroll bar  */
 .postsContainer::-webkit-scrollbar {
@@ -34,16 +43,16 @@
 }
 
 /* scroll bar  */
-#notificationsPanel::-webkit-scrollbar {
+#nl::-webkit-scrollbar {
   width: 3px;
 }
 
-#notificationsPanel::-webkit-scrollbar-track {
+#nl::-webkit-scrollbar-track {
   background-color: #e4e4e4;
   border-radius: 100px;
 }
 
-#notificationsPanel::-webkit-scrollbar-thumb {
+#nl::-webkit-scrollbar-thumb {
   background-color: #C13584;
   border-radius: 100px;
 }

@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './services/auth.service';
 import { MessagesService } from './services/messages.service';
-import { Conversation } from './_models';
+import { NotificationService } from './services/notification.service';
+import { PostService } from './services/post.service';
+import { Conversation, Notification } from './_models';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,11 @@ import { Conversation } from './_models';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Project-frontEnd';
   arrayOfSubscriptions: Subscription[];
-  constructor(private authService: AuthService, private messagesService: MessagesService) {
+  constructor(private authService: AuthService,
+     private messagesService: MessagesService,
+     private notificationService:NotificationService,
+     private postService:PostService
+     ) {
     this.arrayOfSubscriptions = [];
   }
   ngOnDestroy(): void {
@@ -35,8 +41,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }))
         this.messagesService.connectTheSocket();
         this.arrayOfSubscriptions.push(this.messagesService.newMessage().subscribe((data: any) => {
-          console.log("app commpoent newMessage");
-
           this.messagesService.addNewMessageToConversation(data.conversationId, data.message);
         }))
         this.arrayOfSubscriptions.push(this.messagesService.newConversation().subscribe((con: any) => {
@@ -57,6 +61,23 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           this.messagesService.saveConversationsInLocalStorage(conversations);
         }))
+
+        /* pull notifications from the server */
+        // subscribe for new messages to update the localstorage
+        this.arrayOfSubscriptions.push(this.notificationService.getNotificationsFromTheServer().subscribe((notifications: Notification[]) => {
+          if (notifications == null) {
+            notifications = []
+          }
+          this.notificationService.saveNotificationsInLocalStorage(notifications);
+        }))
+        this.arrayOfSubscriptions.push(this.notificationService.newNotification().subscribe((notification: Notification) => {
+          this.notificationService.addNewNotification(notification);
+        }))
+
+        /* listen for likes and comments to pull them from the server and update in localstorage */
+/* todo */
+
+
       } else {
         // disconnect the socket
         // unsubscribe from new messages

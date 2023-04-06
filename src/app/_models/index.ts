@@ -72,8 +72,9 @@ export interface Notification {
   _id: string,
   notifier: Owner,
   receivers: Owner[],
-  NotificationContent: string,
-  url: string
+  notificationContent: string,
+  url: string,
+  date:string
 }
 export interface NotificationToSend {
   postId: string

@@ -46,42 +46,39 @@
     </div>
   </div>
 
-  <div id="notificationsPanel" class="overflow-y-auto vh-100 d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary"   >
-    <a href="#" class="rounded-4 d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
-      <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+  <div id="notificationsPanel"
+    class=" flex-column bg-body-tertiary">
+    <a href="#"
+      class="rounded-4 d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+      <svg class="bi pe-none me-2" width="30" height="24">
+        <use xlink:href="#bootstrap" />
+      </svg>
       <span class="fs-5 fw-semibold">Notificatins</span>
     </a>
-    <div class="list-group list-group-flush border-bottom scrollarea">
-      <a href="#" class="rounded-4 list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
-        <div class="d-flex w-100 align-items-center justify-content-between">
-          <strong class="mb-1">List group item heading</strong>
-          <small>Wed</small>
-        </div>
-        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-      </a>
-      <a href="/feed#64244643dd1b567c26028617" class="list-group-item list-group-item-action py-3 lh-sm">
+
+    <div id="nl" class="list-group list-group-flush scrollarea gap-2 p-1">
+      <ng-container *ngFor="let notification of notifications">
+        <a  [id]="notification._id" [href]="notification.url"
+          class="rounded-4 list-group-item list-group-item-action active d-flex flex-column py-1 lh-sm gap-1" aria-current="true">
+          <div class="d-flex w-100 align-items-center justify-content-start gap-2">
+            <img [src]="notification.notifier.avatar" class="img-fluid rounded-circle" alt="" style="max-width: 44px;">
+            <div>
+              <strong class="mb-2" [routerLink]="'/profile/' + notification.notifier._id" style="cursor: pointer;">{{notification.notifier.name}}</strong>
+              <div class="mb-1 small ">{{notification.notificationContent}}</div>
+            </div>
+          </div>
+          <small class="align-self-end">{{notification.date | date:'EEE MMM-dd hh:mm'}}</small>
+        </a>
+      </ng-container>
+
+
+      <!-- <a href="/feed#64244643dd1b567c26028617" class="list-group-item list-group-item-action py-3 lh-sm">
         <div class="d-flex w-100 align-items-center justify-content-between">
           <strong class="mb-1">List group item heading</strong>
           <small class="text-body-secondary">Tues</small>
         </div>
         <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-        <div class="d-flex w-100 align-items-center justify-content-between">
-          <strong class="mb-1">List group item heading</strong>
-          <small class="text-body-secondary">Mon</small>
-        </div>
-        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-      </a>
-
-      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-        <div class="d-flex w-100 align-items-center justify-content-between">
-          <strong class="mb-1">List group item heading</strong>
-          <small class="text-body-secondary">Wed</small>
-        </div>
-        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-      </a>
-
+      </a> -->
 
     </div>
   </div>

@@ -133,7 +133,7 @@ export class PostService {
           let notificationToSend: NotificationToSend = {
             notifier: this.myId(),
             recipients: [post.owner._id],
-            notificationContent: `${data.reaction.owner.name} reacted on one of your posts`,
+            notificationContent: `${data.reaction.owner.name} liked one of your posts`,
             postId: post._id
           }
 
@@ -164,6 +164,14 @@ export class PostService {
   addComment(post: Post, commentText: string): Observable<{ postId: string, comment: Comment }> {
     return this.http.put<{ postId: string, comment: Comment }>("/api/posts/comment", { postId: post._id, commentText: commentText }, this.httpOptions).pipe(
       map((data: { postId: string, comment: Comment }) => {
+        let notificationToSend: NotificationToSend = {
+          notifier: this.myId(),
+          recipients: [post.owner._id],
+          notificationContent: `${data.comment.owner.name} commented on one of your posts`,
+          postId: post._id
+        }
+
+        this.notificationService.emitNotification(notificationToSend)
         this.updateCommentsOfAPost(data);
         return data;
       }),
