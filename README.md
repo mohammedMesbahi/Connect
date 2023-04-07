@@ -1,12 +1,15 @@
 # FrontEnd
+## home
+![image](https://user-images.githubusercontent.com/116631139/230682433-f86efaa6-f024-486e-a14f-4b0b3e620b26.png)
+
 ## signIn
 ![image](https://user-images.githubusercontent.com/116631139/225154816-4c8d55f9-cf5f-4921-9e94-eaae4ed38ce1.png)
 ## sign up
 ![image](https://user-images.githubusercontent.com/116631139/225154831-5c2d4c1f-63e1-47e5-9bea-3a25e4af332f.png)
 ## create post
 ![image](https://user-images.githubusercontent.com/116631139/229260236-8bb51ffb-6985-4f1c-bba0-b68a64f4c8bb.png)
-## posts
-![image](https://user-images.githubusercontent.com/116631139/229256384-178d088e-9a7e-4007-8b69-11baca13d790.png)
+## feed
+![image](https://user-images.githubusercontent.com/116631139/230682485-6b7f415e-42ea-4372-aee8-99e36163e35c.png)
 ## search user
 ![image](https://user-images.githubusercontent.com/116631139/229301379-c7e1835e-1457-4349-8c9a-7519ecf932cc.png)
 ## user profile
