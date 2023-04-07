@@ -20,9 +20,9 @@
   </div>
   <div *ngIf="showComments" class="comments">
     <ng-container *ngFor="let comment of post.comments">
-      <div class="comment">
+      <div class="comment" [id]="comment._id">
         <div class="info">
-          <img [src]="comment.owner.avatar" class="skeleton" />
+          <img [src]="comment.owner.avatar" class="skeleton" [routerLink]="'/profile/' + comment.owner._id"/>
           <span><b>{{comment.owner.name + " "}}</b>{{comment.commentText}}</span>
         </div>
       </div>

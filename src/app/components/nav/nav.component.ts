@@ -32,7 +32,9 @@ export class NavComponent implements OnInit, OnDestroy {
     this.showSearch = false;
     this.arrayOfSubscriptions.push(this.messagesService.newMessage().subscribe({
       next:(data:any) => {
-        this.newmessagesCounter++
+        if (data.message.sender != this.messagesService._id) {
+          this.newmessagesCounter++
+        }
       },
       error:console.log
     }))

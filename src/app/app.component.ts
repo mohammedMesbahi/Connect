@@ -5,7 +5,7 @@ import { AuthService } from './services/auth.service';
 import { MessagesService } from './services/messages.service';
 import { NotificationService } from './services/notification.service';
 import { PostService } from './services/post.service';
-import { Conversation, Notification } from './_models';
+import { Comment, Conversation, Notification, Reaction } from './_models';
 
 @Component({
   selector: 'app-root',
@@ -63,20 +63,21 @@ export class AppComponent implements OnInit, OnDestroy {
         }))
 
         /* pull notifications from the server */
-        // subscribe for new messages to update the localstorage
+        // subscribe for new notifications to update localstorage
         this.arrayOfSubscriptions.push(this.notificationService.getNotificationsFromTheServer().subscribe((notifications: Notification[]) => {
           if (notifications == null) {
             notifications = []
           }
           this.notificationService.saveNotificationsInLocalStorage(notifications);
         }))
-        this.arrayOfSubscriptions.push(this.notificationService.newNotification().subscribe((notification: Notification) => {
-          this.notificationService.addNewNotification(notification);
+        this.arrayOfSubscriptions.push(this.notificationService.newNotification().subscribe((data:{notification:Notification,body:Comment|Reaction}) => {
+          if (data.notification.type == 'comment') {
+            this.postService.updateCommentsOfAPost({postId:data.notification.url.split('#')[1],comment:data.body as Comment})
+          } else if(data.notification.type == 'reaction') {
+            this.postService.updateReactionsOfAPost(data.notification.url.split('#')[1],{liked:true,reaction:data.body as Reaction})
+          }
+          this.notificationService.addNewNotification(data.notification);
         }))
-
-        /* listen for likes and comments to pull them from the server and update in localstorage */
-/* todo */
-
 
       } else {
         // disconnect the socket

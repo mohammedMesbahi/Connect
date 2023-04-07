@@ -9,21 +9,11 @@ import { NotificationService } from './notification.service';
 })
 export class PostService {
 
-  private postsUrl = '/api/posts';  // URL to web api
-  private _me!: User;
-  public get me(): User {
-    return this._me;
-  }
-  public set me(value: User) {
-    this._me = value;
-  }
-  private _postsEmmiter: BehaviorSubject<Post[]>;
-  public get postsEmmiter(): BehaviorSubject<Post[]> {
-    return this._postsEmmiter;
-  }
-  public set postsEmmiter(value: BehaviorSubject<Post[]>) {
-    this._postsEmmiter = value;
-  }
+  postsUrl = '/api/posts';  // URL to web api
+  me!: User;
+
+  public postsEmmiter: BehaviorSubject<Post[]>;
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true
@@ -32,7 +22,7 @@ export class PostService {
 
   constructor(
     private http: HttpClient, private notificationService: NotificationService) {
-    this._postsEmmiter = new BehaviorSubject([] as Post[]);
+    this.postsEmmiter = new BehaviorSubject([] as Post[]);
     this.me = JSON.parse(localStorage.getItem('user') as string);
   }
 
@@ -86,7 +76,7 @@ export class PostService {
     if (!term.trim()) {
       // if not search term, return empty Post array.
       return of([]);
-    }
+  }
     return this.http.get<Post[]>(`${this.postsUrl}/?name=${term}`).pipe(
       tap(x => x.length ?
         this.log(`found posts matching "${term}"`) :
@@ -133,8 +123,10 @@ export class PostService {
           let notificationToSend: NotificationToSend = {
             notifier: this.myId(),
             recipients: [post.owner._id],
-            notificationContent: `${data.reaction.owner.name} liked one of your posts`,
-            postId: post._id
+            notificationContent: `liked one of your posts`,
+            postId: post._id,
+            type:'reaction',
+            body:data.reaction
           }
 
           this.notificationService.emitNotification(notificationToSend)
@@ -164,15 +156,17 @@ export class PostService {
   addComment(post: Post, commentText: string): Observable<{ postId: string, comment: Comment }> {
     return this.http.put<{ postId: string, comment: Comment }>("/api/posts/comment", { postId: post._id, commentText: commentText }, this.httpOptions).pipe(
       map((data: { postId: string, comment: Comment }) => {
+        this.updateCommentsOfAPost(data);
         let notificationToSend: NotificationToSend = {
           notifier: this.myId(),
           recipients: [post.owner._id],
-          notificationContent: `${data.comment.owner.name} commented on one of your posts`,
-          postId: post._id
+          notificationContent: `commented on one of your posts`,
+          postId: post._id,
+          type:'comment',
+          body:data.comment
         }
 
         this.notificationService.emitNotification(notificationToSend)
-        this.updateCommentsOfAPost(data);
         return data;
       }),
       catchError(this.handleError<any>('updatePost'))

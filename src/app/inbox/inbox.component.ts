@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MessagesService } from '../services/messages.service';
-import { Conversation, Data, Message } from '../_models';
+import { Conversation, Data, Message, Owner } from '../_models';
 
 @Component({
   selector: 'app-inbox',
@@ -26,13 +26,14 @@ export class InboxComponent implements OnInit, OnDestroy {
   unReadMessages!: number;
   data!: Data;
   arrayOfSubscriptions!: Subscription[];
-
+  friend!:Owner;
   constructor(private messagesService: MessagesService) {
 
   }
   ngOnInit(): void {
     this.arrayOfSubscriptions = []
     this._id = this.messagesService._id;
+    this.friend = this.conversation.participents.filter( p => p._id != this._id)[0];
     this.unReadMessages = 0;
     this.data = {
       conversationId: "",

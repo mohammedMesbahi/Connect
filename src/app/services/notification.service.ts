@@ -3,7 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MessagesService } from './messages.service';
 import { catchError,map } from 'rxjs/operators';
-import {Message, User,Notification, NotificationToSend } from '../_models';
+import {Message, User,Notification, NotificationToSend, Comment, Reaction } from '../_models';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -25,11 +25,11 @@ notificationsEmmiter: BehaviorSubject<Notification[]>;
    */
   public emitNotification(notification:NotificationToSend) { this.socket.emit('notification', notification); }
   public newNotification() {
-    return this.socket.fromEvent('newNotification').pipe(
-      map((data: any) => {
+    return this.socket.fromEvent<{notification:Notification,body:Comment|Reaction}>('newNotification').pipe(
+      map((data:{notification:Notification,body:Comment|Reaction}) => {
         return data
       }),
-      catchError(this.handleError<Notification>('newNotification'))
+      catchError(this.handleError<{notification:Notification,body:Comment|Reaction}>('newNotification'))
     );
   }
 

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PostService } from 'src/app/services/post.service';
-import { Post, Notification } from 'src/app/_models';
+import { Post, Notification, Reaction, Comment } from 'src/app/_models';
 
 @Component({
   selector: 'app-feed',
