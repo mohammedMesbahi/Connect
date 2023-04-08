@@ -1,0 +1,41 @@
+#usersList{
+  overflow: auto;
+  max-height: 95%;
+  padding: 10px;
+}
+#usersContainer{
+  width: 85%;
+  max-height: 95%;
+
+  /* overflow: auto; */
+
+}
+/* scroll bar  */
+.usersContainer::-webkit-scrollbar {
+  width: 0px;
+}
+
+.usersContainer::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.usersContainer::-webkit-scrollbar-thumb {
+  background-color: #C13584;
+  border-radius: 100px;
+}
+
+/* scroll bar  */
+#usersList::-webkit-scrollbar {
+  width: 3px;
+}
+
+#usersList::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+#usersList::-webkit-scrollbar-thumb {
+  background-color: #C13584;
+  border-radius: 100px;
+}

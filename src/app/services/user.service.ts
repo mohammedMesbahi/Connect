@@ -94,6 +94,7 @@ export class UserService {
   myProfile():User{
     return JSON.parse(localStorage.getItem('user') as string)
   }
+  
 
   /**
    * Handle Http operation that failed.

@@ -1,0 +1,30 @@
+.form-signin {
+  max-width: 40%;
+  max-height: 50%;
+  padding: 15px;
+  align-self: center;
+  justify-self: center;
+}
+i.bi-person-circle{
+  font-size: 4rem;
+}
+:host{
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

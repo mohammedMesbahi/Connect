@@ -1,0 +1,108 @@
+<div id="usersContainer" class="d-flex p-4 flex-column bg-body-tertiary justify-content-start">
+
+  <div class="input-group mb-3">
+    <input type="search" class="form-control py-3" placeholder="search" aria-label="Example text with button addon"
+      aria-describedby="button-addon1">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon1">
+      <i class="bi bi-search"></i>
+    </button>
+  </div>
+
+  <div id="usersList" class="list-group list-group-flush scrollarea gap-3 p-1">
+    <ng-container *ngFor="let user of users">
+      <div [id]="user._id"
+        class="rounded-4 list-group-item list-group-item-action border .bg-body-tertiary d-flex flex-row justify-content-between py-1 "
+        aria-current="true">
+        <div class="d-flex w-100 align-items-center justify-content-start gap-2" [routerLink]="'/profile/' + user._id">
+          <img [src]="user.avatar" class="img-fluid rounded-circle" alt="" style="max-width: 44px;">
+          <div>
+            <strong class="mb-2" [routerLink]="'/profile/' + user._id" style="cursor: pointer;">{{user.name}}</strong>
+            <div class="mb-1 small ">{{user.email}}</div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-primary">suspend</button>
+          <button class="btn btn-outline-secondary">delete</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let user of users">
+      <div [id]="user._id"
+        class="rounded-4 list-group-item list-group-item-action border .bg-body-tertiary d-flex flex-row justify-content-between py-1 "
+        aria-current="true">
+        <div class="d-flex w-100 align-items-center justify-content-start gap-2" [routerLink]="'/profile/' + user._id">
+          <img [src]="user.avatar" class="img-fluid rounded-circle" alt="" style="max-width: 44px;">
+          <div>
+            <strong class="mb-2" [routerLink]="'/profile/' + user._id" style="cursor: pointer;">{{user.name}}</strong>
+            <div class="mb-1 small ">{{user.email}}</div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-primary">suspend</button>
+          <button class="btn btn-outline-secondary">delete</button>
+        </div>
+      </div>
+    </ng-container>
+
+
+    <ng-container *ngFor="let user of users">
+      <div [id]="user._id"
+        class="rounded-4 list-group-item list-group-item-action border .bg-body-tertiary d-flex flex-row justify-content-between py-1 "
+        aria-current="true">
+        <div class="d-flex w-100 align-items-center justify-content-start gap-2" [routerLink]="'/profile/' + user._id">
+          <img [src]="user.avatar" class="img-fluid rounded-circle" alt="" style="max-width: 44px;">
+          <div>
+            <strong class="mb-2" [routerLink]="'/profile/' + user._id" style="cursor: pointer;">{{user.name}}</strong>
+            <div class="mb-1 small ">{{user.email}}</div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-primary">suspend</button>
+          <button class="btn btn-outline-secondary">delete</button>
+        </div>
+      </div>
+    </ng-container>
+
+
+    <ng-container *ngFor="let user of users">
+      <div [id]="user._id"
+        class="rounded-4 list-group-item list-group-item-action border .bg-body-tertiary d-flex flex-row justify-content-between py-1 "
+        aria-current="true">
+        <div class="d-flex w-100 align-items-center justify-content-start gap-2" [routerLink]="'/profile/' + user._id">
+          <img [src]="user.avatar" class="img-fluid rounded-circle" alt="" style="max-width: 44px;">
+          <div>
+            <strong class="mb-2" [routerLink]="'/profile/' + user._id" style="cursor: pointer;">{{user.name}}</strong>
+            <div class="mb-1 small ">{{user.email}}</div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-primary">suspend</button>
+          <button class="btn btn-outline-secondary">delete</button>
+        </div>
+      </div>
+    </ng-container>
+
+
+    <ng-container *ngFor="let user of users">
+      <div [id]="user._id"
+        class="rounded-4 list-group-item list-group-item-action border .bg-body-tertiary d-flex flex-row justify-content-between py-1 "
+        aria-current="true">
+        <div class="d-flex w-100 align-items-center justify-content-start gap-2" [routerLink]="'/profile/' + user._id">
+          <img [src]="user.avatar" class="img-fluid rounded-circle" alt="" style="max-width: 44px;">
+          <div>
+            <strong class="mb-2" [routerLink]="'/profile/' + user._id" style="cursor: pointer;">{{user.name}}</strong>
+            <div class="mb-1 small ">{{user.email}}</div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-primary">suspend</button>
+          <button class="btn btn-outline-secondary">delete</button>
+        </div>
+      </div>
+    </ng-container>
+
+
+  </div>
+
+</div>

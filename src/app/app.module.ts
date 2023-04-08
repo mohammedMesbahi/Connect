@@ -33,6 +33,10 @@ import { PostService } from './services/post.service';
 import { NotificationService } from './services/notification.service';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { LightPostComponent } from './components/light-post/light-post.component';
+import { SigninadminComponent } from './components/admin/signinadmin/signinadmin.component';
+import { AdmindashboarComponent } from './components/admin/admindashboar/admindashboar.component';
+import { NavbarComponent } from './components/admin/navbar/navbar.component';
+import { UserslistComponent } from './components/admin/userslist/userslist.component';
 
 const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notifications`, options: {withCredentials:true} };
 @NgModule({
@@ -55,7 +59,11 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     CreateComponent,
     UserProfileComponent,
     LightPostComponent,
-    
+    SigninadminComponent,
+    AdmindashboarComponent,
+    NavbarComponent,
+    UserslistComponent,
+
   ],
   imports: [
     BrowserModule,
