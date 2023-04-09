@@ -13,10 +13,10 @@
       <div [id]="user._id"
         class="rounded-4 list-group-item list-group-item-action border .bg-body-tertiary d-flex flex-row justify-content-between py-1 "
         aria-current="true">
-        <div class="d-flex w-100 align-items-center justify-content-start gap-2" [routerLink]="'/profile/' + user._id">
+        <div class="d-flex w-100 align-items-center justify-content-start gap-2" [routerLink]="'/admin/dashboard/users/' + user._id">
           <img [src]="user.avatar" class="img-fluid rounded-circle" alt="" style="max-width: 44px;">
           <div>
-            <strong class="mb-2" [routerLink]="'/profile/' + user._id" style="cursor: pointer;">{{user.name}}</strong>
+            <strong class="mb-2" [routerLink]="'/admin/dashboard/users/' + user._id" style="cursor: pointer;">{{user.name}}</strong>
             <div class="mb-1 small ">{{user.email}}</div>
           </div>
         </div>

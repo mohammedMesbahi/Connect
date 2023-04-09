@@ -3,7 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MessagesService } from './messages.service';
 import { catchError,map } from 'rxjs/operators';
-import {Message, User,Notification, NotificationToSend, Comment, Reaction } from '../_models';
+import {Message, User,Notification, NotificationToSend, Comment, Reaction } from '../shared/_models';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

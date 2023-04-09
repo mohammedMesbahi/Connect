@@ -1,15 +1,14 @@
 <div class="p-3">
-  <h2 class="mx-3">Create Post</h2>
+  <h2 class="mx-3 text-center border-bottom">Post</h2>
   <form class="p-3" [formGroup]="form" (submit)="onSubmit()">
     <div class="alert alert-danger" *ngIf="form.errors?.['invalidInputs']?.message"></div>
     <div class="alert alert-success" role="alert" *ngIf="success">Done</div>
     <div class="mb-3">
-      <label for="formFile" class="form-label">image</label>
-      <input class="form-control" type="file" id="image" (change)="onImageSelected($event)" formControlName="media" />
+      <label for="image" class="btn btn-primary p-3 w-100"><i class="bi bi-images"></i> click to upload an image </label>
+      <input style='height: 0px;width: 0px; overflow:hidden;' type="file" id="image" (change)="onImageSelected($event)" formControlName="media" />
     </div>
     <div class="input-group">
-      <span class="input-group-text">add caption</span>
-      <textarea class="form-control" aria-label="With textarea" rows="2" id="caption"
+      <textarea class="form-control" aria-label="With textarea" rows="7" id="caption" placeholder="write a caption..."
         formControlName="caption"></textarea>
     </div>
     <mat-dialog-actions align="end">

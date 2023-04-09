@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Post, Reaction, Comment, NotificationToSend, User, Conversation } from '../_models';
+import { Post, Reaction, Comment, NotificationToSend, User, Conversation } from '../shared/_models';
 import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root'

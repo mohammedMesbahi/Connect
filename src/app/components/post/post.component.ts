@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PostService } from 'src/app/services/post.service';
-import { Post, Reaction } from 'src/app/_models';
+import { Post, Reaction } from 'src/app/shared/_models';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',

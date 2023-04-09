@@ -26,19 +26,15 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment.prod';
 import { InboxComponent } from './inbox/inbox.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CreateComponent } from './components/create/create.component';
 import { UserService } from './services/user.service';
 import { PostService } from './services/post.service';
 import { NotificationService } from './services/notification.service';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { LightPostComponent } from './components/light-post/light-post.component';
-import { SigninadminComponent } from './components/admin/signinadmin/signinadmin.component';
-import { AdmindashboarComponent } from './components/admin/admindashboar/admindashboar.component';
-import { NavbarComponent } from './components/admin/navbar/navbar.component';
-import { UserslistComponent } from './components/admin/userslist/userslist.component';
-
-const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notifications`, options: {withCredentials:true} };
+import { SharedModule } from '../app/shared/shared.module';
+const config: SocketIoConfig = { url: `${environment.apiUrl}/messages_notifications`, options: { withCredentials: true } };
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,10 +55,6 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     CreateComponent,
     UserProfileComponent,
     LightPostComponent,
-    SigninadminComponent,
-    AdmindashboarComponent,
-    NavbarComponent,
-    UserslistComponent,
 
   ],
   imports: [
@@ -73,9 +65,10 @@ const config: SocketIoConfig = { url:`${environment.apiUrl}/messages_notificatio
     SocketIoModule.forRoot(config),
     BrowserAnimationsModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SharedModule
   ],
-  providers: [AuthService,ActionsService,MessagesService,UserService,PostService,NotificationService,
+  providers: [AuthService, ActionsService, MessagesService, UserService, PostService, NotificationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

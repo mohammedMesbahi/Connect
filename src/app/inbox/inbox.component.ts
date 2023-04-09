@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MessagesService } from '../services/messages.service';
-import { Conversation, Data, Message, Owner } from '../_models';
+import { Conversation, Data, Message, Owner } from '../shared/_models';
 
 @Component({
   selector: 'app-inbox',

@@ -5,7 +5,7 @@ import { Router, UrlTree } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
-import { User } from '../_models';
+import { User } from '../shared/_models';
 
 @Injectable({
   providedIn: 'root',

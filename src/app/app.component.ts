@@ -5,7 +5,7 @@ import { AuthService } from './services/auth.service';
 import { MessagesService } from './services/messages.service';
 import { NotificationService } from './services/notification.service';
 import { PostService } from './services/post.service';
-import { Comment, Conversation, Notification, Reaction } from './_models';
+import { Comment, Conversation, Notification, Reaction } from './shared/_models';
 
 @Component({
   selector: 'app-root',

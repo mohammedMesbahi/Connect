@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { UserService } from 'src/app/services/user.service';
-import { Conversation, Message, Owner, User } from 'src/app/_models';
+import { Conversation, Message, Owner, User } from 'src/app/shared/_models';
 
 @Component({
   selector: 'app-messages',

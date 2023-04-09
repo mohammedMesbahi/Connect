@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Conversation, Message, User } from '../_models';
+import { Conversation, Message, User } from '../shared/_models';
 import { UserService } from './user.service';
 
 @Injectable({

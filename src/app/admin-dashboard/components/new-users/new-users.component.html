@@ -1,0 +1,54 @@
+<!-- Three columns of text below the carousel -->
+<div class="container vh-100">
+  <div class="d-flex p-5 custom-scroll-bar justify-content-between flex-wrap gap-4" style="height: 100%;overflow: auto;">
+    <ng-container *ngFor="let user of users">
+      <div class="d-flex flex-column align-items-center ">
+        <img class="rounded-circle" width="170" height="170" [src]="user.avatar" />
+        <h4 class="fw-normal">{{user.name}}</h4>
+        <p>{{user.email}}</p>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary">accept</button>
+          <button type="button" class="btn btn-secondary">reject</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let user of users">
+      <div class="d-flex flex-column align-items-center ">
+        <img class="rounded-circle" width="170" height="170" [src]="user.avatar" />
+        <h4 class="fw-normal">{{user.name}}</h4>
+        <p>{{user.email}}</p>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary">accept</button>
+          <button type="button" class="btn btn-secondary">reject</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let user of users">
+      <div class="d-flex flex-column align-items-center ">
+        <img class="rounded-circle" width="170" height="170" [src]="user.avatar" />
+        <h4 class="fw-normal">{{user.name}}</h4>
+        <p>{{user.email}}</p>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary">accept</button>
+          <button type="button" class="btn btn-secondary">reject</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let user of users">
+      <div class="d-flex flex-column align-items-center ">
+        <img class="rounded-circle" width="170" height="170" [src]="user.avatar" />
+        <h4 class="fw-normal">{{user.name}}</h4>
+        <p>{{user.email}}</p>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary">accept</button>
+          <button type="button" class="btn btn-secondary">reject</button>
+        </div>
+      </div>
+    </ng-container>
+
+
+  </div>
+</div>

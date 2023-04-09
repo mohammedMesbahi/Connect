@@ -95,4 +95,3 @@ export interface Data{
   conversationId:string,
   messages:string[]
 }
-export * from "./alert"

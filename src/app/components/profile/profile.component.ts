@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
-import { Post, User } from 'src/app/_models';
+import { Post, User } from 'src/app/shared/_models';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit,OnDestroy{
 
 
   }
-  
+
   get posts():any{
     return this._posts;
   }

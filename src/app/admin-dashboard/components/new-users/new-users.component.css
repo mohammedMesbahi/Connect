@@ -1,0 +1,18 @@
+:host{
+  flex-grow: 2;
+}
+
+/* scroll bar  */
+.custom-scroll-bar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.custom-scroll-bar::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+  background-color: var(--lightblue);;
+  border-radius: 100px;
+}

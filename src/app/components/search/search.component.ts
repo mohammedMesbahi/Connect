@@ -5,7 +5,7 @@ import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
 import {UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/_models';
+import { User } from 'src/app/shared/_models';
 
 @Component({
   selector: 'app-search',

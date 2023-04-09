@@ -55,6 +55,7 @@ export class NavComponent implements OnInit, OnDestroy {
       width: '40%',
       disableClose: false
     });
+    dialogRef.addPanelClass('rounded-4')
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });

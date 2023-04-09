@@ -68,4 +68,18 @@ export class CreateComponent {
     // close the dialog when the post is successfully submitted
     this.dialogRef.close();
   } */
+
+  getFile(event:any) {
+    console.log(event.target);
+    ;
+  }
+
+  sub(event:any) {
+    var file = event.target.files[0];
+    var fileName = file.split("\\");
+    console.log(fileName);
+    // document.getElementById("yourBtn").innerHTML = fileName[fileName.length - 1];
+    // document.myForm.submit();
+    // event.preventDefault();
+  }
 }

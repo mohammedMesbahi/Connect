@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/_models';
+import { User } from 'src/app/shared/_models';
 
 @Component({
   selector: 'app-user-profile',

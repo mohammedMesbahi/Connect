@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/_models';
+import { User } from 'src/app/shared/_models';
 
 @Component({
   selector: 'app-admindashboar',
