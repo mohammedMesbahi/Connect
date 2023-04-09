@@ -5,6 +5,9 @@
 ![image](https://user-images.githubusercontent.com/116631139/230695325-65de197e-8dba-4999-808b-10a95ce0cac6.png)
 ## admin dashboard 
 ![image](https://user-images.githubusercontent.com/116631139/230699837-e4d20d4e-a2c1-4523-97b0-c030f6e643a7.png)
+![image](https://user-images.githubusercontent.com/116631139/230748021-dc46df26-35c0-4cc5-b2bc-1e49aeea518b.png)
+![image](https://user-images.githubusercontent.com/116631139/230748024-35901067-cfe9-458d-9b2c-4bdd21382bd5.png)
+
 ## signIn
 ![image](https://user-images.githubusercontent.com/116631139/225154816-4c8d55f9-cf5f-4921-9e94-eaae4ed38ce1.png)
 ## sign up
