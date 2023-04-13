@@ -9,11 +9,27 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class MessagesService {
+  upDateMessagesOfConversationAsSeen(conversationId:string,messages:string[],seenBy:any) {
+    let conversations: Conversation[] = this.getConversationsFromLocalStorage();
+          if (conversations) {
+            let conversationIndex = conversations.findIndex(conversation => conversation._id == conversationId)
+            if (!(conversationIndex == -1)) {
+              messages.forEach((message: string) => {
+                let messagIndex = conversations[conversationIndex].messages.findIndex(m => m._id == message);
+                if (!(messagIndex == -1)) {
+                  conversations[conversationIndex].messages[messagIndex].seenBy.push(seenBy);
+                }
+              })
+            }
+          }
+          this.saveConversationsInLocalStorage(conversations);
+  }
   public addNewConversation(conversation: Conversation) {
     let conversations = this.getConversationsFromLocalStorage();
-    if (conversations) {
-      conversations.push(conversation);
+    if (!conversations) {
+      conversations = [] as Conversation[]
     }
+    conversations.push(conversation);
     this.saveConversationsInLocalStorage(conversations);
   }
   public _id!: string
@@ -102,8 +118,8 @@ export class MessagesService {
 
   saveConversationsInLocalStorage(conversations: Conversation[]) {
     localStorage.setItem('conversations', JSON.stringify(conversations));
-    this.conversationsEmmiter.next(conversations);
-  }
+/*     this.conversationsEmmiter.next(conversations);
+ */  }
 
   getConversationsFromLocalStorage(): Conversation[] {
     return JSON.parse(localStorage.getItem("conversations") as string);

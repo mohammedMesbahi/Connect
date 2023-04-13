@@ -1,2 +1,5 @@
-<p>posts works!</p>
-
+<div class="d-flex flex-wrap p-4 w-100 m-0 gap-1">
+  <ng-container *ngFor="let post of posts">
+    <app-post [post]="post"></app-post>
+  </ng-container>
+</div>

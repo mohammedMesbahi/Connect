@@ -1,0 +1,5 @@
+:host{
+  flex-grow: 1;
+  max-height: 100%;
+  overflow: auto;
+}

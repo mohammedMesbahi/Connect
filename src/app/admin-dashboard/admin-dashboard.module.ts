@@ -9,6 +9,8 @@ import { NewpostsComponent } from './components/newposts/newposts.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NewUsersComponent } from './components/new-users/new-users.component';
 import { UsersService } from './services/users.service';
+import { PostComponent } from './components/post/post.component';
+import { NewPostComponent } from './components/new-post/new-post.component';
 @NgModule({
   declarations: [
     AdmindashboarComponent,
@@ -17,7 +19,9 @@ import { UsersService } from './services/users.service';
     PostsComponent,
     NewpostsComponent,
     NavbarComponent,
-    NewUsersComponent
+    NewUsersComponent,
+    PostComponent,
+    NewPostComponent
   ],
   imports: [
     SharedModule,

@@ -90,7 +90,7 @@ export class PostService {
   /** POST: add a new Post to the server */
   addPost(formData: any): Observable<Post> {
     return this.http.post<Post>(`${this.postsUrl}`, formData, { withCredentials: true }).pipe(
-      tap((newPost: Post) => this.log(`added Post w/ id=${newPost._id}`)),
+      tap((newPost: Post) => {this.log(`added Post w/ id=${newPost._id}`)}),
       catchError(this.handleError<Post>('addPost'))
     );
   }
@@ -184,7 +184,7 @@ export class PostService {
 
   savePostsInLocalStorage(posts: Post[]) {
     localStorage.setItem('posts', JSON.stringify(posts));
-    this.postsEmmiter.next(posts);
+    // this.postsEmmiter.next(posts);
   }
 
   getPostsFromLocalStorage(): Post[] {

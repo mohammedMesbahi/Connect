@@ -121,10 +121,10 @@
             <!-- 2 column grid layout with text inputs for the first and last names -->
 
             <!-- first name start -->
-            <div class="row mb-4 row-cols-2 d-flex justify-content-between">
-              <div class="mb-1 col-5">
+            <div class="d-flex gap-1 mb-4">
+              <div class="mb-1 flex-grow-1">
                 <div class="input-group has-validation">
-                  <div class="col form-floating is-invalid">
+                  <div class="form-floating is-invalid">
                     <input
                       formControlName="name"
                       type="text"
@@ -145,16 +145,28 @@
               <!-- *first name end -->
 
               <!-- avatar  start -->
-              <div class="mb-1 col">
-                <div>
-                  <input class="form-control form-control-lg d-flex justify-content-center"
+              <!-- <div class="d-flex align-items-center">
+                  <label for="image_avatar" class="">choose <i class="bi bi-images"></i></label>
+                  <input
+                    id="image_avatar"
                    formControlName="avatar"
-                   [ngStyle]="{'padding':'10px'}" type="file" id="formFile"
+                   style='height: 0px;width: 0px; overflow:hidden;'
                    (change)="onFileSelected($event)"
                    >
-                </div>
-              </div>
+              </div> -->
+              <!-- <div class="mb-3">
+                <label for="image" class="btn btn-primary p-3 w-100"><i class="bi bi-images"></i> choose </label>
+                <input style='height: 0px;width: 0px; overflow:hidden;' type="file" id="image" formControlName="avatar"
+                style='height: 0px;width: 0px; overflow:hidden;'
+                (change)="onFileSelected($event)" />
+              </div> -->
               <!-- avatar end -->
+            </div>
+            <div class="mb-3">
+              <label for="image" class="btn btn-primary p-3 w-100"><i class="bi bi-images"></i> choose an image</label>
+              <input style='height: 0px;width: 0px; overflow:hidden;' type="file" id="image" formControlName="avatar"
+              style='height: 0px;width: 0px; overflow:hidden;'
+              (change)="onFileSelected($event)" />
             </div>
 
             <!-- email start -->
@@ -235,7 +247,7 @@
             <button
               [disabled]="loading || form.invalid"
               type="submit"
-              class="btn btn-primary btn-block btn-lg mb-4 px-5 py-3"
+              class="btn btn-primary btn-block btn-lg mb-4 px-3 py-2"
             >
               Sign up
             </button>

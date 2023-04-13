@@ -4,7 +4,12 @@
 
   <div class="body">
     <img [src]="post.media" *ngIf="post.media">
-    <p>{{post.caption | summary:300}} </p>
+    <p *ngIf="post.caption.length" class="card-text" align="justify">{{postCaption}}
+      <span *ngIf="post.caption.length > 300" class="text-secondary" style="cursor: pointer;"
+        (click)="changeCaptionLength()">
+        {{moreCaption ? ' less' : '... more'}}
+      </span>
+    </p>
 
     <div class="recactions">
       <button class="like" (click)="toggleLike()"><i class="bi"

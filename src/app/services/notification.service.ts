@@ -39,7 +39,7 @@ notificationsEmmiter: BehaviorSubject<Notification[]>;
 
   saveNotificationsInLocalStorage(notifications: Notification[]) {
     localStorage.setItem('notifications', JSON.stringify(notifications));
-    this.notificationsEmmiter.next(notifications);
+    // this.notificationsEmmiter.next(notifications);
   }
 
   getNotificationsFromLocalStorage():Notification[] {

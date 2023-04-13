@@ -3,13 +3,18 @@
     <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
       <h1 class="display-4 fw-bold lh-1 text-body-emphasis">Université Sidi Mohamed Ben Abdellah</h1>
       <p class="lead">Ecole Supérieure de Technologie de Fès</p>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" routerLink="/login">Sign In</button>
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4" routerLink="/register">Join</button>
+      <div class="d-grid gap-2 d-md-flex flex-column justify-content-md-start mb-4 mb-lg-3">
+        <div class="d-flex gap-1">
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" routerLink="/login">Sign In</button>
+          <button type="button" class="btn btn-outline-secondary btn-lg px-4" routerLink="/register" style="min-width: 135px;">Join</button>
+        </div>
+        <button [routerLink]="'/admin/login/'" class="align-self-start btn btn-outline-secondary btn-lg px-4">Admin. Login from here</button>
       </div>
     </div>
     <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
-        <img class="rounded-lg-3" src="https://user-images.githubusercontent.com/116631139/229673986-d1fc0e65-40eb-470e-a0bb-602ee35b983f.png" alt="" width="820">
+      <img class="rounded-lg-3"
+        src="https://user-images.githubusercontent.com/116631139/229673986-d1fc0e65-40eb-470e-a0bb-602ee35b983f.png"
+        alt="" width="820">
     </div>
   </div>
 </div>

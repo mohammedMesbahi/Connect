@@ -23,7 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.arrayOfSubscriptions = [];
   }
   ngOnDestroy(): void {
-    console.log("ondestroy AppComponent");
     this.arrayOfSubscriptions.forEach(s => s.unsubscribe())
   }
   ngOnInit(): void {
@@ -47,19 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.messagesService.addNewConversation(con);
         }))
         this.arrayOfSubscriptions.push(this.messagesService.newSeenMessages().subscribe((data: any) => {
-          let conversations: Conversation[] = this.messagesService.getConversationsFromLocalStorage();
-          if (conversations) {
-            let conversationIndex = conversations.findIndex(conversation => conversation._id == data.conversationId)
-            if (!(conversationIndex == -1)) {
-              data.messages.forEach((message: any) => {
-                let messagIndex = conversations[conversationIndex].messages.findIndex(m => m._id == message);
-                if (!(messagIndex == -1)) {
-                  conversations[conversationIndex].messages[messagIndex].seenBy.push(data.seenBy);
-                }
-              })
-            }
-          }
-          this.messagesService.saveConversationsInLocalStorage(conversations);
+          this.messagesService.upDateMessagesOfConversationAsSeen(data.conversationId,data.messages,data.seenBy)
         }))
 
         /* pull notifications from the server */

@@ -8,13 +8,16 @@ import { Post, Reaction } from 'src/app/shared/_models';
 })
 export class PostComponent implements OnInit {
   @Input('post') post!: Post;
-
+  postCaption!:string;
+  moreCaption!:boolean;
   _id = this.postsService.myId();
   showComments!: boolean;
   didILiked!:boolean;
   numberOflikes!:number;
   constructor(private postsService: PostService) { }
   ngOnInit(): void {
+    this.moreCaption = false;
+    this.postCaption = this.transform(this.post.caption,300);
     this.didILiked = this.IslikedByMe();
     this.showComments = false;
     this.numberOflikes = this.post.reactions.length;
@@ -51,5 +54,15 @@ export class PostComponent implements OnInit {
     }
 
   }
+  transform(value:string,limit?:number):any{
+    if(!value)
+        return null
+    let actualLimit = limit ? limit:50;
+    return value.substring(0,actualLimit)
+}
+changeCaptionLength(){
+  this.moreCaption = !this.moreCaption;
+  this.postCaption = this.moreCaption ? this.post.caption : this.transform(this.post.caption,300)
+}
 }
 

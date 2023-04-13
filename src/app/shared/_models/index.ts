@@ -10,7 +10,8 @@
 export interface Owner {
   _id: string,
   name: string,
-  avatar: string
+  avatar: string,
+  email?:string
 }
 export interface User {
   _id: string,

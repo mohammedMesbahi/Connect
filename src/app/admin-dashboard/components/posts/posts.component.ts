@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Post } from 'src/app/shared/shared.module';
+import { PostsService } from '../../services/posts.service';
 
 @Component({
   selector: 'app-posts',
@@ -6,10 +9,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit,OnDestroy {
+  constructor(private postsService:PostsService){}
+  posts!: Post[];
+  arrayOfSubscriptions!: Subscription[]
   ngOnInit(): void {
-    console.log('ngOnInit called PostsComponent.');
+    this.arrayOfSubscriptions = [] as Subscription[]
+    this.posts = [] as Post[]
+    this.arrayOfSubscriptions.push(this.postsService.getPostsFromTheServer().subscribe({
+      next: (posts:Post[]) => {
+        this.posts = posts
+        // this._isLoading = false;
+      }
+    }))
   }
   ngOnDestroy(): void {
-    console.log('ngOnDestroy called PostsComponent.');
+    this.arrayOfSubscriptions.forEach(s => s.unsubscribe())
   }
 }

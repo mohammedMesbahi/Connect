@@ -19,7 +19,7 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PostComponent } from './components/post/post.component';
-import { SummaryPipe } from './tools/pips/summary.pipe';
+// import { SummaryPipe } from './tools/pips/summary.pipe';
 import { ActionsService } from './services/actions.service';
 import { MessagesService } from './services/messages.service';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
@@ -50,7 +50,6 @@ const config: SocketIoConfig = { url: `${environment.apiUrl}/messages_notificati
     NotificationsComponent,
     ProfileComponent,
     PostComponent,
-    SummaryPipe,
     InboxComponent,
     CreateComponent,
     UserProfileComponent,

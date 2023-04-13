@@ -1,0 +1,25 @@
+<div class="card p-0" [id]="post._id">
+  <div class="card-body gap-2">
+    <a class="text-decoration-none d-flex gap-2 align-items-center" [routerLink]="'/admin/dashboard/users/' + post.owner._id">
+      <img class="rounded-circle" style="max-width: 44px;"
+      [src]="post.owner.avatar" alt="">
+      <div class="d-flex flex-column" >
+        <div class="d-flex gap-1">
+          <div>{{post.owner.name}}</div>
+          <small>{{post.owner.email}}</small>
+        </div>
+        <small class="text-body-secondary">{{post.date | date:'EEE MMM-dd hh:mm'}}</small>
+      </div>
+    </a>
+    <p *ngIf="post.caption.length" class="card-text" align="justify">{{postCaption}}
+      <span *ngIf="post.caption.length > 300" class="text-secondary" style="cursor: pointer;"
+        (click)="changeCaptionLength()">
+        {{moreCaption ? ' less' : '... more'}}
+      </span>
+    </p>
+    <img *ngIf="post.media" [src]="post.media" class="card-img-top" alt="..." >
+  </div>
+  <div class="card-footer d-flex justify-content-end align-items-center">
+    <button type="button" class="btn btn-danger">Delete</button>
+  </div>
+</div>
