@@ -8,7 +8,7 @@ A social media app for higher school of thechnology - ESTF
 ## Feed 
 ![image](https://user-images.githubusercontent.com/116631139/231900062-bfe58e1e-e7d7-413f-bd78-007894a36b83.png)
 ## Create post
-![image](https://user-images.githubusercontent.com/116631139/231898622-7281a486-5b98-4a5c-b1f0-31fe59932025.png)
+![image](https://user-images.githubusercontent.com/116631139/231905147-341470cf-245e-4172-8b00-ce19339b769c.png)
 ## Searching for a user
 ![image](https://user-images.githubusercontent.com/116631139/229301379-c7e1835e-1457-4349-8c9a-7519ecf932cc.png)
 ## Friend profile
