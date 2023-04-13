@@ -1,4 +1,4 @@
-# FrontEnd
+A social media app for higher school of thechnology - ESTF
 ## home page
 ![image](https://user-images.githubusercontent.com/116631139/231898948-42c76417-b598-4655-bf61-fbaca5541596.png)
 ## login page for Admin
